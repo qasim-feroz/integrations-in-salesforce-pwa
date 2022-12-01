@@ -1,3 +1,10 @@
+# Completed Setup
+[Confluence page for the complete initial setup of this repo](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)
+
+The Storefront demo has been build successfully. Deployed on [Managed Runtime](https://temp-pwa-development.mobify-storefront.com/) 
+
+
+
 # The Retail React App
 
 A project template that includes an isomorphic JavaScript storefront and [Progressive Web App](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) built using [React](https://reactjs.org/) and [Express](https://expressjs.com/). It uses a modern headless architecture that enables developers to decouple front-end code from back-end systems. It leverages popular open-source libraries in the React ecosystem, such as [Chakra UI](https://chakra-ui.com/) components, [Emotion](https://emotion.sh/docs/introduction) (CSS-in-JS), [Webpack](https://webpack.js.org/), and many more.
