@@ -1,5 +1,5 @@
 # Completed Setup
-[Confluence page for the complete initial setup of this repo](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)
+[Confluence page for the complete initial setup of this repo](https://nestosh.atlassian.net/wiki/spaces/HC/pages/1763868687/PWA+Kit+Initial+Setup)
 
 The Storefront demo has been build successfully. Deployed on [Managed Runtime](https://temp-pwa-development.mobify-storefront.com/) 
 
