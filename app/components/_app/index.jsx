@@ -5,18 +5,19 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import {useHistory, useLocation} from 'react-router-dom'
-import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
-import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
+import { useHistory, useLocation } from 'react-router-dom'
+import { getAssetUrl } from 'pwa-kit-react-sdk/ssr/universal/utils'
+import { getAppOrigin } from 'pwa-kit-react-sdk/utils/url'
 
 // Chakra
-import {Box, useDisclosure, useStyleConfig} from '@chakra-ui/react'
-import {SkipNavLink, SkipNavContent} from '@chakra-ui/skip-nav'
+import { Text, Box, useDisclosure, useStyleConfig } from '@chakra-ui/react'
+import { SkipNavLink, SkipNavContent } from '@chakra-ui/skip-nav'
+import { InfoOutlineIcon } from '@chakra-ui/icons'
 
 // Contexts
-import {CategoriesProvider, CurrencyProvider} from '../../contexts'
+import { CategoriesProvider, CurrencyProvider } from '../../contexts'
 
 // Local Project Components
 import Header from '../../components/header'
@@ -28,37 +29,45 @@ import CheckoutHeader from '../../pages/checkout/partials/checkout-header'
 import CheckoutFooter from '../../pages/checkout/partials/checkout-footer'
 import DrawerMenu from '../drawer-menu'
 import ListMenu from '../list-menu'
-import {HideOnDesktop, HideOnMobile} from '../responsive'
+import { HideOnDesktop, HideOnMobile } from '../responsive'
 
 // Hooks
 import useShopper from '../../commerce-api/hooks/useShopper'
 import useCustomer from '../../commerce-api/hooks/useCustomer'
-import {AuthModal, useAuthModal} from '../../hooks/use-auth-modal'
-import {AddToCartModalProvider} from '../../hooks/use-add-to-cart-modal'
+import { AuthModal, useAuthModal } from '../../hooks/use-auth-modal'
+import { AddToCartModalProvider } from '../../hooks/use-add-to-cart-modal'
 import useWishlist from '../../hooks/use-wishlist'
 
 // Localization
-import {IntlProvider} from 'react-intl'
+import { IntlProvider } from 'react-intl'
 
 // Others
-import {watchOnlineStatus, flatten} from '../../utils/utils'
-import {getTargetLocale, fetchTranslations} from '../../utils/locale'
-import {DEFAULT_SITE_TITLE, HOME_HREF, THEME_COLOR} from '../../constants'
+import { watchOnlineStatus, flatten } from '../../utils/utils'
+import { getTargetLocale, fetchTranslations } from '../../utils/locale'
+import { DEFAULT_SITE_TITLE, HOME_HREF, THEME_COLOR } from '../../constants'
 
 import Seo from '../seo'
-import {resolveSiteFromUrl} from '../../utils/site-utils'
+import { resolveSiteFromUrl } from '../../utils/site-utils'
 import useMultiSite from '../../hooks/use-multi-site'
+
+import fetch from 'cross-fetch'
 
 const DEFAULT_NAV_DEPTH = 3
 const DEFAULT_ROOT_CATEGORY = 'root'
 const DEFAULT_LOCALE = 'en-US'
+
+const GEO_LOCATION = {
+    lat: '34.052235',
+    long: '-118.243683'
+}
 
 const App = (props) => {
     const {
         children,
         targetLocale = DEFAULT_LOCALE,
         messages = {},
-        categories: allCategories = {}
+        categories: allCategories = {},
+        privacyPolicy
     } = props
 
     const appOrigin = getAppOrigin()
@@ -67,22 +76,23 @@ const App = (props) => {
     const location = useLocation()
     const authModal = useAuthModal()
     const customer = useCustomer()
-    const {site, locale, buildUrl} = useMultiSite()
+    const { site, locale, buildUrl } = useMultiSite()
 
     const [isOnline, setIsOnline] = useState(true)
+    const [closestStore, setClosestStore] = useState(undefined)
     const styles = useStyleConfig('App')
 
-    const {isOpen, onOpen, onClose} = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     // Used to conditionally render header/footer for checkout page
     const isCheckout = /\/checkout$/.test(location?.pathname)
 
-    const {l10n} = site
+    const { l10n } = site
     // Get the current currency to be used through out the app
     const currency = locale.preferredCurrency || l10n.defaultCurrency
 
     // Set up customer and basket
-    useShopper({currency})
+    useShopper({ currency })
 
     const wishlist = useWishlist()
     useEffect(() => {
@@ -102,6 +112,19 @@ const App = (props) => {
         watchOnlineStatus((isOnline) => {
             setIsOnline(isOnline)
         })
+        const fetchStore = async () => {
+            const res = await fetch(
+                `${getAppOrigin()}/mobify/proxy/ocapi/s/RefArch/dw/shop/v20_2/stores?latitude=${GEO_LOCATION.lat}&longitude=${GEO_LOCATION.long}&client_id=871e8709-2c67-44ff-b7a9-031d3ef0c78e`
+            )
+            if (res.ok) {
+                const storeResult = await res.json()
+                const firstStore = storeResult.data[0]
+                if (firstStore) {
+                    setClosestStore(firstStore)
+                }
+            }
+        }
+        fetchStore()
     }, [])
 
     useEffect(() => {
@@ -233,6 +256,24 @@ const App = (props) => {
                             </Box>
 
                             {!isOnline && <OfflineBanner />}
+                            {closestStore && (
+                                <Box
+                                    bg="blue.500"
+                                    w="100%"
+                                    d="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    p={2}
+                                    color="white"
+                                >
+                                    <InfoOutlineIcon />
+                                    <Text fontWeight="bold" pl={1}>Closest Store: </Text>
+                                    <Text pl={2}>
+                                        {closestStore.name} - {closestStore.address1},{' '}
+                                        {closestStore.state_code}, {closestStore.postal_code}
+                                    </Text>
+                                </Box>
+                            )}
                             <AddToCartModalProvider>
                                 <SkipNavContent
                                     style={{
@@ -260,10 +301,16 @@ const App = (props) => {
 
                                 <AuthModal {...authModal} />
                             </AddToCartModalProvider>
+
                         </Box>
                     </CurrencyProvider>
                 </CategoriesProvider>
             </IntlProvider>
+            <div>
+                {privacyPolicy && (
+                    <div dangerouslySetInnerHTML={{ __html: privacyPolicy.c_body }} />
+                )}
+            </div>
         </Box>
     )
 }
@@ -273,7 +320,7 @@ App.shouldGetProps = () => {
     return typeof window === 'undefined'
 }
 
-App.getProps = async ({api, res}) => {
+App.getProps = async ({ api, res }) => {
     const site = resolveSiteFromUrl(res.locals.originalUrl)
     const l10nConfig = site.l10n
     const targetLocale = getTargetLocale({
@@ -294,7 +341,7 @@ App.getProps = async ({api, res}) => {
             // we can use it's value to load the correct messages for the application.
             // Take a look at the `app/components/_app-config` component on how the
             // preferred locale was derived.
-            const {locale} = api.getConfig()
+            const { locale } = api.getConfig()
 
             return [locale]
         },
@@ -328,11 +375,21 @@ Learn more with our localization guide. https://sfdc.co/localization-guide
     // the application.
     const categories = flatten(rootCategory, 'categories')
 
+    let privacyPolicy
+    var result = await fetch(
+        `http://localhost:3000/mobify/proxy/ocapi/s/RefArchGlobal/dw/shop/v20_2/content/privacy-policy?client_id=871e8709-2c67-44ff-b7a9-031d3ef0c78e`
+    )
+
+    if (result.ok) {
+        privacyPolicy = await result.json()
+    }
+
     return {
         targetLocale,
         messages,
         categories,
-        config: res?.locals?.config
+        config: res?.locals?.config,
+        privacyPolicy: privacyPolicy
     }
 }
 
@@ -341,7 +398,8 @@ App.propTypes = {
     targetLocale: PropTypes.string,
     messages: PropTypes.object,
     categories: PropTypes.object,
-    config: PropTypes.object
+    config: PropTypes.object,
+    privacyPolicy: PropTypes.object
 }
 
 export default App
