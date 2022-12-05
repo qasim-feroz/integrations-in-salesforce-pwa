@@ -21,7 +21,11 @@ import {
     Flex,
     Stack,
     Container,
-    Link
+    Link,
+    Grid,
+    GridItem,
+    Alert,
+    AlertIcon
 } from '@chakra-ui/react'
 
 // Project Components
@@ -43,6 +47,18 @@ import {
     HOME_SHOP_PRODUCTS_CATEGORY_ID,
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
+
+const GreetMessage = ({name}) => {
+    return (
+        <Box>
+            <h1>Welcome to PWA, {name}!</h1>
+            <Alert padding="10" status="info">
+                <AlertIcon />
+                You are using Chakra UI!
+            </Alert>
+        </Box>
+    )
+}
 
 /**
  * This is the home page for Retail React App.
@@ -67,6 +83,8 @@ const Home = ({productSearchResult, isLoading}) => {
                 description="Commerce Cloud Retail React App"
                 keywords="Commerce Cloud, Retail React App, React Storefront"
             />
+
+            <GreetMessage name="Qasim" />
 
             <Hero
                 title={intl.formatMessage({
