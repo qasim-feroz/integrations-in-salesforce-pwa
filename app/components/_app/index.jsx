@@ -377,7 +377,7 @@ Learn more with our localization guide. https://sfdc.co/localization-guide
 
     let privacyPolicy
     var result = await fetch(
-        `http://localhost:3000/mobify/proxy/ocapi/s/RefArchGlobal/dw/shop/v20_2/content/privacy-policy?client_id=871e8709-2c67-44ff-b7a9-031d3ef0c78e`
+        `${getAppOrigin()}/mobify/proxy/ocapi/s/RefArchGlobal/dw/shop/v20_2/content/privacy-policy?client_id=871e8709-2c67-44ff-b7a9-031d3ef0c78e`
     )
 
     if (result.ok) {
