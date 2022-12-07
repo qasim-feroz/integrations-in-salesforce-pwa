@@ -89,6 +89,10 @@ const routes = [
         component: ProductDetail
     },
     {
+        path: '/:locale/product/:productId',
+        component: ProductDetail
+    },
+    {
         path: '/search',
         component: ProductList
     },

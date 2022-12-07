@@ -5,14 +5,15 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import {useHistory, useLocation} from 'react-router-dom'
-import {useIntl} from 'react-intl'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useIntl } from 'react-intl'
+import {useCommerceAPI} from '../../commerce-api/contexts'
 
-import {Flex, Heading, Button, Skeleton, Box, Text, VStack, Fade, useTheme} from '@chakra-ui/react'
-import {useProduct} from '../../hooks'
-import {useAddToCartModalContext} from '../../hooks/use-add-to-cart-modal'
+import { Flex, Heading, Button, Skeleton, Box, Text, VStack, Fade, useTheme, Tooltip, Spinner } from '@chakra-ui/react'
+import { useProduct } from '../../hooks'
+import { useAddToCartModalContext } from '../../hooks/use-add-to-cart-modal'
 
 // project components
 import SwatchGroup from '../../components/swatch-group'
@@ -21,14 +22,15 @@ import ImageGallery from '../../components/image-gallery'
 import Breadcrumb from '../../components/breadcrumb'
 import Link from '../../components/link'
 import withRegistration from '../../hoc/with-registration'
-import {useCurrency} from '../../hooks'
-import {Skeleton as ImageGallerySkeleton} from '../../components/image-gallery'
-import {HideOnDesktop, HideOnMobile} from '../../components/responsive'
+import { useCurrency } from '../../hooks'
+import { Skeleton as ImageGallerySkeleton } from '../../components/image-gallery'
+import { HideOnDesktop, HideOnMobile } from '../../components/responsive'
 import QuantityPicker from '../../components/quantity-picker'
+import { API_ERROR_MESSAGE } from '../../constants'
 
-const ProductViewHeader = ({name, price, currency, category}) => {
+const ProductViewHeader = ({ name, price, currency, category }) => {
     const intl = useIntl()
-    const {currency: activeCurrency} = useCurrency()
+    const { currency: activeCurrency } = useCurrency()
     return (
         <VStack mr={4} spacing={2} align="flex-start" marginBottom={[4, 4, 4, 0, 0]}>
             {category && (
@@ -71,6 +73,7 @@ const ButtonWithRegistration = withRegistration(Button)
 const ProductView = ({
     product,
     category,
+    // promotions,
     showFullLink = false,
     imageSize = 'md',
     isWishlistLoading = false,
@@ -110,6 +113,24 @@ const ProductView = ({
         parseInt(quantity) > 0 &&
         parseInt(quantity) <= stockLevel
 
+    const [promotionMap, setPromotionMap] = useState({})
+    const productPromotions = product?.productPromotions || []
+    const api = useCommerceAPI()
+
+    const handlePromotionHover = (id) => {
+        // Don't make a network request if you already loaded this data
+        if (promotionMap[id]) {
+            return
+        }
+        const getPromotion = async (id) => {
+            const promotions = await api.shopperPromotions.getPromotions({
+                parameters: { ids: id }
+            })
+            setPromotionMap({ ...promotionMap, [id]: promotions.data[0] })
+        }
+        getPromotion(id)
+    }
+
     const renderActionButtons = () => {
         const buttons = []
 
@@ -124,7 +145,7 @@ const ProductView = ({
                 return
             }
             await addToCart(variant, quantity)
-            onAddToCartModalOpen({product, quantity})
+            onAddToCartModalOpen({ product, quantity })
         }
 
         const handleWishlistItem = async () => {
@@ -148,13 +169,13 @@ const ProductView = ({
                 >
                     {updateCart
                         ? intl.formatMessage({
-                              defaultMessage: 'Update',
-                              id: 'product_view.button.update'
-                          })
+                            defaultMessage: 'Update',
+                            id: 'product_view.button.update'
+                        })
                         : intl.formatMessage({
-                              defaultMessage: 'Add to Cart',
-                              id: 'product_view.button.add_to_cart'
-                          })}
+                            defaultMessage: 'Add to Cart',
+                            id: 'product_view.button.add_to_cart'
+                        })}
                 </Button>
             )
         }
@@ -172,13 +193,13 @@ const ProductView = ({
                 >
                     {updateWishlist
                         ? intl.formatMessage({
-                              defaultMessage: 'Update',
-                              id: 'product_view.button.update'
-                          })
+                            defaultMessage: 'Update',
+                            id: 'product_view.button.update'
+                        })
                         : intl.formatMessage({
-                              defaultMessage: 'Add to Wishlist',
-                              id: 'product_view.button.add_to_wishlist'
-                          })}
+                            defaultMessage: 'Add to Wishlist',
+                            id: 'product_view.button.add_to_wishlist'
+                        })}
                 </ButtonWithRegistration>
             )
         }
@@ -284,7 +305,7 @@ const ProductView = ({
                                             displayName={selectedValue?.name || ''}
                                             label={name}
                                         >
-                                            {values.map(({href, name, image, value, orderable}) => (
+                                            {values.map(({ href, name, image, value, orderable }) => (
                                                 <Swatch
                                                     key={value}
                                                     href={href}
@@ -303,7 +324,7 @@ const ProductView = ({
                                                             backgroundImage={
                                                                 image
                                                                     ? `url(${image.disBaseLink ||
-                                                                          image.link})`
+                                                                    image.link})`
                                                                     : ''
                                                             }
                                                         />
@@ -385,6 +406,24 @@ const ProductView = ({
                         </HideOnDesktop>
                     </VStack>
 
+                    {/* Show Promotions: productPromotions is the array to loop over */}
+                    <Text>Available promotions:</Text>
+                    {productPromotions &&
+                        productPromotions.map(({ promotionId, calloutMsg }) => (
+                            <Tooltip
+                                onOpen={() => {
+                                    handlePromotionHover(promotionId)
+                                }}
+                                key={promotionId}
+                                label={
+                                    (promotionMap[promotionId] && promotionMap[promotionId].details) || (<Spinner />)
+                                }
+                                aria-label="Promotion details"
+                            >
+                                <Text>{calloutMsg}</Text>
+                            </Tooltip>
+                        ))
+                    }
                     <Box>
                         {!showLoading && showInventoryMessage && (
                             <Fade in={true}>

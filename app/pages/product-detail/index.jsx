@@ -8,6 +8,7 @@
 import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {Helmet} from 'react-helmet'
+import {pluckIds} from '../../utils/utils'
 import {FormattedMessage, useIntl} from 'react-intl'
 
 // Components
@@ -158,6 +159,7 @@ const ProductDetail = ({category, product, isLoading}) => {
                 <ProductView
                     product={product}
                     category={primaryCategory?.parentCategoryTree || []}
+                    // promotions={promotions}
                     addToCart={(variant, quantity) => handleAddToCart(variant, quantity)}
                     addToWishlist={(_, quantity) => handleAddToWishlist(quantity)}
                     isProductLoading={isLoading}
@@ -315,7 +317,8 @@ ProductDetail.shouldGetProps = ({previousLocation, location}) => {
 
 ProductDetail.getProps = async ({res, params, location, api}) => {
     const {productId} = params
-    let category, product
+    let category, product 
+    // let promotions
     const urlParams = new URLSearchParams(location.search)
 
     product = await api.shopperProducts.getProduct({
@@ -331,6 +334,16 @@ ProductDetail.getProps = async ({res, params, location, api}) => {
         })
     }
 
+    // // Get promotionIds as a string of comma-separated values
+    // if (product.productPromotions) {
+    //     const promotionIds = pluckIds(product.productPromotions, 'promotionId')
+
+    //     // Get the promotions for the product
+    //     promotions = await api.shopperPromotions.getPromotions({
+    //         parameters: {ids: promotionIds}
+    //     })
+    // }
+
     // Set the `cache-control` header values similar to those on the product-list.
     if (res) {
         res.set('Cache-Control', `max-age=${MAX_CACHE_AGE}`)
@@ -344,6 +357,9 @@ ProductDetail.getProps = async ({res, params, location, api}) => {
     if (typeof category?.type === 'string') {
         throw new HTTPNotFound(category.detail)
     }
+    // if (typeof promotions?.type === 'string') {
+    //     throw new HTTPNotFound(promotions.detail)
+    // }
 
     return {category, product}
 }
