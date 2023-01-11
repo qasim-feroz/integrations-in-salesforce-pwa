@@ -62,7 +62,7 @@ module.exports = {
                 path: 'api'
             },
             {
-                host: 'bgfs-001.sandbox.us01.dx.commercecloud.salesforce.com',
+                host: 'bgfs-001.dx.commercecloud.salesforce.com',
                 path: 'ocapi'
             },
             {
