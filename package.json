@@ -90,5 +90,10 @@
     "iOS >= 9.0",
     "Android >= 4.4.4",
     "last 4 ChromeAndroid versions"
-  ]
+  ],
+  "dependencies": {
+    "avatax": "^22.11.1",
+    "buffer": "^6.0.3",
+    "nvm": "^0.0.4"
+  }
 }
