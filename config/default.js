@@ -22,7 +22,7 @@ module.exports = {
         commerceAPI: {
             proxyPath: `/mobify/proxy/api`,
             parameters: {
-                clientId: '9a940fda-82ee-4e3a-bbb8-6090a631adb3',
+                clientId: '871e8709-2c67-44ff-b7a9-031d3ef0c78e',
                 organizationId: 'f_ecom_bgfs_001',
                 shortCode: 'lehipx41',
                 siteId: 'RefArch'
@@ -62,7 +62,7 @@ module.exports = {
                 path: 'api'
             },
             {
-                host: 'bgfs-001.sandbox.us01.dx.commercecloud.salesforce.com',
+                host: 'bgfs-001.dx.commercecloud.salesforce.com',
                 path: 'ocapi'
             },
             {
