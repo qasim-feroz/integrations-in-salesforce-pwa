@@ -102,6 +102,14 @@ export const buildUrlSet = (url = '', key = '', values = [], extraParams = {}) =
 export const categoryUrlBuilder = (category) => encodeURI(`/category/${category.id}`)
 
 /**
+ * Given a category and the current locale returns an href to the product list page.
+ *
+ * @param {Object} category
+ * @returns {string}
+ */
+export const blogUrlBuilder = (item) => encodeURI(`/blog/${item.id}`)
+
+/**
  * Given a product and the current locale returns an href to the product detail page.
  *
  * @param {Object} product

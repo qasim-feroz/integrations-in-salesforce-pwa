@@ -19,12 +19,12 @@ import {
     CustomerProductListsProvider,
     CustomerProvider
 } from '../../commerce-api/contexts'
-import {MultiSiteProvider} from '../../contexts'
-import {resolveSiteFromUrl} from '../../utils/site-utils'
-import {resolveLocaleFromUrl} from '../../utils/utils'
-import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
-import {createUrlTemplate} from '../../utils/url'
-
+import { MultiSiteProvider } from '../../contexts'
+import { resolveSiteFromUrl } from '../../utils/site-utils'
+import { resolveLocaleFromUrl } from '../../utils/utils'
+import { getConfig } from 'pwa-kit-runtime/utils/ssr-config'
+import { createUrlTemplate } from '../../utils/url'
+import { ContentStackAPI, defaultcsClient } from '../../integrations/content-stack/content-stack-helper'
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
  * methods for all Route Components in the app – typically you'd want to do this
@@ -73,6 +73,8 @@ AppConfig.restore = (locals = {}) => {
     locals.buildUrl = createUrlTemplate(appConfig, site.alias || site.id, locale.id)
     locals.site = site
     locals.locale = locale
+    locals.csClient = typeof window === 'undefined' ? new ContentStackAPI() : defaultcsClient
+
 }
 
 AppConfig.freeze = () => undefined
@@ -82,7 +84,8 @@ AppConfig.extraGetPropsArgs = (locals = {}) => {
         api: locals.api,
         buildUrl: locals.buildUrl,
         site: locals.site,
-        locale: locals.locale
+        locale: locals.locale,
+        csClient: locals.csClient,
     }
 }
 

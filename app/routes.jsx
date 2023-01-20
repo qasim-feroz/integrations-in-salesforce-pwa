@@ -36,7 +36,8 @@ const ProductDetail = loadable(() => import('./pages/product-detail'), {fallback
 const ProductList = loadable(() => import('./pages/product-list'), {fallback})
 const Wishlist = loadable(() => import('./pages/account/wishlist'), {fallback})
 const PageNotFound = loadable(() => import('./pages/page-not-found'))
-
+const Blog = loadable(() => import('./integrations/content-stack/pages/blog'), {fallback})
+const ContetnStackProductDetail = loadable(() => import('./integrations/content-stack/pages/product-detail'), {fallback})
 const routes = [
     {
         path: '/',
@@ -84,7 +85,7 @@ const routes = [
     },
     {
         path: '/product/:productId',
-        component: ProductDetail
+        component: ContetnStackProductDetail
     },
     {
         path: '/search',
@@ -97,6 +98,14 @@ const routes = [
     {
         path: '/account/wishlist',
         component: Wishlist
+    },
+    {
+        path: '/blog/:blogId',
+        component: Blog
+    },
+    {
+        path: '/blog',
+        component: Blog
     },
     {
         path: '*',

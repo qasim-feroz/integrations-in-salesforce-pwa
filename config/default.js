@@ -33,6 +33,17 @@ module.exports = {
             proxyPath: `/mobify/proxy/einstein`,
             einsteinId: 'undefined',
             siteId: 'RefArch'
+        },
+        contentStack: {
+            api_host: 'api.contentstack.io',
+            app_host: 'app.contentstack.com',
+            api_key: 'blt70e46b9efe68ce3e',
+            delivery_token: 'csdbf7067bf64edfab7ddbae85',
+            management_token: 'cs30b77a08fe838d8155f72691',
+            environment: 'development',
+            region: "us",
+            live_preview: true,
+            edit_tags: false,
         }
     },
     // This list contains server-side only libraries that you don't want to be compiled by webpack

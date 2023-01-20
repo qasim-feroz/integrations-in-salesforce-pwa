@@ -327,7 +327,19 @@ Learn more with our localization guide. https://sfdc.co/localization-guide
     // Flatten the root so we can easily access all the categories throughout
     // the application.
     const categories = flatten(rootCategory, 'categories')
-
+    categories['blog'] = {
+        id: '',
+        name: 'Blogs',
+        parentCategoryId: 'root',
+        c_enableCompare: false,
+        c_showInMenu: true,
+        isBlog:true,
+        parentCategoryTree: [{
+            id: '',
+            name: 'Blogs'
+        }]
+    }
+    categories['root'].categories.push(categories['blog'])
     return {
         targetLocale,
         messages,

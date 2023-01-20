@@ -7,9 +7,9 @@
 'use strict'
 
 const path = require('path')
-const {getRuntime} = require('pwa-kit-runtime/ssr/server/express')
-const {isRemote} = require('pwa-kit-runtime/utils/ssr-server')
-const {getConfig} = require('pwa-kit-runtime/utils/ssr-config')
+const { getRuntime } = require('pwa-kit-runtime/ssr/server/express')
+const { isRemote } = require('pwa-kit-runtime/utils/ssr-server')
+const { getConfig } = require('pwa-kit-runtime/utils/ssr-config')
 const helmet = require('helmet')
 
 const options = {
@@ -39,8 +39,10 @@ const {handler} = runtime.createHandler(options, (app) => {
             contentSecurityPolicy: {
                 useDefaults: true,
                 directives: {
-                    'img-src': ["'self'", '*.commercecloud.salesforce.com', 'data:'],
+                    'img-src': ["'self'", '*.commercecloud.salesforce.com', '*.contentstack.io', 'data:'],
                     'script-src': ["'self'", "'unsafe-eval'", 'storage.googleapis.com'],
+                    'default-src': ["'self'", "'unsafe-eval'", 'api.contentstack.io'],
+                    'frame-ancestors': ["'self'", "'unsafe-eval'", 'app.contentstack.com'],
 
                     // Do not upgrade insecure requests for local development
                     'upgrade-insecure-requests': isRemote() ? [] : null
