@@ -413,6 +413,23 @@ export default function useBasket(opts = {}) {
                 }
 
                 setBasket(response)
+            },
+            async addTaxesForBasketItem(body) {
+                const response = api.shopperBaskets.addTaxesForBasketItem({
+                    headers: {
+                        'Content-Type': 'application/json' // This is not required since the request has no body but CommerceAPI throws a '419 - Unsupported Media Type' error if this header is removed.
+                    },
+                    body: body,
+                    parameters: {
+                        createDestinationBasket: true // If the current shopper has an active basket, this parameter is ignored.
+                    }
+                })
+
+                if (response.fault) {
+                    throw new Error(response)
+                }
+
+                setBasket(response)
             }
         }
     }, [customer, basket, setBasket])

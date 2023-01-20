@@ -68,6 +68,11 @@ module.exports = {
             {
                 host: 'api.cquotient.com',
                 path: 'einstein'
+            },
+            {
+                host: 'sandbox-rest.avatax.com',
+                path: 'avatax',
+                protocol: 'https'
             }
         ]
     }

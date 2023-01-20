@@ -13,6 +13,7 @@ import {useCommerceAPI} from '../../../commerce-api/contexts'
 import {getPaymentInstrumentCardType} from '../../../utils/cc-utils'
 import {isMatchingAddress} from '../../../utils/utils'
 import {useIntl} from 'react-intl'
+import calculateTax from '../../../../Int_avatax/avatax'
 
 const CheckoutContext = React.createContext()
 
@@ -216,6 +217,7 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
+                await calculateTax()
 
                 await basket.setShippingAddress(address)
 

@@ -17,72 +17,16 @@ import useBasket from '../../commerce-api/hooks/useBasket'
 import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
 import OrderSummary from '../../components/order-summary'
-import Avatax from 'avatax';
+import calculateTax from '../../../Int_avatax/avatax'
 
 const Checkout = () => {
+    calculateTax()
     const navigate = useNavigation()
     const {globalError, step, placeOrder} = useCheckout()
     const [isLoading, setIsLoading] = useState(false)
 
-    const get_avatax_tax = () => {
-        const config = {
-            appName: 'your-app',
-            appVersion: '1.0',
-            environment: 'sandbox',
-            machineName: 'your-machine-name',
-            timeout: 5000,  // optional, default 20 mins
-            logOptions: {
-                logEnabled: true, // toggle logging on or off, by default its off.
-                logLevel: 3, 	// logLevel that will be used, Options are LogLevel.Error (0), LogLevel.Warn (1), LogLevel.Info (2), LogLevel.Debug (3)
-                logRequestAndResponseInfo: true, 	// Toggle logging of the request and response bodies on and off.
-            },
-            
-           };
-          
-          const creds = {
-            username: 'syedhaider7431@gmail.com',
-            password: 'Nestosh7431'
-          };
-          
-        var client = new Avatax(config).withSecurity(creds);
-        const taxDocument = {
-            
-            type: 'SalesInvoice',
-            companyCode: 'abc123',
-            date: '2017-04-12',
-            customerCode: 'ABC',
-            purchaseOrderNo: '2017-04-12-001',
-            addresses: {
-              SingleLocation: {
-                line1: '123 Main Street',
-                city: 'Irvine',
-                region: 'CA',
-                country: 'US',
-                postalCode: '92615'
-              }
-            },
-            lines: [
-              {
-                number: '1',
-                quantity: 1,
-                amount: 100,
-                taxCode: 'PS081282',
-                itemCode: 'Y0001',
-                description: 'Yarn'
-              }
-            ],
-            commit: true,
-            currencyCode: 'USD',
-            description: 'Yarn'
-          }
-          
-          return client.createTransaction({ model: taxDocument })
-            .then(result => {
-              // response tax document
-              console.log(result);
-            });
-    }
-    get_avatax_tax();
+   
+
     // Scroll to the top when we get a global error
     useEffect(() => {
         if (globalError || step === 4) {
