@@ -50,6 +50,9 @@ const renderOption = {
   ["span"]: (node, next) => {
     return next(node.children);
   },
+  p: (node, next) => {
+    return `<p class='class-id'>${next(node.children)}</p>`
+  },
 };
 
 export const onEntryChange = ContentstackLivePreview.onEntryChange;

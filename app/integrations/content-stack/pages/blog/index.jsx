@@ -12,9 +12,9 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { getAllEntries, getPageRes, getBlogPostRes } from "../../content-stack-helper";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import BlogList from '../../components/BlogList';
+import BlogListItem from '../../components/BlogListItem';
 import BlogDetail from '../../components/BlogDetail';
-import BlogListSkeleton from '../../components/Skeleton';
+import BlogListSkeleton from '../../components/BlogListSkeleton';
 import BlogDetailSkeleton from '../../components/BlogDetailSkeleton';
 /**
  * This is the home page for Retail React App.
@@ -65,9 +65,9 @@ const Blog = () => {
     }, [entryUrl]);
 
     if (entryUrl == "/") {
-        return (getEntries.length > 0 ? (getEntries.map((blog) => {
+        return (getEntries.length > 0 ? (getEntries.map((blog, index) => {
             return (
-                <BlogList data={blog} />
+                <BlogListItem key={index} data={blog} />
             )
         }))
 

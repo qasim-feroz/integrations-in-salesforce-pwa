@@ -15,7 +15,7 @@ import {
 import parse from 'html-react-parser';
 
 
-const BlogList = ({ data, ...props }) => {
+const BlogListItem = ({ data, ...props }) => {
     return (
         <Stack spacing={4} layerStyle="card" boxShadow="none">
             <SimpleGrid
@@ -32,9 +32,9 @@ const BlogList = ({ data, ...props }) => {
                             </HStack>
                         </Link>
                         <HStack>
-                            <Text noOfLines={10}>
+                            <Box noOfLines={10}>
                                 {parse(data.body)}
-                            </Text>
+                            </Box>
                         </HStack>
                     </Box>
                 </Box>
@@ -44,7 +44,7 @@ const BlogList = ({ data, ...props }) => {
     )
 }
 
-export default BlogList
+export default BlogListItem
 
 
 
