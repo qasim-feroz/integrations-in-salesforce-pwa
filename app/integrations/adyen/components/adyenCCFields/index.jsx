@@ -2,6 +2,7 @@ import React from 'react'
 import fetch from 'cross-fetch'
 
 import AdyenCheckout from '@adyen/adyen-web';
+import '../../styles/adyen.css'
 
 import { getAppOrigin } from 'pwa-kit-react-sdk/utils/url'
 import { useState, useEffect } from 'react';
@@ -15,7 +16,7 @@ const AdyenCCFields = ({ form, prefix = '' }) => {
     const customer = useCustomer()
     const [maskedCard, setMaskedCard] = useState(0)
 
-    const { adyenData, setAdyenData } = useCheckout()
+    const { setAdyenData } = useCheckout()
 
     const handleChange = (event, component) => {
         setAdyenData(event.data.paymentMethod)
@@ -29,10 +30,6 @@ const AdyenCCFields = ({ form, prefix = '' }) => {
         }
 
     }
-
-    console.log(basket.paymentInstruments)
-
-    // const fields = useCreditCardFields({form, prefix, maskedCard, paymentInfo})
 
     const options = {
         onValid: handleChange,
