@@ -30,7 +30,8 @@ export const CheckoutProvider = ({children}) => {
         shippingMethods: undefined,
         paymentMethods: undefined,
         globalError: undefined,
-        sectionError: undefined
+        sectionError: undefined,
+        adyenData: undefined
     })
 
     const CheckoutSteps = {
@@ -184,6 +185,10 @@ export const CheckoutProvider = ({children}) => {
                 mergeState({isGuestCheckout})
             },
 
+            setAdyenData(data) {
+                mergeState({adyenData: data})
+            },
+
             // Async functions
             // Convenience methods for interacting with remote customer and basket data.
             // ----------------
@@ -267,6 +272,8 @@ export const CheckoutProvider = ({children}) => {
              * @param {Object} payment
              */
             async setPayment(payment) {
+                const check = payment
+
                 const {expiry, paymentInstrumentId, ...selectedPayment} = payment
 
                 if (paymentInstrumentId) {
@@ -274,6 +281,12 @@ export const CheckoutProvider = ({children}) => {
                     await basket.setPaymentInstrument({
                         customerPaymentInstrumentId: paymentInstrumentId
                     })
+                    return
+                }
+
+                if (payment.paymentMethodId === 'AdyenComponent') {
+                    const paymentInstrument = payment
+                    await basket.setPaymentInstrument(paymentInstrument)
                     return
                 }
 
@@ -343,7 +356,7 @@ export const CheckoutProvider = ({children}) => {
             async placeOrder() {
                 mergeState({globalError: undefined})
                 try {
-                    await basket.createOrder()
+                    return await basket.createOrder()
                 } catch (error) {
                     // Note: It is possible to get localized error messages from OCAPI, but this
                     // is not available for all locales or all error messages. Therefore, we
