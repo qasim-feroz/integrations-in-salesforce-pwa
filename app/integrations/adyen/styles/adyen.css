@@ -1585,6 +1585,7 @@
 
 .adyen-checkout__card__brands--hidden {
     height: 0;
+    margin: -8px 0 8px;
     opacity: 0
 }
 
