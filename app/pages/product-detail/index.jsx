@@ -32,6 +32,7 @@ import useEinstein from '../../commerce-api/hooks/useEinstein'
 // Project Components
 import RecommendedProducts from '../../components/recommended-products'
 import ProductView from '../../partials/product-view'
+import {ReviewsWidget} from '../../components/yotpo/index'
 
 // Others/Utils
 import {HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
@@ -256,6 +257,14 @@ const ProductDetail = ({category, product, isLoading}) => {
                 </Stack>
 
                 {/* Product Recommendations */}
+                {product && (
+                    <ReviewsWidget
+                        product_id={product.id}
+                        product_name={product.name}
+                        product_price={product.price}
+                        product_url={`https://temp-pwa-azib-pwa-env.mobify-storefront.com/product/${product.id}`}
+                    />
+                )}
                 <Stack spacing={16}>
                     <RecommendedProducts
                         title={

@@ -72,6 +72,7 @@ import {
 } from '../../constants'
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../../components/loading-spinner'
+import {useMyYotpoReviewsRefresh} from '../../components/yotpo'
 
 // NOTE: You can ignore certain refinements on a template level by updating the below
 // list of ignored refinements.
@@ -111,10 +112,11 @@ const ProductList = (props) => {
     }
 
     const basePath = `${location.pathname}${location.search}`
-    // Reset scroll position when `isLoaded` becomes `true`.
+    // Reset scroll position & call YotpoReviewsRefresh hook when `isLoaded` becomes `true`.
     useEffect(() => {
         isLoading && window.scrollTo(0, 0)
         setFiltersLoading(isLoading)
+        useMyYotpoReviewsRefresh()
     }, [isLoading])
 
     // Get urls to be used for pagination, page size changes, and sorting.

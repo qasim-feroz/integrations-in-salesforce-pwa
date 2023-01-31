@@ -29,6 +29,7 @@ import Hero from '../../components/hero'
 import Seo from '../../components/seo'
 import Section from '../../components/section'
 import ProductScroller from '../../components/product-scroller'
+import {useMyYotpoReviewsRefresh} from '../../components/yotpo'
 
 // Others
 import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
@@ -59,6 +60,11 @@ const Home = ({productSearchResult, isLoading}) => {
     useEffect(() => {
         einstein.sendViewPage(pathname)
     }, [])
+
+    /**************** YotpoReviewsRefresh call on productSearchResult ****************/
+    useEffect(() => {
+        useMyYotpoReviewsRefresh()
+    }, [productSearchResult])
 
     return (
         <Box data-testid="home-page" layerStyle="page">

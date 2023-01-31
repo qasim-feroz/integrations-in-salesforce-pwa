@@ -25,6 +25,7 @@ import {useCurrency} from '../../hooks'
 import {Skeleton as ImageGallerySkeleton} from '../../components/image-gallery'
 import {HideOnDesktop, HideOnMobile} from '../../components/responsive'
 import QuantityPicker from '../../components/quantity-picker'
+import {StarRating} from '../../components/yotpo/index'
 
 const ProductViewHeader = ({name, price, currency, category}) => {
     const intl = useIntl()
@@ -90,6 +91,7 @@ const ProductView = ({
     } = useAddToCartModalContext()
     const theme = useTheme()
     const [showOptionsMessage, toggleShowOptionsMessage] = useState(false)
+    const [isProductLoadingState, setProductLoadingState] = useState(true)
     const {
         showLoading,
         showInventoryMessage,
@@ -198,6 +200,12 @@ const ProductView = ({
         }
     }, [variant?.productId])
 
+    useEffect(() => {
+        if (product) {
+            setProductLoadingState(false)
+        }
+    }, [product])
+
     return (
         <Flex direction={'column'} data-testid="product-view">
             {/* Basic information etc. title, price, breadcrumb*/}
@@ -245,6 +253,9 @@ const ProductView = ({
                             currency={product?.currency}
                             category={category}
                         />
+                        {product && (
+                            <StarRating pid={product.id} loadingState={isProductLoadingState} />
+                        )}
                     </Box>
                     <VStack align="stretch" spacing={4}>
                         {/*

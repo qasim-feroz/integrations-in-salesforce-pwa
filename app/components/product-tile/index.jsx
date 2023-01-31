@@ -29,6 +29,7 @@ import {productUrlBuilder} from '../../utils/url'
 import Link from '../link'
 import withRegistration from '../../hoc/with-registration'
 import {useCurrency} from '../../hooks'
+import {StarRating} from '../yotpo'
 
 const IconButtonWithRegistration = withRegistration(IconButton)
 
@@ -132,6 +133,7 @@ const ProductTile = (props) => {
                     currency: currency || activeCurrency
                 })}
             </Text>
+            <StarRating pid={product.productId} />
         </Link>
     )
 }

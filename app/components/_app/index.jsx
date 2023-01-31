@@ -29,6 +29,7 @@ import CheckoutFooter from '../../pages/checkout/partials/checkout-footer'
 import DrawerMenu from '../drawer-menu'
 import ListMenu from '../list-menu'
 import {HideOnDesktop, HideOnMobile} from '../responsive'
+import {useYotpoReviews} from '@frontend-sdk/yotpo'
 
 // Hooks
 import useShopper from '../../commerce-api/hooks/useShopper'
@@ -144,6 +145,8 @@ const App = (props) => {
         const path = buildUrl('/account/wishlist')
         history.push(path)
     }
+
+    useYotpoReviews('hTeALoqMneusC7qe9SVHGX0PeQ7i7MPqj4PkfBdK')
 
     return (
         <Box className="sf-app" {...styles.container}>
