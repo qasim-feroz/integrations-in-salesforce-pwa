@@ -5,17 +5,10 @@ import AdyenCheckout from '@adyen/adyen-web';
 import '../../styles/adyen.css'
 
 import { getAppOrigin } from 'pwa-kit-react-sdk/utils/url'
-import { useState, useEffect } from 'react';
-import useBasket from '../../../../commerce-api/hooks/useBasket';
-import useCustomer from '../../../../commerce-api/hooks/useCustomer';
+import { useEffect } from 'react';
 import { useCheckout } from '../../../../pages/checkout/util/checkout-context';
 
-const AdyenCCFields = ({ form, prefix = '' }) => {
-    // const [paymentInfo, setPaymentInfo] = useState({})
-    const basket = useBasket()
-    const customer = useCustomer()
-    const [maskedCard, setMaskedCard] = useState(0)
-
+const AdyenCCFields = () => {
     const { setAdyenData } = useCheckout()
 
     const handleChange = (event, component) => {
@@ -25,7 +18,6 @@ const AdyenCCFields = ({ form, prefix = '' }) => {
     const handleField = (event, component) => {
         if (event.fieldType == "encryptedCardNumber") {
             const cardNumber = parseInt(event.endDigits) || 0
-            // setMaskedCard(cardNumber)
             setAdyenData({cardNumber})
         }
 

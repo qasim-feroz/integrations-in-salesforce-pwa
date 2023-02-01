@@ -272,8 +272,6 @@ export const CheckoutProvider = ({children}) => {
              * @param {Object} payment
              */
             async setPayment(payment) {
-                const check = payment
-
                 const {expiry, paymentInstrumentId, ...selectedPayment} = payment
 
                 if (paymentInstrumentId) {
@@ -285,8 +283,7 @@ export const CheckoutProvider = ({children}) => {
                 }
 
                 if (payment.paymentMethodId === 'AdyenComponent') {
-                    const paymentInstrument = payment
-                    await basket.setPaymentInstrument(paymentInstrument)
+                    await basket.setPaymentInstrument(payment)
                     return
                 }
 
