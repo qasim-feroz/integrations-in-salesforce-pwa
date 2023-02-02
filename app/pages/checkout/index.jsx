@@ -44,11 +44,11 @@ const Checkout = () => {
         try {
             let orderResult, paymentResult, token
             if (basket && basket.paymentInstruments && basket.paymentInstruments[0].paymentMethodId === 'AdyenComponent') {
-                await AuthorizePayment(basket, customer, adyenData).then(function(result) {
+                await AuthorizePayment(basket, customer, adyenData.paymentMethod).then(function(result) {
                     paymentResult = result
                 })
             }
-            if (paymentResult.paymentResult.resultCode === 'Authorised') {
+            if (paymentResult.paymentResult.resultCode && paymentResult.paymentResult.resultCode === 'Authorised') {
                 orderResult = await placeOrder()
                 navigate('/checkout/confirmation')
             } else {

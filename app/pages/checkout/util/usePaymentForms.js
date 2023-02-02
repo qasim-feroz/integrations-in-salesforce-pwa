@@ -57,8 +57,8 @@ const usePaymentForms = () => {
             payment = {
                 paymentMethodId: 'AdyenComponent',
                 paymentCard: {
-                    number: adyenData.encryptedCardNumber,
-                    cardType: adyenData.type,
+                    number: adyenData.maskedNumber,
+                    cardType: adyenData.brand,
                 }
             }
         }

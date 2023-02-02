@@ -9,23 +9,29 @@ import { useEffect } from 'react';
 import { useCheckout } from '../../../../pages/checkout/util/checkout-context';
 
 const AdyenCCFields = () => {
+    let cardInfo = {}
     const { setAdyenData } = useCheckout()
 
     const handleChange = (event, component) => {
-        setAdyenData(event.data.paymentMethod)
+        cardInfo.paymentMethod = event.data.paymentMethod
+        setAdyenData(cardInfo)
     }
 
     const handleField = (event, component) => {
         if (event.fieldType == "encryptedCardNumber") {
-            const cardNumber = parseInt(event.endDigits) || 0
-            setAdyenData({cardNumber})
+            cardInfo.maskedNumber = event.endDigits
         }
 
     }
 
+    const handleBrand = (event, component) => {
+        cardInfo.brand = event.brand
+    }
+
     const options = {
         onValid: handleChange,
-        onFieldValid: handleField
+        onFieldValid: handleField,
+        onBrand: handleBrand
     }
 
     useEffect(async () => {
