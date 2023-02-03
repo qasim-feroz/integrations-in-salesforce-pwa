@@ -217,9 +217,17 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
-                await calculateTax()
-
+                await basket.toggleTaxLoading()
                 await basket.setShippingAddress(address)
+                const calculatedTax = await basket.basketCalculateTax(basket, addressData)
+                const token = await basket.basketGetAdminToken()
+                const response = await basket.basketUpdateBasketTax(
+                    token,
+                    calculatedTax,
+                    basket.basketId
+                )
+                basket.setUpdatedBasket()
+                // basket.toggleTaxLoading()
 
                 // Add/Update the address to the customer's account if they are registered.
                 if (!state.isGuestCheckout) {
@@ -276,6 +284,15 @@ export const CheckoutProvider = ({children}) => {
                     await basket.setPaymentInstrument({
                         customerPaymentInstrumentId: paymentInstrumentId
                     })
+                    const calculatedTax = await calculateTax(basket)
+                    const token = await basket.getAdminAPIAccessToken()
+                    const response = await basket.updateBasketTax(
+                        token,
+                        calculatedTax,
+                        basket.basketId
+                    )
+                    console.log('hello', response)
+                    basket.getOrCreateBasket()
                     return
                 }
 
@@ -302,6 +319,11 @@ export const CheckoutProvider = ({children}) => {
                 }
 
                 await basket.setPaymentInstrument(paymentInstrument)
+                const calculatedTax = await calculateTax(basket)
+                const token = await basket.getAdminAPIAccessToken()
+                const response = await basket.updateBasketTax(token, calculatedTax, basket.basketId)
+                console.log('hello', response)
+                basket.getOrCreateBasket()
 
                 // Save the payment instrument to the customer's account if they are registered
                 if (!state.isGuestCheckout && !selectedPayment.id) {
@@ -333,8 +355,16 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
-
+                await basket.toggleTaxLoading()
                 await basket.setBillingAddress(address)
+                const calculatedTax = await basket.basketCalculateTax(basket)
+                const token = await basket.basketGetAdminToken()
+                const response = await basket.basketUpdateBasketTax(
+                    token,
+                    calculatedTax,
+                    basket.basketId
+                )
+                basket.setUpdatedBasket()
 
                 // Save the address to the customer's account if they are registered and its a new address
                 if (!state.isGuestCheckout && !id && !addressId) {

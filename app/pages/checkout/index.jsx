@@ -17,15 +17,11 @@ import useBasket from '../../commerce-api/hooks/useBasket'
 import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
 import OrderSummary from '../../components/order-summary'
-import calculateTax from '../../../Int_avatax/avatax'
 
 const Checkout = () => {
-    calculateTax()
     const navigate = useNavigation()
     const {globalError, step, placeOrder} = useCheckout()
     const [isLoading, setIsLoading] = useState(false)
-
-   
 
     // Scroll to the top when we get a global error
     useEffect(() => {

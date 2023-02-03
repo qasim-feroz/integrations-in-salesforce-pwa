@@ -22,6 +22,7 @@ import PromoPopover from '../promo-popover'
 const CartItems = ({basket}) => {
     basket = basket || useBasket()
     const [cartItemsExpanded, setCartItemsExpanded] = useState(false)
+    console.log(basket.loadingTax)
 
     return (
         <Stack spacing={5} width="full">

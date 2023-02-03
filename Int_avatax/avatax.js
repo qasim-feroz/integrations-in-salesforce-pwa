@@ -1,52 +1,75 @@
-import {useContext} from 'react'
 import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 import fetch from 'cross-fetch'
-import {useCommerceAPI, BasketContext} from '../app/commerce-api/contexts'
-// import {app as appConfig} from '../config/default'
+import {app} from '../config/default'
 
-const updateExternalTax = async (avataxResponse) => {
-    const {basket, setBasket: _setBasket} = useContext(BasketContext)
-    const body = `"taxes": {
-        "3d4e28425ce0b3a65b0ac4e163": {
-          "taxItems": [
-            {
-              "id": "DE_7",
-              "rate": 0.07,
-              "value": 13.99
-            },
-            {
-              "id": "DE_19",
-              "rate": 0.19
-            }
-          ]
-        },
-        "ff9452ed11fcf5c80f9143a8f1": {
-          "taxItems": [
-            {
-              "id": "US_1",
-              "rate": 0.01
-            },
-            {
-              "id": "US_5",
-              "rate": 0.05
-            }
-          ]
-        }
-      }
-    }`
-    await basket.addTaxesForBasketItem(body)
-}
-const calculateTax = async () => {
-    const {basket, setBasket: _setBasket} = useContext(BasketContext)
-    console.log(basket)
-    const headers = {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic c3llZGhhaWRlcjc0MzFAZ21haWwuY29tOk5lc3Rvc2g3NDMx'
+const getAdminToken = async () => {
+    var details = {
+        grant_type: 'client_credentials',
+        scope: 'SALESFORCE_COMMERCE_API:bgfs_001 sfcc.shopper-baskets-orders.rw'
     }
-    var lineNumber = 1
+    var formBody = []
+    for (var property in details) {
+        var encodedKey = encodeURIComponent(property)
+        var encodedValue = encodeURIComponent(details[property])
+        formBody.push(encodedKey + '=' + encodedValue)
+    }
+    formBody = formBody.join('&')
+
+    const response = await fetch(
+        `${getAppOrigin()}${app.adminAPI.proxyPath}/dwsso/oauth2/access_token`,
+        {
+            body: formBody,
+            headers: {
+                Authorization: `Basic ${app.adminAPI.authorization}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            method: 'POST'
+        }
+    )
+    const AdminTokenResponseObject = await response.json()
+    return AdminTokenResponseObject.access_token
+}
+const updateBasketTax = async (token, taxCalculated, basketId) => {
+    var updateTaxPayload = {taxes: {}}
+    taxCalculated.lines.forEach((lineItem) => {
+        const lineItemTaxDetails = {taxItems: []}
+        lineItem.details.forEach((item) => {
+            lineItemTaxDetails.taxItems.push({id: item.id.toString(), rate: item.rate})
+        })
+        updateTaxPayload.taxes[lineItem.lineNumber] = lineItemTaxDetails
+    })
+    var requestOptions = {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updateTaxPayload),
+        redirect: 'follow'
+    }
+
+    const response = await fetch(
+        `${getAppOrigin()}${app.commerceAPI.proxyPath}/checkout/shopper-baskets/v1/organizations/${
+            app.commerceAPI.parameters.organizationId
+        }/baskets/${basketId}/taxes?siteId=${app.commerceAPI.parameters.siteId}`,
+        requestOptions
+    )
+    // const updateTaxResponse = await response.json()
+    return await response
+}
+
+const calculateTax = async (basket, addressData = null) => {
+    var addressToCalculateTax
+    if (basket?.shipments[0]?.shippingAddress?.address1) {
+        addressToCalculateTax = basket.shipments[0].shippingAddress
+    } else if (addressData != null) {
+        addressToCalculateTax = addressData
+    } else {
+        return false
+    }
     const lines = basket.productItems.map((item) => {
         return {
-            number: lineNumber++,
+            number: item.itemId,
             quantity: item.quantity,
             amount: item.price,
             taxCode: item.productId,
@@ -54,9 +77,20 @@ const calculateTax = async () => {
             description: item._type
         }
     })
+    const shippingLineItems = basket.shippingItems.map((shippingItem) => {
+        return {
+            number: shippingItem.itemId,
+            quantity: 1,
+            amount: 0,
+            taxCode: '',
+            shippingItemCode: 'shippingItem',
+            description: 'shipping item'
+        }
+    })
+    const allItems = [...lines, ...shippingLineItems]
     const method = 'POST'
     const body = {
-        lines: lines,
+        lines: allItems,
         type: 'SalesInvoice',
         companyCode: 'DEFAULT',
         date: basket.creationDate,
@@ -64,25 +98,28 @@ const calculateTax = async () => {
         purchaseOrderNo: '2023-01-01-001',
         addresses: {
             singleLocation: {
-                line1: basket.shipments[0].shippingAddress.address1,
-                city: basket.shipments[0].shippingAddress.city,
-                region: basket.shipments[0].shippingAddress.stateCode,
-                country: basket.shipments[0].shippingAddress.countryCode,
-                postalCode: basket.shipments[0].shippingAddress.postalCode
+                line1: addressToCalculateTax.address1,
+                city: addressToCalculateTax.city,
+                region: addressToCalculateTax.stateCode,
+                country: addressToCalculateTax.countryCode,
+                postalCode: addressToCalculateTax.postalCode
             }
         },
         commit: true,
         currencyCode: basket.currency,
-        description: 'yarn'
+        description: 'order details'
+    }
+    const headers = {
+        Authorization: `Basic ${app.avataxAPI.authorization}`
     }
     const response = await fetch(
-        `${getAppOrigin()}/mobify/proxy/avatax/api/v2/transactions/create`,
+        `${getAppOrigin()}${app.avataxAPI.proxyPath}/api/v2/transactions/create`,
         {
             method: method,
             headers: headers,
             body: JSON.stringify(body)
         }
     )
-    await updateExternalTax(response)
+    return await response.json()
 }
-export default calculateTax
+export {calculateTax, getAdminToken, updateBasketTax}
