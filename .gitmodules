@@ -1,0 +1,3 @@
+[submodule "sub_int_pwa"]
+	path = sub_int_pwa
+	url = https://qasim_feroz@bitbucket.org/qasim_feroz/sub_int_pwa.git
