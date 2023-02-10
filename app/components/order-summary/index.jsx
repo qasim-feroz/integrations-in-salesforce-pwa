@@ -22,6 +22,7 @@ import {useCheckout} from '../../pages/checkout/util/checkout-context'
 const CartItems = ({basket}) => {
     basket = basket || useBasket()
     const [cartItemsExpanded, setCartItemsExpanded] = useState(false)
+    console.log(basket.loadingTax)
 
     return (
         <Stack spacing={5} width="full">

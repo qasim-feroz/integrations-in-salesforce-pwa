@@ -220,6 +220,7 @@ export default function useBasket(opts = {}) {
              * @see https://salesforcecommercecloud.github.io/commerce-sdk-isomorphic/modules/shopperbaskets.html#orderaddress
              */
             async setShippingAddress(address) {
+                setBasket({isTaxloading: true})
                 const response = await api.shopperBaskets.updateShippingAddressForShipment({
                     body: address,
                     parameters: {
@@ -228,7 +229,7 @@ export default function useBasket(opts = {}) {
                         useAsBilling: !basket.billingAddress
                     }
                 })
-
+                // await calculateTax()
                 setBasket(response)
             },
 
@@ -242,7 +243,6 @@ export default function useBasket(opts = {}) {
                     body: {id},
                     parameters: {basketId: basket.basketId, shipmentId: 'me'}
                 })
-
                 setBasket(response)
             },
 

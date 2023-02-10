@@ -300,6 +300,15 @@ export const CheckoutProvider = ({children}) => {
                     await basket.setPaymentInstrument({
                         customerPaymentInstrumentId: paymentInstrumentId
                     })
+                    const calculatedTax = await calculateTax(basket)
+                    const token = await basket.getAdminAPIAccessToken()
+                    const response = await basket.updateBasketTax(
+                        token,
+                        calculatedTax,
+                        basket.basketId
+                    )
+                    console.log('hello', response)
+                    basket.getOrCreateBasket()
                     return
                 }
 
