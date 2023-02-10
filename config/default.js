@@ -19,14 +19,28 @@ module.exports = {
         // The sites for your app, which is imported from sites.js
         sites,
         // Commerce api config
+        // 770b26a9-7ef1-43e3-ad8e-2fad82b59c41:M4rkir@#!
         commerceAPI: {
             proxyPath: `/mobify/proxy/api`,
             parameters: {
-                clientId: '871e8709-2c67-44ff-b7a9-031d3ef0c78e',
+                clientId: '3w',
                 organizationId: 'f_ecom_bgfs_001',
                 shortCode: 'lehipx41',
                 siteId: 'RefArch'
             }
+        },
+        adminAPI: {
+            proxyPath: `/mobify/proxy/demandware`,
+            authorization: 'NzcwYjI2YTktN2VmMS00M2UzLWFkOGUtMmZhZDgyYjU5YzQxOk00cmtpckAjIQ==',
+            parameters: {
+                organizationId: 'f_ecom_bgfs_001',
+                shortCode: 'lehipx41',
+                siteId: 'RefArch'
+            }
+        },
+        avataxAPI: {
+            proxyPath: `/mobify/proxy/avatax`,
+            authorization: 'c3llZGhhaWRlcjc0MzFAZ21haWwuY29tOk5lc3Rvc2g3NDMx'
         },
         // Einstein api config
         einsteinAPI: {
@@ -72,6 +86,11 @@ module.exports = {
             {
                 host: 'sandbox-rest.avatax.com',
                 path: 'avatax',
+                protocol: 'https'
+            },
+            {
+                host: 'account.demandware.com',
+                path: 'demandware',
                 protocol: 'https'
             }
         ]
