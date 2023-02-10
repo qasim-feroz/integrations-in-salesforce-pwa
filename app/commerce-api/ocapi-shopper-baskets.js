@@ -20,8 +20,8 @@ class OcapiShopperBaskets {
     constructor(config) {
         this.fetch = createOcapiFetch(config)
     }
-
     async createBasket(...args) {
+        console.log('creating basket through ocapi', args)
         return await this.fetch('baskets', 'POST', args, 'createBasket')
     }
 

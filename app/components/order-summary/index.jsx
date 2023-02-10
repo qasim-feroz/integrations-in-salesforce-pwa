@@ -7,7 +7,7 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {FormattedMessage, FormattedNumber} from 'react-intl'
-import {Box, Flex, Button, Stack, Text, Heading, Divider} from '@chakra-ui/react'
+import {Box, Flex, Button, Stack, Text, Heading, Divider, Spinner} from '@chakra-ui/react'
 import useBasket from '../../commerce-api/hooks/useBasket'
 import {BasketIcon, ChevronDownIcon, ChevronUpIcon} from '../icons'
 import Link from '../link'
@@ -18,7 +18,7 @@ import CartItemVariantName from '../item-variant/item-name'
 import CartItemVariantAttributes from '../item-variant/item-attributes'
 import CartItemVariantPrice from '../item-variant/item-price'
 import PromoPopover from '../promo-popover'
-
+import {useCheckout} from '../../pages/checkout/util/checkout-context'
 const CartItems = ({basket}) => {
     basket = basket || useBasket()
     const [cartItemsExpanded, setCartItemsExpanded] = useState(false)
@@ -88,17 +88,36 @@ const OrderSummary = ({
     basket,
     showPromoCodeForm = false,
     showCartItems = false,
+    isTaxPending = false,
     isEstimate = false,
     fontSize = 'md'
 }) => {
     basket = basket || useBasket()
-
     const {removePromoCode, ...promoCodeProps} = usePromoCode()
     const shippingItem = basket.shippingItems?.[0]
     const hasShippingPromos = shippingItem?.priceAdjustments?.length > 0
 
     if (!basket.basketId && !basket.orderNo) {
         return null
+    }
+    const ShowTaxOrLoader = () => {
+        if (isTaxPending) {
+            return <Spinner size="sm" />
+        } else {
+            return basket.taxTotal != null ? (
+                <Text fontSize={fontSize}>
+                    <FormattedNumber
+                        value={basket.taxTotal}
+                        style="currency"
+                        currency={basket.currency}
+                    />
+                </Text>
+            ) : (
+                <Text fontSize={fontSize} color="gray.700">
+                    TBD
+                </Text>
+            )
+        }
     }
 
     return (
@@ -203,19 +222,7 @@ const OrderSummary = ({
                         <Text fontSize={fontSize}>
                             <FormattedMessage defaultMessage="Tax" id="order_summary.label.tax" />
                         </Text>
-                        {basket.taxTotal != null ? (
-                            <Text fontSize={fontSize}>
-                                <FormattedNumber
-                                    value={basket.taxTotal}
-                                    style="currency"
-                                    currency={basket.currency}
-                                />
-                            </Text>
-                        ) : (
-                            <Text fontSize={fontSize} color="gray.700">
-                                TBD
-                            </Text>
-                        )}
+                        {ShowTaxOrLoader()}
                     </Flex>
                 </Stack>
 
@@ -301,6 +308,7 @@ const OrderSummary = ({
 OrderSummary.propTypes = {
     basket: PropTypes.object,
     showPromoCodeForm: PropTypes.bool,
+    isTaxPending: PropTypes.bool,
     showCartItems: PropTypes.bool,
     isEstimate: PropTypes.bool,
     fontSize: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl'])

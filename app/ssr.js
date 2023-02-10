@@ -44,9 +44,10 @@ const {handler} = runtime.createHandler(options, (app) => {
                         "'self'",
                         "'unsafe-eval'",
                         'storage.googleapis.com',
-                        'sandbox-rest.avatax.com'
+                        'sandbox-rest.avatax.com',
+                        'account.demandware.com'
                     ],
-                    'connect-src': ["'self'", 'sandbox-rest.avatax.com'],
+                    'connect-src': ["'self'", 'sandbox-rest.avatax.com', 'account.demandware.com'],
 
                     // Do not upgrade insecure requests for local development
                     'upgrade-insecure-requests': isRemote() ? [] : null

@@ -13,7 +13,6 @@ import {useCommerceAPI} from '../../../commerce-api/contexts'
 import {getPaymentInstrumentCardType} from '../../../utils/cc-utils'
 import {isMatchingAddress} from '../../../utils/utils'
 import {useIntl} from 'react-intl'
-import calculateTax from '../../../../Int_avatax/avatax'
 
 const CheckoutContext = React.createContext()
 
@@ -31,7 +30,8 @@ export const CheckoutProvider = ({children}) => {
         shippingMethods: undefined,
         paymentMethods: undefined,
         globalError: undefined,
-        sectionError: undefined
+        sectionError: undefined,
+        isTaxPending: false
     })
 
     const CheckoutSteps = {
@@ -45,6 +45,7 @@ export const CheckoutProvider = ({children}) => {
     const getCheckoutStepName = (step) => {
         return Object.keys(CheckoutSteps).find((key) => CheckoutSteps[key] === step)
     }
+    // why basket's external tax to 0 on order placement in salesforce PWA
 
     const mergeState = useCallback((data) => {
         // If we become unmounted during an async call that results in updating state, we
@@ -217,10 +218,19 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
-                await calculateTax()
-
+                mergeState({isTaxPending: true})
                 await basket.setShippingAddress(address)
-
+                const calculatedTax = await basket.basketCalculateTax(basket, addressData)
+                const token = await basket.basketGetAdminToken()
+                const repose = await basket.basketUpdateBasketTax(
+                    token,
+                    calculatedTax,
+                    basket.basketId
+                )
+                if (repose.status == 204) {
+                    await basket.setUpdatedBasket()
+                }
+                mergeState({isTaxPending: false})
                 // Add/Update the address to the customer's account if they are registered.
                 if (!state.isGuestCheckout) {
                     !addressId
@@ -250,13 +260,26 @@ export const CheckoutProvider = ({children}) => {
              * @param {string} id - The shipping method id from applicable shipping methods
              */
             async setShippingMethod(id) {
+                mergeState({isTaxPending: true})
                 await basket.setShippingMethod(id)
+                const calculatedTax = await basket.basketCalculateTax(basket)
+                const token = await basket.basketGetAdminToken()
+                const repose = await basket.basketUpdateBasketTax(
+                    token,
+                    calculatedTax,
+                    basket.basketId
+                )
+                if (repose.status == 204) {
+                    await basket.setUpdatedBasket()
+                }
+                mergeState({isTaxPending: false})
             },
 
             /**
              * Gets the applicable payment methods for the order.
              */
             async getPaymentMethods() {
+                console.log('getPaymentMethods')
                 const paymentMethods = await api.shopperBaskets.getPaymentMethodsForBasket({
                     parameters: {basketId: basket.basketId}
                 })
@@ -269,6 +292,7 @@ export const CheckoutProvider = ({children}) => {
              * @param {Object} payment
              */
             async setPayment(payment) {
+                console.log('setPayment')
                 const {expiry, paymentInstrumentId, ...selectedPayment} = payment
 
                 if (paymentInstrumentId) {
@@ -302,7 +326,7 @@ export const CheckoutProvider = ({children}) => {
                 }
 
                 await basket.setPaymentInstrument(paymentInstrument)
-
+                console.log('setPaymentInsttrument2')
                 // Save the payment instrument to the customer's account if they are registered
                 if (!state.isGuestCheckout && !selectedPayment.id) {
                     customer.addSavedPaymentInstrument(paymentInstrument)
@@ -333,8 +357,19 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
-
+                mergeState({isTaxPending: true})
                 await basket.setBillingAddress(address)
+                const calculatedTax = await basket.basketCalculateTax(basket)
+                const token = await basket.basketGetAdminToken()
+                const repose = await basket.basketUpdateBasketTax(
+                    token,
+                    calculatedTax,
+                    basket.basketId
+                )
+                if (repose.status == 204) {
+                    await basket.setUpdatedBasket()
+                }
+                mergeState({isTaxPending: false})
 
                 // Save the address to the customer's account if they are registered and its a new address
                 if (!state.isGuestCheckout && !id && !addressId) {

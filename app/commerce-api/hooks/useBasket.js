@@ -9,6 +9,7 @@ import useEinstein from './useEinstein'
 import {useCommerceAPI, BasketContext} from '../contexts'
 import useCustomer from './useCustomer'
 import {isError} from '../utils'
+import {calculateTax, getAdminToken, updateBasketTax} from '../../../Int_avatax/avatax'
 
 export default function useBasket(opts = {}) {
     const {currency} = opts
@@ -25,7 +26,16 @@ export default function useBasket(opts = {}) {
     const self = useMemo(() => {
         return {
             ...basket,
-
+            async toggleTaxLoading() {
+                console.log('setting basket called ')
+                if (basket.loadingTax) {
+                    console.log('setting basket to false')
+                    setBasket({loadingTax: false})
+                } else {
+                    console.log('setting basket to true')
+                    setBasket({loadingTax: true})
+                }
+            },
             // Check if a this represents a valid basket
             get loaded() {
                 return basket && basket.basketId
@@ -71,7 +81,13 @@ export default function useBasket(opts = {}) {
 
                 if (!basket) {
                     // Back to using ShopperBaskets for all basket interaction.
-                    basket = await api.shopperBaskets.createBasket({})
+                    console.log('basket created using commerce API')
+                    basket = await api.shopperBaskets.createBasket({
+                        body: {},
+                        parameters: {
+                            taxMode: 'external'
+                        }
+                    })
 
                     // Throw if there was a problem creating the basket
                     if (isError(basket)) {
@@ -370,7 +386,7 @@ export default function useBasket(opts = {}) {
              * Creates an order using the current basket.
              */
             async createOrder() {
-                const response = await api.shopperOrders.createOrder({
+                const response = await api.shopperBaskets.createOrder({
                     body: {basketId: basket.basketId}
                 })
 
@@ -414,25 +430,26 @@ export default function useBasket(opts = {}) {
 
                 setBasket(response)
             },
-            async addTaxesForBasketItem(body) {
-                const response = api.shopperBaskets.addTaxesForBasketItem({
-                    headers: {
-                        'Content-Type': 'application/json' // This is not required since the request has no body but CommerceAPI throws a '419 - Unsupported Media Type' error if this header is removed.
-                    },
-                    body: body,
-                    parameters: {
-                        createDestinationBasket: true // If the current shopper has an active basket, this parameter is ignored.
-                    }
+            async basketCalculateTax(basket, addressData) {
+                return await calculateTax(basket, addressData)
+            },
+            async basketGetAdminToken() {
+                // todo: admin token should be from auth.js with proper expiration check.
+                return await getAdminToken()
+            },
+            async basketUpdateBasketTax(token, taxCalculated, basketId) {
+                return await updateBasketTax(token, taxCalculated, basketId)
+            },
+            async setUpdatedBasket() {
+                const customerBaskets = await api.shopperCustomers.getCustomerBaskets({
+                    parameters: {customerId: customer?.customerId}
                 })
-
-                if (response.fault) {
-                    throw new Error(response)
-                }
-
-                setBasket(response)
+                console.log(customerBaskets)
+                setBasket(customerBaskets['baskets'][0])
             }
         }
     }, [customer, basket, setBasket])
 
     return self
 }
+//call to

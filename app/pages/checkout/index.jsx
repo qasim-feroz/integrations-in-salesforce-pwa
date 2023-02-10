@@ -17,16 +17,11 @@ import useBasket from '../../commerce-api/hooks/useBasket'
 import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
 import OrderSummary from '../../components/order-summary'
-import calculateTax from '../../../Int_avatax/avatax'
 
 const Checkout = () => {
-    calculateTax()
     const navigate = useNavigation()
-    const {globalError, step, placeOrder} = useCheckout()
+    const {globalError, step, placeOrder, isTaxPending} = useCheckout()
     const [isLoading, setIsLoading] = useState(false)
-
-   
-
     // Scroll to the top when we get a global error
     useEffect(() => {
         if (globalError || step === 4) {
@@ -88,7 +83,11 @@ const Checkout = () => {
                     </GridItem>
 
                     <GridItem py={6} px={[4, 4, 4, 0]}>
-                        <OrderSummary showTaxEstimationForm={false} showCartItems={true} />
+                        <OrderSummary
+                            showTaxEstimationForm={false}
+                            showCartItems={true}
+                            isTaxPending={isTaxPending}
+                        />
 
                         {step === 4 && (
                             <Box display={{base: 'none', lg: 'block'}} pt={2}>
