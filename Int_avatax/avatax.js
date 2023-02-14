@@ -2,20 +2,6 @@ import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 import fetch from 'cross-fetch'
 import {app} from '../config/default'
 
-// const getBasketIncludingTax = async (basketID, token) => {
-//     return await fetch(
-//         `${getAppOrigin()}${app.commerceAPI.proxyPath}/checkout/shopper-baskets/v1/organizations/${
-//             app.commerceAPI.parameters.organizationId
-//         }/baskets/${basketID}?siteId=${app.commerceAPI.parameters.siteId}`,
-//         {
-//             headers: {
-//                 Authorization: `Basic ${token}`
-//             },
-//             method: 'GET'
-//         }
-//     )
-// }
-
 const getAdminToken = async () => {
     var details = {
         grant_type: 'client_credentials',

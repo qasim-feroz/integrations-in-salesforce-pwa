@@ -26,8 +26,7 @@ class ShopperBaskets extends OcapiShopperBaskets {
     addTaxesForBasket(args) {
         return this.shopperBasketsClient.addTaxesForBasket(args)
     }
-    createOrder2(args) {
-        console.log('overriding create order method')
+    createOrder(args) {
         return this.shopperOrders.createOrder(args)
     }
 }

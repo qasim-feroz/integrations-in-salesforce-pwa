@@ -26,16 +26,6 @@ export default function useBasket(opts = {}) {
     const self = useMemo(() => {
         return {
             ...basket,
-            async toggleTaxLoading() {
-                console.log('setting basket called ')
-                if (basket.loadingTax) {
-                    console.log('setting basket to false')
-                    setBasket({loadingTax: false})
-                } else {
-                    console.log('setting basket to true')
-                    setBasket({loadingTax: true})
-                }
-            },
             // Check if a this represents a valid basket
             get loaded() {
                 return basket && basket.basketId
@@ -81,7 +71,6 @@ export default function useBasket(opts = {}) {
 
                 if (!basket) {
                     // Back to using ShopperBaskets for all basket interaction.
-                    console.log('basket created using commerce API')
                     basket = await api.shopperBaskets.createBasket({
                         body: {},
                         parameters: {
@@ -220,7 +209,6 @@ export default function useBasket(opts = {}) {
              * @see https://salesforcecommercecloud.github.io/commerce-sdk-isomorphic/modules/shopperbaskets.html#orderaddress
              */
             async setShippingAddress(address) {
-                setBasket({isTaxloading: true})
                 const response = await api.shopperBaskets.updateShippingAddressForShipment({
                     body: address,
                     parameters: {
@@ -229,7 +217,6 @@ export default function useBasket(opts = {}) {
                         useAsBilling: !basket.billingAddress
                     }
                 })
-                // await calculateTax()
                 setBasket(response)
             },
 
@@ -444,7 +431,6 @@ export default function useBasket(opts = {}) {
                 const customerBaskets = await api.shopperCustomers.getCustomerBaskets({
                     parameters: {customerId: customer?.customerId}
                 })
-                console.log(customerBaskets)
                 setBasket(customerBaskets['baskets'][0])
             }
         }

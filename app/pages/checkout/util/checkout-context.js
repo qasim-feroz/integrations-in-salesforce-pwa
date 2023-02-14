@@ -279,7 +279,6 @@ export const CheckoutProvider = ({children}) => {
              * Gets the applicable payment methods for the order.
              */
             async getPaymentMethods() {
-                console.log('getPaymentMethods')
                 const paymentMethods = await api.shopperBaskets.getPaymentMethodsForBasket({
                     parameters: {basketId: basket.basketId}
                 })
@@ -292,7 +291,6 @@ export const CheckoutProvider = ({children}) => {
              * @param {Object} payment
              */
             async setPayment(payment) {
-                console.log('setPayment')
                 const {expiry, paymentInstrumentId, ...selectedPayment} = payment
 
                 if (paymentInstrumentId) {
@@ -300,15 +298,6 @@ export const CheckoutProvider = ({children}) => {
                     await basket.setPaymentInstrument({
                         customerPaymentInstrumentId: paymentInstrumentId
                     })
-                    const calculatedTax = await calculateTax(basket)
-                    const token = await basket.getAdminAPIAccessToken()
-                    const response = await basket.updateBasketTax(
-                        token,
-                        calculatedTax,
-                        basket.basketId
-                    )
-                    console.log('hello', response)
-                    basket.getOrCreateBasket()
                     return
                 }
 
@@ -335,7 +324,6 @@ export const CheckoutProvider = ({children}) => {
                 }
 
                 await basket.setPaymentInstrument(paymentInstrument)
-                console.log('setPaymentInsttrument2')
                 // Save the payment instrument to the customer's account if they are registered
                 if (!state.isGuestCheckout && !selectedPayment.id) {
                     customer.addSavedPaymentInstrument(paymentInstrument)

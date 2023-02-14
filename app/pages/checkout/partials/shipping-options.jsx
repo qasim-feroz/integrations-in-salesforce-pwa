@@ -53,12 +53,7 @@ export default function ShippingOptions() {
     }, [selectedShippingMethod, shippingMethods])
 
     const submitForm = async ({shippingMethodId}) => {
-        await basket.toggleTaxLoading()
         await setShippingMethod(shippingMethodId)
-        const calculatedTax = await basket.basketCalculateTax(basket)
-        const token = await basket.basketGetAdminToken()
-        const response = await basket.basketUpdateBasketTax(token, calculatedTax, basket.basketId)
-        basket.setUpdatedBasket()
         goToNextStep()
     }
 
