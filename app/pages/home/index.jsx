@@ -5,7 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {useIntl, FormattedMessage} from 'react-intl'
 import {useLocation} from 'react-router-dom'
@@ -29,6 +29,7 @@ import Hero from '../../components/hero'
 import Seo from '../../components/seo'
 import Section from '../../components/section'
 import ProductScroller from '../../components/product-scroller'
+import {yotpoBottomLineBatchCall} from '../../intYotpo/yotpo'
 
 // Others
 import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
@@ -59,6 +60,27 @@ const Home = ({productSearchResult, isLoading}) => {
     useEffect(() => {
         einstein.sendViewPage(pathname)
     }, [])
+
+    const arrayofIDs = []
+    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
+
+    const getYotpoResponse = async () => {
+        var response = await yotpoBottomLineBatchCall(arrayofIDs)
+        setyotpoBottomLineState(response)
+    }
+
+    useEffect(() => {
+        if (arrayofIDs.length > 0) {
+            getYotpoResponse()
+        }
+    }, [isLoading])
+
+    if (productSearchResult) {
+        productSearchResult.hits.map((productSearchItem) => {
+            const id = productSearchItem.productId
+            arrayofIDs.push(id)
+        })
+    }
 
     return (
         <Box data-testid="home-page" layerStyle="page">
@@ -192,6 +214,7 @@ const Home = ({productSearchResult, isLoading}) => {
                         <ProductScroller
                             products={productSearchResult?.hits}
                             isLoading={isLoading}
+                            yotpoBottomLineWidget={yotpoBottomLineState}
                         />
                     </Stack>
                 </Section>

@@ -39,8 +39,16 @@ const {handler} = runtime.createHandler(options, (app) => {
             contentSecurityPolicy: {
                 useDefaults: true,
                 directives: {
-                    'img-src': ["'self'", '*.commercecloud.salesforce.com', 'data:'],
-                    'script-src': ["'self'", "'unsafe-eval'", 'storage.googleapis.com'],
+                    'img-src': ["'self'", '*.commercecloud.salesforce.com', 'data:', '*.yotpo.com'],
+                    'script-src': [
+                        "'self'",
+                        "'unsafe-eval'",
+                        'storage.googleapis.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com'
+                    ],
+                    'style-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", '*.yotpo.com'],
+                    'default-src': ["'self'", "'unsafe-eval'", '*.yotpo.com', 'staticw2.yotpo.com'],
 
                     // Do not upgrade insecure requests for local development
                     'upgrade-insecure-requests': isRemote() ? [] : null

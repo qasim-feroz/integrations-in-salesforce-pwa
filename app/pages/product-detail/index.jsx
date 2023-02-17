@@ -9,6 +9,7 @@ import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {Helmet} from 'react-helmet'
 import {FormattedMessage, useIntl} from 'react-intl'
+import Parser from 'html-react-parser'
 
 // Components
 import {
@@ -32,6 +33,9 @@ import useEinstein from '../../commerce-api/hooks/useEinstein'
 // Project Components
 import RecommendedProducts from '../../components/recommended-products'
 import ProductView from '../../partials/product-view'
+import {yotpoMainWidget} from '../../intYotpo/yotpo'
+import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
+import {useMyYotpoReviewsRefresh} from '../../intYotpo/yotpo'
 
 // Others/Utils
 import {HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
@@ -56,6 +60,7 @@ const ProductDetail = ({category, product, isLoading}) => {
     const toast = useToast()
     const navigate = useNavigation()
     const [primaryCategory, setPrimaryCategory] = useState(category)
+    const [yotpoMainWidgetState, setyotpoMainWidgetState] = useState([])
 
     // This page uses the `primaryCategoryId` to retrieve the category data. This attribute
     // is only available on `master` products. Since a variation will be loaded once all the
@@ -139,9 +144,18 @@ const ProductDetail = ({category, product, isLoading}) => {
     /**************** Einstein ****************/
     useEffect(() => {
         if (product) {
+            getYotpoResponse()
             einstein.sendViewProduct(product)
         }
     }, [product])
+
+    const getYotpoResponse = async () => {
+        var response = await yotpoMainWidget(product.id)
+
+        setyotpoMainWidgetState(response[0].result)
+    }
+
+    useMyYotpoReviewsRefresh()
 
     return (
         <Box
@@ -256,6 +270,18 @@ const ProductDetail = ({category, product, isLoading}) => {
                 </Stack>
 
                 {/* Product Recommendations */}
+                {product && (
+                    <div
+                        className="yotpo yotpo-main-widget"
+                        data-product-id={product.id}
+                        data-name={product.name}
+                        data-url={`${getAppOrigin()}/product/${product.id}`}
+                        data-image-url="[[ URL TO THE IMAGE OF THE PRODUCT ]]"
+                        data-description={product.shortDescription}
+                    >
+                        {Parser(yotpoMainWidgetState.toString())}
+                    </div>
+                )}
                 <Stack spacing={16}>
                     <RecommendedProducts
                         title={
