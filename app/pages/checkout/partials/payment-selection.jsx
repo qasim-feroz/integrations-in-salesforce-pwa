@@ -23,11 +23,12 @@ import {useForm, Controller} from 'react-hook-form'
 import {LockIcon, PaypalIcon} from '../../../components/icons'
 import {useCheckout} from '../util/checkout-context'
 import CCRadioGroup from './cc-radio-group'
-import AdyenCCFields from '../../../integrations/adyen/components/adyenCCFields'
+import {AdyenCCFields} from 'int_pwa_dev'
+import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 
 const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
     const {formatMessage} = useIntl()
-    const {customer, basket} = useCheckout()
+    const {customer, basket, setAdyenData} = useCheckout()
 
     const hasSavedCards = customer?.paymentInstruments?.length > 0
 
@@ -150,7 +151,7 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                     </Heading>
                                                 )}
 
-                                                <AdyenCCFields form={form} />
+                                                <AdyenCCFields setAdyenData={setAdyenData} origin={getAppOrigin()} />
 
                                                 {!hideSubmitButton && (
                                                     <Box>

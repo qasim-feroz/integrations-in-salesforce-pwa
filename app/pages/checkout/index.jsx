@@ -19,9 +19,8 @@ import CheckoutSkeleton from './partials/checkout-skeleton'
 import { useToast } from '../../hooks/use-toast'
 import { ADYEN_PAYMENT_ERROR } from '../../constants'
 import OrderSummary from '../../components/order-summary'
-import AuthorizePayment from '../../integrations/adyen/components/authorizePayment/authorize'
-import Access from '../../integrations/adyen/components/authorizePayment/token'
-import updateAdyenOrderInfo from '../../integrations/adyen/components/authorizePayment/updateAdyenOrder'
+import { AuthorizePayment, Access, updateAdyenOrderInfo } from 'int_pwa_dev/dist/esm'
+import { getAppOrigin } from 'pwa-kit-react-sdk/utils/url'
 
 const Checkout = () => {
     const navigate = useNavigation()
@@ -44,7 +43,7 @@ const Checkout = () => {
         try {
             let orderResult, paymentResult, token
             if (basket && basket.paymentInstruments && basket.paymentInstruments[0].paymentMethodId === 'AdyenComponent') {
-                await AuthorizePayment(basket, customer, adyenData.paymentMethod).then(function(result) {
+                await AuthorizePayment(getAppOrigin(), basket, customer, adyenData.paymentMethod).then(function(result) {
                     paymentResult = result
                 })
             }
@@ -58,10 +57,10 @@ const Checkout = () => {
                 })
                 setIsLoading(false)
             }
-            if (token && orderResult.orderNo && paymentResult) {
-                const tokenResult = await Access()
+            if (orderResult.orderNo && paymentResult) {
+                const tokenResult = await Access(getAppOrigin())
                 token = await tokenResult.json()
-                await updateAdyenOrderInfo(token.access_token, orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, paymentResult.paymentResult.resultCode)
+                await updateAdyenOrderInfo(getAppOrigin(), token.access_token, orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, paymentResult.paymentResult.resultCode)
             }
         } catch (error) {
             setIsLoading(false)
