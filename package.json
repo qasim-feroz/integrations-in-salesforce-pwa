@@ -41,7 +41,6 @@
     "jest-fetch-mock": "^2.1.2",
     "js-cookie": "^3.0.1",
     "jwt-decode": "^3.1.2",
-    "mini-css-extract-plugin": "^2.7.2",
     "msw": "^0.28.1",
     "nanoid": "^3.1.31",
     "njwt": "^1.2.0",
@@ -104,7 +103,6 @@
     "last 4 ChromeAndroid versions"
   ],
   "dependencies": {
-    "@adyen/adyen-web": "^5.33.0",
     "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^11.0.0",
     "stylelint": "^14.16.1"
