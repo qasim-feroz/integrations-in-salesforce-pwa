@@ -46,7 +46,7 @@ import Refinements from './partials/refinements'
 import SelectedRefinements from './partials/selected-refinements'
 import EmptySearchResults from './partials/empty-results'
 import PageHeader from './partials/page-header'
-import {yotpoBottomLineBatchCall} from '../../intYotpo/yotpo'
+import {yotpoBottomLineBatchCall} from '../../intYotpo'
 
 // Icons
 import {FilterIcon, ChevronDownIcon} from '../../components/icons'
@@ -425,7 +425,7 @@ const ProductList = (props) => {
                                                   product={productSearchItem}
                                                   enableFavourite={true}
                                                   isFavourite={isInWishlist}
-                                                  data={yotpoBottomLineState[index]}
+                                                  responseData={yotpoBottomLineState[index]}
                                                   onClick={() => {
                                                       if (searchQuery) {
                                                           einstein.sendClickSearch(

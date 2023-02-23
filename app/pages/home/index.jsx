@@ -29,7 +29,7 @@ import Hero from '../../components/hero'
 import Seo from '../../components/seo'
 import Section from '../../components/section'
 import ProductScroller from '../../components/product-scroller'
-import {yotpoBottomLineBatchCall} from '../../intYotpo/yotpo'
+import {yotpoBottomLineBatchCall} from '../../intYotpo'
 
 // Others
 import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
@@ -61,16 +61,16 @@ const Home = ({productSearchResult, isLoading}) => {
         einstein.sendViewPage(pathname)
     }, [])
 
-    const arrayofIDs = []
+    const productSearchResultIDs = []
     const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
 
     const getYotpoResponse = async () => {
-        var response = await yotpoBottomLineBatchCall(arrayofIDs)
+        var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
         setyotpoBottomLineState(response)
     }
 
     useEffect(() => {
-        if (arrayofIDs.length > 0) {
+        if (productSearchResultIDs.length > 0) {
             getYotpoResponse()
         }
     }, [isLoading])
@@ -78,7 +78,7 @@ const Home = ({productSearchResult, isLoading}) => {
     if (productSearchResult) {
         productSearchResult.hits.map((productSearchItem) => {
             const id = productSearchItem.productId
-            arrayofIDs.push(id)
+            productSearchResultIDs.push(id)
         })
     }
 

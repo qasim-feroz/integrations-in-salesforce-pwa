@@ -71,18 +71,7 @@ const yotpoBottomLineBatchCall = async (arrayofIDs) => {
     return responseArray
 }
 
-function useMyYotpoReviews(appKey) {
-    const yotpoScript = document.querySelector('[data-script="yotpo-reviews"]')
-    if (yotpoScript) {
-        yotpoScript.remove()
-    }
-    const script = injectScript(appKey)
-    return () => {
-        script.remove()
-    }
-}
-
-function useMyyYotpoReviews(appKey) {
+function useYotpoReviews(appKey) {
     useEffect(() => {
         const yotpoScript = document.querySelector('[data-script="yotpo-reviews"]')
         if (yotpoScript) {
@@ -106,9 +95,8 @@ function injectScript(appKey) {
 }
 
 let api = null
-const useMyYotpoReviewsRefresh = () => {
+const useYotpoReviewsRefresh = () => {
     if (typeof window !== 'undefined') {
-        console.log(`window: ${window}`)
         // browser code
         /* details: https://support.yotpo.com/en/article/loading-yotpo-with-ajax */
         const Yotpo = window.Yotpo
@@ -123,8 +111,7 @@ const useMyYotpoReviewsRefresh = () => {
 export {
     yotpoMainWidget,
     yotpoBottomLine,
-    useMyYotpoReviews,
-    useMyyYotpoReviews,
+    useYotpoReviews,
     yotpoBottomLineBatchCall,
-    useMyYotpoReviewsRefresh
+    useYotpoReviewsRefresh
 }

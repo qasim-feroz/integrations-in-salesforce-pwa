@@ -9,7 +9,6 @@ import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {Helmet} from 'react-helmet'
 import {FormattedMessage, useIntl} from 'react-intl'
-import Parser from 'html-react-parser'
 
 // Components
 import {
@@ -33,9 +32,9 @@ import useEinstein from '../../commerce-api/hooks/useEinstein'
 // Project Components
 import RecommendedProducts from '../../components/recommended-products'
 import ProductView from '../../partials/product-view'
-import {yotpoMainWidget} from '../../intYotpo/yotpo'
-import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
-import {useMyYotpoReviewsRefresh} from '../../intYotpo/yotpo'
+import {yotpoMainWidget} from '../../intYotpo'
+import {useYotpoReviewsRefresh} from '../../intYotpo'
+import {ReviewsWidget} from '../../intYotpo/indexes'
 
 // Others/Utils
 import {HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
@@ -152,10 +151,12 @@ const ProductDetail = ({category, product, isLoading}) => {
     const getYotpoResponse = async () => {
         var response = await yotpoMainWidget(product.id)
 
-        setyotpoMainWidgetState(response[0].result)
+        if (response !== null) {
+            setyotpoMainWidgetState(response[0].result)
+        }
     }
 
-    useMyYotpoReviewsRefresh()
+    useYotpoReviewsRefresh()
 
     return (
         <Box
@@ -271,16 +272,12 @@ const ProductDetail = ({category, product, isLoading}) => {
 
                 {/* Product Recommendations */}
                 {product && (
-                    <div
-                        className="yotpo yotpo-main-widget"
+                    <ReviewsWidget
                         data-product-id={product.id}
                         data-name={product.name}
-                        data-url={`${getAppOrigin()}/product/${product.id}`}
-                        data-image-url="[[ URL TO THE IMAGE OF THE PRODUCT ]]"
                         data-description={product.shortDescription}
-                    >
-                        {Parser(yotpoMainWidgetState.toString())}
-                    </div>
+                        yotpoMainWidgetStateData={yotpoMainWidgetState}
+                    />
                 )}
                 <Stack spacing={16}>
                     <RecommendedProducts

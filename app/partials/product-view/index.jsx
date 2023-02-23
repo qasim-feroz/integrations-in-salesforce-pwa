@@ -26,7 +26,7 @@ import {useCurrency} from '../../hooks'
 import {Skeleton as ImageGallerySkeleton} from '../../components/image-gallery'
 import {HideOnDesktop, HideOnMobile} from '../../components/responsive'
 import QuantityPicker from '../../components/quantity-picker'
-import {yotpoBottomLine} from '../../intYotpo/yotpo'
+import {yotpoBottomLine} from '../../intYotpo'
 
 const ProductViewHeader = ({name, price, currency, category}) => {
     const intl = useIntl()

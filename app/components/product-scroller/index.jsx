@@ -74,10 +74,10 @@ const ProductScroller = forwardRef(
                             ...scrollProps?.sx
                         }}
                     >
-                        {(isLoading ? [0, 1, 2, 4] : products).map((product, idx) => {
+                        {(isLoading ? [0, 1, 2, 4] : products).map((product, index) => {
                             return (
                                 <Box
-                                    key={product?.id || idx}
+                                    key={product?.id || index}
                                     flex="0 0 auto"
                                     width={itemWidth}
                                     style={{scrollSnapAlign: 'start'}}
@@ -95,7 +95,7 @@ const ProductScroller = forwardRef(
                                     ) : (
                                         <ProductTile
                                             data-testid="product-scroller-item"
-                                            data={yotpoBottomLineWidget[idx]}
+                                            responseData={yotpoBottomLineWidget[index]}
                                             product={product}
                                             {...(typeof productTileProps === 'function'
                                                 ? {...productTileProps(product)}

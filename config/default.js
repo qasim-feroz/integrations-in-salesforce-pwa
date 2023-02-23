@@ -1,5 +1,6 @@
 const sites = require('./sites.js')
 module.exports = {
+    yotpoAppKey: 'hTeALoqMneusC7qe9SVHGX0PeQ7i7MPqj4PkfBdK',
     app: {
         // Customize how your 'site' and 'locale' are displayed in the url.
         url: {
