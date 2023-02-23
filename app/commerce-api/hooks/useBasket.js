@@ -382,6 +382,7 @@ export default function useBasket(opts = {}) {
                 // it on the confirmation page. The basket is automatically deleted
                 // in SF so we need to make sure a new one is created when leaving the confirmation.
                 setBasket(response)
+                return response
             },
 
             /**
