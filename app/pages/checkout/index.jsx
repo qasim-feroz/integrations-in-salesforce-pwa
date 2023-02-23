@@ -19,7 +19,7 @@ import CheckoutSkeleton from './partials/checkout-skeleton'
 import { useToast } from '../../hooks/use-toast'
 import { ADYEN_PAYMENT_ERROR } from '../../constants'
 import OrderSummary from '../../components/order-summary'
-import { AuthorizePayment, Access, updateAdyenOrderInfo } from 'int_pwa_dev/dist/esm'
+import { AuthorizePayment, Access, updateAdyenOrderInfo } from 'int_pwa_dev'
 import { getAppOrigin } from 'pwa-kit-react-sdk/utils/url'
 
 const Checkout = () => {
