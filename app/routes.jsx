@@ -32,6 +32,7 @@ const Cart = loadable(() => import('./pages/cart'), {fallback})
 const Checkout = loadable(() => import('./pages/checkout'), {fallback})
 const CheckoutConfirmation = loadable(() => import('./pages/checkout/confirmation'), {fallback})
 const LoginRedirect = loadable(() => import('./pages/login-redirect'), {fallback})
+const googleCallback = loadable(() => import('./pages/google-callback'), {fallback})
 const ProductDetail = loadable(() => import('./pages/product-detail'), {fallback})
 const ProductList = loadable(() => import('./pages/product-list'), {fallback})
 const Wishlist = loadable(() => import('./pages/account/wishlist'), {fallback})
@@ -75,6 +76,11 @@ const routes = [
     {
         path: '/callback',
         component: LoginRedirect,
+        exact: true
+    },
+    {
+        path: '/google-callback',
+        component: googleCallback,
         exact: true
     },
     {

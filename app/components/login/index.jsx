@@ -12,8 +12,32 @@ import {Alert, Box, Button, Stack, Text} from '@chakra-ui/react'
 import {AlertIcon, BrandLogo} from '../icons'
 import LoginFields from '../../components/forms/login-fields'
 import {noop} from '../../utils/utils'
+import {createCodeVerifier, generateCodeChallenge} from '../../commerce-api/pkce'
+import {app} from '../../../config/default'
 
 const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount = noop, form}) => {
+    const LoginWihGoogle = async () => {
+        const codeVerifier = createCodeVerifier()
+        const codeChallenge = await generateCodeChallenge(codeVerifier)
+
+        sessionStorage.setItem('codeVerifier', codeVerifier)
+        const url =
+            'https://' +
+            app.commerceAPI.parameters.shortCode +
+            '.api.commercecloud.salesforce.com/shopper/auth/v1/organizations/' +
+            app.commerceAPI.parameters.organizationId +
+            '/oauth2/authorize?redirect_uri=' +
+            window.location.origin +
+            '/google-callback' +
+            '&client_id=' +
+            app.commerceAPI.parameters.clientId +
+            '&code_challenge=' +
+            codeChallenge +
+            '&channel_id=' +
+            app.commerceAPI.parameters.siteId +
+            '&hint=google&response_type=code'
+        window.location.assign(url)
+    }
     return (
         <Fragment>
             <Stack justify="center" align="center" spacing={8} marginBottom={8}>
@@ -61,6 +85,9 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                                 defaultMessage="Sign In"
                                 id="login_form.button.sign_in"
                             />
+                        </Button>
+                        <Button type="button" onClick={() => LoginWihGoogle()}>
+                            Login With Google
                         </Button>
 
                         <Stack direction="row" spacing={1} justify="center">
