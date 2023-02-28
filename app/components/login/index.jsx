@@ -21,6 +21,7 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
         const codeChallenge = await generateCodeChallenge(codeVerifier)
 
         sessionStorage.setItem('codeVerifier', codeVerifier)
+        sessionStorage.setItem('pageBeforeLogin', window.location.pathname)
         const url =
             'https://' +
             app.commerceAPI.parameters.shortCode +

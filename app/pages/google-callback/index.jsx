@@ -16,13 +16,14 @@ const googleCallback = () => {
                 `${getAppOrigin()}${slasCallbackEndpoint}`,
                 window.sessionStorage.getItem('codeVerifier')
             )
-            console.log(window.sessionStorage.getItem('codeVerifier'))
             const tokenResponse = customer.getLoggedInCustomerToken(tokenBody)
             window.sessionStorage.removeItem('codeVerifier')
             tokenResponse.then(function(result) {
                 customer.federatedLogin(result.customer_id)
             })
-            navigate('/')
+            const pageBeforeLogin = window.sessionStorage.getItem('pageBeforeLogin')
+            window.sessionStorage.removeItem('codeVerifier')
+            navigate(pageBeforeLogin)
         }
     }, [])
 
