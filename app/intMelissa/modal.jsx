@@ -67,10 +67,10 @@ function MelissaSuggestionModal({modalState, setModalState, melissaAddress, addr
 
                     <ModalFooter>
                         <Button onClick={formSubmissionAddress} mr={3}>
-                            Cancel
+                            Reject
                         </Button>
                         <Button onClick={formSubmissionMelissaAddress} colorScheme="blue">
-                            Continue
+                            Accept
                         </Button>
                     </ModalFooter>
                 </ModalContent>
