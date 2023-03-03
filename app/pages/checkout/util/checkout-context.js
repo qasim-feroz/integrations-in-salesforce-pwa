@@ -31,6 +31,7 @@ export const CheckoutProvider = ({children}) => {
         paymentMethods: undefined,
         globalError: undefined,
         sectionError: undefined,
+        isTaxPending: false,
         adyenData: undefined
     })
 
@@ -45,6 +46,7 @@ export const CheckoutProvider = ({children}) => {
     const getCheckoutStepName = (step) => {
         return Object.keys(CheckoutSteps).find((key) => CheckoutSteps[key] === step)
     }
+    // why basket's external tax to 0 on order placement in salesforce PWA
 
     const mergeState = useCallback((data) => {
         // If we become unmounted during an async call that results in updating state, we
@@ -221,9 +223,19 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
-
+                mergeState({isTaxPending: true})
                 await basket.setShippingAddress(address)
-
+                const calculatedTax = await basket.basketCalculateTax(basket, addressData)
+                const token = await basket.basketGetAdminToken()
+                const repose = await basket.basketUpdateBasketTax(
+                    token,
+                    calculatedTax,
+                    basket.basketId
+                )
+                if (repose.status == 204) {
+                    await basket.setUpdatedBasket()
+                }
+                mergeState({isTaxPending: false})
                 // Add/Update the address to the customer's account if they are registered.
                 if (!state.isGuestCheckout) {
                     !addressId
@@ -253,7 +265,19 @@ export const CheckoutProvider = ({children}) => {
              * @param {string} id - The shipping method id from applicable shipping methods
              */
             async setShippingMethod(id) {
+                mergeState({isTaxPending: true})
                 await basket.setShippingMethod(id)
+                const calculatedTax = await basket.basketCalculateTax(basket)
+                const token = await basket.basketGetAdminToken()
+                const repose = await basket.basketUpdateBasketTax(
+                    token,
+                    calculatedTax,
+                    basket.basketId
+                )
+                if (repose.status == 204) {
+                    await basket.setUpdatedBasket()
+                }
+                mergeState({isTaxPending: false})
             },
 
             /**
@@ -310,7 +334,6 @@ export const CheckoutProvider = ({children}) => {
                 }
 
                 await basket.setPaymentInstrument(paymentInstrument)
-
                 // Save the payment instrument to the customer's account if they are registered
                 if (!state.isGuestCheckout && !selectedPayment.id) {
                     customer.addSavedPaymentInstrument(paymentInstrument)
@@ -341,8 +364,19 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
-
+                mergeState({isTaxPending: true})
                 await basket.setBillingAddress(address)
+                const calculatedTax = await basket.basketCalculateTax(basket)
+                const token = await basket.basketGetAdminToken()
+                const repose = await basket.basketUpdateBasketTax(
+                    token,
+                    calculatedTax,
+                    basket.basketId
+                )
+                if (repose.status == 204) {
+                    await basket.setUpdatedBasket()
+                }
+                mergeState({isTaxPending: false})
 
                 // Save the address to the customer's account if they are registered and its a new address
                 if (!state.isGuestCheckout && !id && !addressId) {

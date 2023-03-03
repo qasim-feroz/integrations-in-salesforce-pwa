@@ -101,6 +101,9 @@
     "last 4 ChromeAndroid versions"
   ],
   "dependencies": {
+    "avatax": "^22.11.1",
+    "buffer": "^6.0.3",
+    "nvm": "^0.0.4",
     "@adyen/adyen-web": "^5.31.2",
     "stylelint": "^14.16.1"
   }
