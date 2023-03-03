@@ -22,8 +22,8 @@ import {
 import {useForm, Controller} from 'react-hook-form'
 import {LockIcon, PaypalIcon} from '../../../components/icons'
 import {useCheckout} from '../util/checkout-context'
-import CreditCardFields from '../../../components/forms/credit-card-fields'
 import CCRadioGroup from './cc-radio-group'
+import AdyenCCFields from '../../../integrations/adyen/components/adyenCCFields'
 
 const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
     const {formatMessage} = useIntl()
@@ -150,7 +150,7 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                     </Heading>
                                                 )}
 
-                                                <CreditCardFields form={form} />
+                                                <AdyenCCFields form={form} />
 
                                                 {!hideSubmitButton && (
                                                     <Box>

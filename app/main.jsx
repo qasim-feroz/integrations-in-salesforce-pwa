@@ -5,6 +5,8 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import {start, registerServiceWorker} from 'pwa-kit-react-sdk/ssr/browser/main'
+import buffer from 'buffer';
+global.Buffer = buffer.Buffer
 
 const main = () => {
     // The path to your service worker should match what is set up in ssr.js
