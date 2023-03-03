@@ -273,9 +273,9 @@ const ProductDetail = ({category, product, isLoading}) => {
                 {/* Product Recommendations */}
                 {product && (
                     <ReviewsWidget
-                        data-product-id={product.id}
-                        data-name={product.name}
-                        data-description={product.shortDescription}
+                        data_product_id={product.id}
+                        data_name={product.name}
+                        data_description={product.shortDescription}
                         yotpoMainWidgetStateData={yotpoMainWidgetState}
                     />
                 )}
