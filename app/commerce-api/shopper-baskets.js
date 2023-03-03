@@ -13,10 +13,21 @@ class ShopperBaskets extends OcapiShopperBaskets {
     constructor(config) {
         super(config)
         this.shopperBasketsClient = new sdk.ShopperBaskets(config)
+        this.shopperOrders = new sdk.ShopperOrders(config)
     }
 
     mergeBasket(args) {
         return this.shopperBasketsClient.mergeBasket(args)
+    }
+    createBasket(args) {
+        return this.shopperBasketsClient.createBasket(args)
+    }
+
+    addTaxesForBasket(args) {
+        return this.shopperBasketsClient.addTaxesForBasket(args)
+    }
+    createOrder(args) {
+        return this.shopperOrders.createOrder(args)
     }
 }
 export default ShopperBaskets
