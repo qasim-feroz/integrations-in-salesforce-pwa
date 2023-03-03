@@ -59,7 +59,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
                         'account.demandware.com',
-                        '*.melissadata.net'
+                        '*.melissadata.net',
+                        '*.yotpo.com'
                     ],
                     'style-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", '*.yotpo.com'],
                     'default-src': [
