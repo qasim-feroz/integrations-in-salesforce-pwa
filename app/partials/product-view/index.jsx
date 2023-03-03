@@ -9,6 +9,7 @@ import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {useHistory, useLocation} from 'react-router-dom'
 import {useIntl} from 'react-intl'
+import Parser from 'html-react-parser'
 
 import {Flex, Heading, Button, Skeleton, Box, Text, VStack, Fade, useTheme} from '@chakra-ui/react'
 import {useProduct} from '../../hooks'
@@ -25,6 +26,7 @@ import {useCurrency} from '../../hooks'
 import {Skeleton as ImageGallerySkeleton} from '../../components/image-gallery'
 import {HideOnDesktop, HideOnMobile} from '../../components/responsive'
 import QuantityPicker from '../../components/quantity-picker'
+import {yotpoBottomLine} from '../../intYotpo'
 
 const ProductViewHeader = ({name, price, currency, category}) => {
     const intl = useIntl()
@@ -90,6 +92,7 @@ const ProductView = ({
     } = useAddToCartModalContext()
     const theme = useTheme()
     const [showOptionsMessage, toggleShowOptionsMessage] = useState(false)
+    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
     const {
         showLoading,
         showInventoryMessage,
@@ -198,6 +201,17 @@ const ProductView = ({
         }
     }, [variant?.productId])
 
+    const getYotpoResponse = async () => {
+        if (product) {
+            var response = await yotpoBottomLine(product.id)
+            setyotpoBottomLineState(response[0].result)
+        }
+    }
+
+    useEffect(() => {
+        getYotpoResponse()
+    }, [isProductLoading])
+
     return (
         <Flex direction={'column'} data-testid="product-view">
             {/* Basic information etc. title, price, breadcrumb*/}
@@ -245,6 +259,11 @@ const ProductView = ({
                             currency={product?.currency}
                             category={category}
                         />
+                        {product && (
+                            <div className="yotpo bottomline" data-product-id={product.id}>
+                                {Parser(yotpoBottomLineState.toString())}
+                            </div>
+                        )}
                     </Box>
                     <VStack align="stretch" spacing={4}>
                         {/*

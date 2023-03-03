@@ -77,6 +77,8 @@ const usePaymentForms = () => {
             await setBillingAddress(selectedShippingAddress)
         }
 
+        
+
         // Once the billing address is applied to the basket, we can move to the final
         // step in the process, which lets the customer review all checkout info.
         goToNextStep()
