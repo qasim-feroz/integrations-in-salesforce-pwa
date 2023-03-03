@@ -90,8 +90,12 @@ module.exports = {
             },
             {
                 host: 'account.demandware.com',
-                path: 'demandware',
-                protocol: 'https'
+                path: 'demandware'
+            },
+            {
+                protocol: 'https',
+                host: 'checkout-test.adyen.com',
+                path: 'adyen'
             }
         ]
     }

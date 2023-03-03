@@ -39,18 +39,54 @@ const {handler} = runtime.createHandler(options, (app) => {
             contentSecurityPolicy: {
                 useDefaults: true,
                 directives: {
-                    'img-src': ["'self'", '*.commercecloud.salesforce.com', 'data:'],
+                    'img-src': [
+                        "'self'",
+                        '*.commercecloud.salesforce.com',
+                        'data:',
+                        'www.gstatic.com',
+                        'checkoutshopper-test.adyen.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com'
+                    ],
                     'script-src': [
                         "'self'",
                         "'unsafe-eval'",
                         'storage.googleapis.com',
-                        'sandbox-rest.avatax.com',
-                        'account.demandware.com'
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        'sandbox-rest.avatax.com'
                     ],
-                    'connect-src': ["'self'", 'sandbox-rest.avatax.com', 'account.demandware.com'],
 
                     // Do not upgrade insecure requests for local development
-                    'upgrade-insecure-requests': isRemote() ? [] : null
+                    'upgrade-insecure-requests': isRemote() ? [] : null,
+                    'connect-src': [
+                        "'self'",
+                        "'unsafe-eval'",
+                        'storage.googleapis.com',
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        'sandbox-rest.avatax.com'
+                    ],
+                    'default-src': [
+                        "'self'",
+                        "'unsafe-eval'",
+                        'storage.googleapis.com',
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com'
+                    ]
                 }
             },
             hsts: isRemote()
