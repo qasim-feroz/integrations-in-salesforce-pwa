@@ -47,19 +47,30 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkoutshopper-test.adyen.com',
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
-                        'account.demandware.com'
+                        'account.demandware.com',
+                        '*.yotpo.com'
                     ],
                     'script-src': [
                         "'self'",
                         "'unsafe-eval'",
                         'storage.googleapis.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com'
+                    ],
+                    'style-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", '*.yotpo.com'],
+                    'default-src': [
+                        "'self'",
+                        "'unsafe-eval'",
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com',
                         'checkoutshopper-test.adyen.com',
                         'pay.google.com',
                         'www.gstatic.com',
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
                         'account.demandware.com',
-                        'sandbox-rest.avatax.com'
+                        'sandbox-rest.avatax.com',
+                        'storage.googleapis.com'
                     ],
 
                     // Do not upgrade insecure requests for local development
@@ -75,17 +86,6 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkout-test.adyen.com',
                         'account.demandware.com',
                         'sandbox-rest.avatax.com'
-                    ],
-                    'default-src': [
-                        "'self'",
-                        "'unsafe-eval'",
-                        'storage.googleapis.com',
-                        'checkoutshopper-test.adyen.com',
-                        'pay.google.com',
-                        'www.gstatic.com',
-                        'checkoutshopper-live.adyen.com',
-                        'checkout-test.adyen.com',
-                        'account.demandware.com'
                     ]
                 }
             },

@@ -101,6 +101,7 @@
     "last 4 ChromeAndroid versions"
   ],
   "dependencies": {
+    "html-react-parser": "^3.0.9",
     "avatax": "^22.11.1",
     "buffer": "^6.0.3",
     "nvm": "^0.0.4",

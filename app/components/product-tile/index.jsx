@@ -29,6 +29,7 @@ import {productUrlBuilder} from '../../utils/url'
 import Link from '../link'
 import withRegistration from '../../hoc/with-registration'
 import {useCurrency} from '../../hooks'
+import {StarRating} from '../../intYotpo/indexes'
 
 const IconButtonWithRegistration = withRegistration(IconButton)
 
@@ -63,6 +64,7 @@ const ProductTile = (props) => {
         isFavourite,
         onFavouriteToggle,
         dynamicImageProps,
+        responseData,
         ...rest
     } = props
     const {currency, image, price, productId} = product
@@ -132,6 +134,7 @@ const ProductTile = (props) => {
                     currency: currency || activeCurrency
                 })}
             </Text>
+            <StarRating responseData={responseData} data_product_id={product.productId} />
         </Link>
     )
 }
