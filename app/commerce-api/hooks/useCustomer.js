@@ -347,6 +347,15 @@ export default function useCustomer() {
                 }, {})
 
                 return productMap
+            },
+            async getLoggedInCustomerToken(tokenBody) {
+                return await api.auth.getLoggedInToken(tokenBody)
+            },
+            async federatedLogin(customerId) {
+                const customer = await api.shopperCustomers.getCustomer({
+                    parameters: {customerId: customerId}
+                })
+                setCustomer(customer)
             }
         }
     }, [customer, setCustomer])
