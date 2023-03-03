@@ -19,15 +19,15 @@ class ShopperBaskets extends OcapiShopperBaskets {
     mergeBasket(args) {
         return this.shopperBasketsClient.mergeBasket(args)
     }
-    createBasket(args) {
-        return this.shopperBasketsClient.createBasket(args)
-    }
+    // createBasket(args) {
+    //     return this.shopperBasketsClient.createBasket(args)
+    // }
 
     addTaxesForBasket(args) {
         return this.shopperBasketsClient.addTaxesForBasket(args)
     }
-    createOrder(args) {
-        return this.shopperOrders.createOrder(args)
-    }
+    // createOrder(args) {
+    //     return this.shopperOrders.createOrder(args)
+    // }
 }
 export default ShopperBaskets

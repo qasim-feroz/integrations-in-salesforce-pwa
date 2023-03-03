@@ -72,10 +72,10 @@ export default function useBasket(opts = {}) {
                 if (!basket) {
                     // Back to using ShopperBaskets for all basket interaction.
                     basket = await api.shopperBaskets.createBasket({
-                        body: {},
-                        parameters: {
-                            taxMode: 'external'
-                        }
+                        // body: {},
+                        // parameters: {
+                        //     taxMode: 'external'
+                        // }
                     })
 
                     // Throw if there was a problem creating the basket
@@ -372,8 +372,23 @@ export default function useBasket(opts = {}) {
             /**
              * Creates an order using the current basket.
              */
+            // async createOrder() {
+            //     const response = await api.shopperBaskets.createOrder({
+            //         body: {basketId: basket.basketId}
+            //     })
+
+            //     if (response.fault || (response.title && response.type && response.detail)) {
+            //         throw new Error(response.title)
+            //     }
+
+            //     // We replace the basket with the order result data so we can display
+            //     // it on the confirmation page. The basket is automatically deleted
+            //     // in SF so we need to make sure a new one is created when leaving the confirmation.
+            //     setBasket(response)
+            //     return response
+            // }
             async createOrder() {
-                const response = await api.shopperBaskets.createOrder({
+                const response = await api.shopperOrders.createOrder({
                     body: {basketId: basket.basketId}
                 })
 
@@ -385,7 +400,6 @@ export default function useBasket(opts = {}) {
                 // it on the confirmation page. The basket is automatically deleted
                 // in SF so we need to make sure a new one is created when leaving the confirmation.
                 setBasket(response)
-                return response
             },
 
             /**
