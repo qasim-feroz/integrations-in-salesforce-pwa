@@ -68,6 +68,14 @@ module.exports = {
             {
                 host: 'api.cquotient.com',
                 path: 'einstein'
+            },
+            {
+                host: 'checkout-test.adyen.com',
+                path: 'adyen'
+            },
+            {
+                host: 'account.demandware.com',
+                path: 'sftoken'
             }
         ]
     }
