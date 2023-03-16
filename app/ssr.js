@@ -47,10 +47,13 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkoutshopper-test.adyen.com',
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
-                        'account.demandware.com'
+                        'account.demandware.com',
+                        'www.googletagmanager.com'
+
                     ],
                     'script-src': [
                         "'self'",
+                        "'unsafe-inline'",
                         "'unsafe-eval'",
                         'storage.googleapis.com',
                         'checkoutshopper-test.adyen.com',
@@ -60,7 +63,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkout-test.adyen.com',
                         'account.demandware.com',
                         '*.melissadata.net',
-                        '*.yotpo.com'
+                        '*.yotpo.com',
+                        'www.googletagmanager.com'
                     ],
                     'style-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", '*.yotpo.com'],
                     'default-src': [
@@ -76,7 +80,9 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'account.demandware.com',
                         '*.melissadata.net',
                         'sandbox-rest.avatax.com',
-                        'storage.googleapis.com'
+                        'storage.googleapis.com',
+                        'www.googletagmanager.com'
+
                     ],
 
                     // Do not upgrade insecure requests for local development
@@ -94,7 +100,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         '*.melissadata.net',
                         'sandbox-rest.avatax.com',
                         '*.yotpo.com',
-                        'staticw2.yotpo.com'
+                        'staticw2.yotpo.com',
+                        'www.googletagmanager.com'
                     ]
                 }
             },

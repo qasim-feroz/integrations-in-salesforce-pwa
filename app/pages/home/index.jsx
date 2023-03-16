@@ -9,6 +9,7 @@ import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {useIntl, FormattedMessage} from 'react-intl'
 import {useLocation} from 'react-router-dom'
+import {gtmPageView} from '../../intGTM/gtmHelper'
 
 // Components
 import {
@@ -59,6 +60,7 @@ const Home = ({productSearchResult, isLoading}) => {
     /**************** Einstein ****************/
     useEffect(() => {
         einstein.sendViewPage(pathname)
+        gtmPageView(pathname)
     }, [])
 
     const productSearchResultIDs = []

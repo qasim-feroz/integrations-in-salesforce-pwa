@@ -49,6 +49,7 @@ import {
 import {rebuildPathWithParams} from '../../utils/url'
 import {useHistory} from 'react-router-dom'
 import {useToast} from '../../hooks/use-toast'
+import {gtmPDP, gtmAddToCart} from '../../intGTM/gtmHelper'
 
 const ProductDetail = ({category, product, isLoading}) => {
     const {formatMessage} = useIntl()
@@ -71,6 +72,11 @@ const ProductDetail = ({category, product, isLoading}) => {
             setPrimaryCategory(category)
         }
     }, [category])
+
+    //submitting product details to GTM
+    useEffect(() => {
+        gtmPDP(product)
+    }, [product])
 
     /**************** Product Variant ****************/
     useEffect(() => {
@@ -135,6 +141,7 @@ const ProductDetail = ({category, product, isLoading}) => {
             ]
 
             await basket.addItemToBasket(productItems)
+            gtmAddToCart(variant, quantity)
         } catch (error) {
             showError(error)
         }

@@ -34,6 +34,7 @@ import CartItemVariantImage from '../../components/item-variant/item-image'
 import CartItemVariantName from '../../components/item-variant/item-name'
 import CartItemVariantAttributes from '../../components/item-variant/item-attributes'
 import CartItemVariantPrice from '../../components/item-variant/item-price'
+import {gtmConfirmPurchase} from '../../intGTM/gtmHelper'
 
 const CheckoutConfirmation = () => {
     const navigate = useNavigation()
@@ -53,6 +54,10 @@ const CheckoutConfirmation = () => {
             lastName: customer.lastName || order?.billingAddress?.lastName
         }
     })
+
+    useEffect(() => {
+        gtmConfirmPurchase(order)
+    }, [])
 
     // If we don't have an order object on first render we need to transition back to a
     // different page. Fow now, we push to the homepage.

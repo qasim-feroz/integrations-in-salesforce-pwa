@@ -22,6 +22,7 @@ import OrderSummary from '../../components/order-summary'
 import AuthorizePayment from '../../integrations/adyen/components/authorizePayment/authorize'
 import Access from '../../integrations/adyen/components/authorizePayment/token'
 import updateAdyenOrderInfo from '../../integrations/adyen/components/authorizePayment/updateAdyenOrder'
+import {gtmCheckout} from '../../intGTM/gtmHelper'
 
 const Checkout = () => {
     const navigate = useNavigation()
@@ -38,6 +39,11 @@ const Checkout = () => {
             window.scrollTo({top: 0})
         }
     }, [globalError, step])
+
+    //submitting checkout details to basket
+    useEffect(() => {
+        gtmCheckout(basket)
+    }, [])
 
     const submitOrder = async () => {
         setIsLoading(true)

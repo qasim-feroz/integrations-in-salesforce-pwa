@@ -58,9 +58,11 @@ import useWishlist from '../../hooks/use-wishlist'
 import {parse as parseSearchParams} from '../../hooks/use-search-params'
 import {useCategories} from '../../hooks/use-categories'
 import useEinstein from '../../commerce-api/hooks/useEinstein'
+import {useLocation} from 'react-router-dom'
 
 // Others
 import {HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
+import {gtmPageView} from '../../intGTM/gtmHelper'
 
 // Constants
 import {
@@ -182,6 +184,7 @@ const ProductList = (props) => {
     }
 
     /**************** Einstein ****************/
+    const {pathname} = useLocation()
     useEffect(() => {
         if (productSearchResult) {
             searchQuery
@@ -189,6 +192,9 @@ const ProductList = (props) => {
                 : einstein.sendViewCategory(category, productSearchResult)
         }
     }, [productSearchResult])
+    useEffect(() => {
+        gtmPageView(pathname)
+    }, [])
 
     /**************** Filters ****************/
     const [searchParams, {stringify: stringifySearchParams}] = useSearchParams()

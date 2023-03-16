@@ -101,11 +101,12 @@
     "last 4 ChromeAndroid versions"
   ],
   "dependencies": {
-    "html-react-parser": "^3.0.9",
+    "@adyen/adyen-web": "^5.31.2",
     "avatax": "^22.11.1",
     "buffer": "^6.0.3",
+    "html-react-parser": "^3.0.9",
     "nvm": "^0.0.4",
-    "@adyen/adyen-web": "^5.31.2",
+    "react-gtm-module": "^2.0.11",
     "stylelint": "^14.16.1"
   }
 }
