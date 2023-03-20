@@ -53,7 +53,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'www.gstatic.com',
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
-                        'account.demandware.com'
+                        'account.demandware.com',
+                        'a.klaviyo.com'
                     ],
                     'default-src': [
                         "'self'",

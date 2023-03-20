@@ -76,6 +76,10 @@ module.exports = {
             {
                 host: 'account.demandware.com',
                 path: 'sftoken'
+            },
+            {
+                host: 'a.klaviyo.com',
+                path: 'klaviyo'
             }
         ]
     }

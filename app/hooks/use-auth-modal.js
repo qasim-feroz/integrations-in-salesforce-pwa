@@ -28,6 +28,8 @@ import RegisterForm from '../components/register'
 import {noop} from '../utils/utils'
 import {API_ERROR_MESSAGE} from '../constants'
 import useNavigation from './use-navigation'
+import { KlaviyoPasswordResetMetric } from 'int_pwa_dev'
+import { getAppOrigin } from 'pwa-kit-react-sdk/utils/url'
 
 const LOGIN_VIEW = 'login'
 const REGISTER_VIEW = 'register'
@@ -84,7 +86,7 @@ export const AuthModal = ({
 
     const handleResetPassword = async ({email}) => {
         try {
-            await customer.getResetPasswordToken(email)
+            KlaviyoPasswordResetMetric(email, getAppOrigin())
             // Execute action to be perfromed on successful passoword reset
             await onPasswordResetSuccess()
             submittedEmail.current = email
