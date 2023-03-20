@@ -1,12 +1,22 @@
 import fetch from 'cross-fetch'
+import getCredentials from '../../credentials/getCredentials';
+
+declare var process : {
+    env: {
+        API_KEY: {
+            NODE_ENV: string
+        }
+    }
+}
 
 const AuthorizePayment = async (origin:any, basket:any, customer:any, adyenData:any) => {
     let paymentResult, error
+    const credentials = getCredentials()
     const result = await fetch(
         `${origin}/mobify/proxy/adyen/v68/payments`, {
         method: 'POST',
         headers: {
-            'Authorization': 'Basic d3NfNDU5MDQwQENvbXBhbnkuTmVzdG9zaDpkWXhZKUAqZjVrNVRJNDJReCZrOTQ2PFVV',
+            'Authorization': `Basic ${credentials.ADYEN_API_KEY}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({

@@ -3,8 +3,21 @@ import fetch from 'cross-fetch'
 
 import AdyenCheckout from '@adyen/adyen-web';
 import '@adyen/adyen-web/dist/adyen.css';
+import getCredentials from '../../credentials/getCredentials';
 
 import { useEffect } from 'react';
+
+
+declare var process : {
+    env: {
+        API_KEY: {
+            NODE_ENV: string
+        }
+        CLIENT_KEY: {
+            NODE_ENV: string
+        }
+    }
+}
 
 const AdyenCCFields = (props: any) => {
     const { setAdyenData, origin } = props
@@ -50,9 +63,10 @@ const AdyenCCFields = (props: any) => {
 }
 
 const renderPaymentComponent = async (result: any, options: any) => {
+    const credentials = getCredentials()
     const configuration = {
         environment: 'test', // Change to one of the environment values specified in step 4.
-        clientKey: 'test_KUFFQNQDM5DDZGBXFOHKXOXVTMJ2UEM6', // Public key used for client-side authentication: https://docs.adyen.com/development-resources/client-side-authentication
+        clientKey: `${credentials.ADYEN_CLIENT_KEY}`, // Public key used for client-side authentication: https://docs.adyen.com/development-resources/client-side-authentication
         analytics: {
             enabled: true // Set to false to not send analytics data to Adyen.
         },
@@ -83,11 +97,12 @@ const renderPaymentComponent = async (result: any, options: any) => {
 
 const renderCCFields = async (origin:any) => {
     let sessionResult, error
+    const credentials = getCredentials()
     const result = await fetch(
         `${origin}/mobify/proxy/adyen/v69/sessions`, {
         method: 'POST',
         headers: {
-            'Authorization': 'Basic d3NfNDU5MDQwQENvbXBhbnkuTmVzdG9zaDpkWXhZKUAqZjVrNVRJNDJReCZrOTQ2PFVV',
+            'Authorization': `Basic ${credentials.ADYEN_API_KEY}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
