@@ -1,0 +1,3 @@
+[submodule "int_pwa_dev"]
+	path = int_pwa_dev
+	url = https://qasim_feroz@bitbucket.org/nestosh/pwa-custom-core.git
