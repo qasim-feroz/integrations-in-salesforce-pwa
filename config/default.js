@@ -49,6 +49,11 @@ module.exports = {
             proxyPath: `/mobify/proxy/einstein`,
             einsteinId: 'undefined',
             siteId: 'RefArch'
+        },
+        googleRecaptcha: {
+            siteKey: '6LeVQxglAAAAALm5-jbgPw5OCn-ws7UKytkV8fAn',
+            secretKey: '6LeVQxglAAAAAMwpUAhoJar-g_TTOxEwjYeNoLnF',
+            verifySiteUrl: 'https://www.google.com/recaptcha/api/siteverify'
         }
     },
     // This list contains server-side only libraries that you don't want to be compiled by webpack

@@ -24,12 +24,15 @@ import {
 } from '@chakra-ui/react'
 import {useIntl} from 'react-intl'
 
+import {app} from '../../../config/default'
 import LinksList from '../links-list'
 import SocialIcons from '../social-icons'
 import {HideOnDesktop, HideOnMobile} from '../responsive'
 import {getPathWithLocale} from '../../utils/url'
 import LocaleText from '../locale-text'
 import useMultiSite from '../../hooks/use-multi-site'
+import ReCAPTCHA from 'react-google-recaptcha'
+import verifyReCaptcha from '../../reCAPTCHA/recaptcha'
 
 const Footer = ({...otherProps}) => {
     const styles = useMultiStyleConfig('Footer')
@@ -190,6 +193,21 @@ export default Footer
 const Subscribe = ({...otherProps}) => {
     const styles = useStyles()
     const intl = useIntl()
+    const captchaRef = React.createRef()
+    const onSubmit = (event) => {
+        event.preventDefault()
+        captchaRef.current.execute()
+    }
+    const validateAndSubmit = (token) => {
+        const reCaptchaResponse = verifyReCaptcha(token)
+        if (reCaptchaResponse) {
+            alert('Submit Form functionality')
+            captchaRef.current.reset()
+        } else {
+            alert('Captcha Validation Error')
+            captchaRef.current.reset()
+        }
+    }
 
     return (
         <Box {...styles.subscribe} {...otherProps}>
@@ -207,17 +225,29 @@ const Subscribe = ({...otherProps}) => {
             </Text>
 
             <Box>
-                <InputGroup>
-                    <Input type="email" placeholder="you@email.com" {...styles.subscribeField} />
-                    <InputRightElement {...styles.subscribeButtonContainer}>
-                        <Button variant="footer">
-                            {intl.formatMessage({
-                                id: 'footer.subscribe.button.sign_up',
-                                defaultMessage: 'Sign Up'
-                            })}
-                        </Button>
-                    </InputRightElement>
-                </InputGroup>
+                <ReCAPTCHA
+                    size="invisible"
+                    ref={captchaRef}
+                    sitekey={app.googleRecaptcha.siteKey}
+                    onChange={validateAndSubmit}
+                />
+                <form onSubmit={onSubmit}>
+                    <InputGroup>
+                        <Input
+                            type="email"
+                            placeholder="you@email.com"
+                            {...styles.subscribeField}
+                        />
+                        <InputRightElement {...styles.subscribeButtonContainer}>
+                            <Button type="submit" variant="footer">
+                                {intl.formatMessage({
+                                    id: 'footer.subscribe.button.sign_up',
+                                    defaultMessage: 'Sign Up'
+                                })}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+                </form>
             </Box>
 
             <SocialIcons variant="flex-start" pinterestInnerColor="black" {...styles.socialIcons} />
