@@ -1,51 +1,45 @@
+/*
+ * Copyright (c) 2021, salesforce.com, inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+ */
 const sites = require('./sites.js')
+
 module.exports = {
     app: {
-        // Customize how your 'site' and 'locale' are displayed in the url.
         url: {
-            // Determine where the siteRef is located. Valid values include 'path|query_param|none'. Defaults to: 'none'
-            // site: 'none',
-            // Determine where the localeRef is located. Valid values include 'path|query_param|none'. Defaults to: 'none'
-            locale: 'none',
-            // This boolean value dictates whether or not default site or locale values are shown in the url. Defaults to: false
-            // showDefaults: true
+            site: 'path',
+            locale: 'path',
+            showDefaults: true
         },
-        // The default site for your app. This value will be used when a siteRef could not be determined from the url
-        defaultSite: 'RefArch',
-        // Provide aliases for your sites. These will be used in place of your site id when generating paths throughout the application.
-        // siteAliases: {
-        //     RefArch: 'us'
-        // },
-        // The sites for your app, which is imported from sites.js
+        defaultSite: 'RefArchGlobal',
+        siteAliases: {
+            RefArch: 'us',
+            RefArchGlobal: 'global'
+        },
         sites,
-        // Commerce api config
         commerceAPI: {
             proxyPath: `/mobify/proxy/api`,
             parameters: {
-                clientId: '871e8709-2c67-44ff-b7a9-031d3ef0c78e',
-                organizationId: 'f_ecom_bgfs_001',
-                shortCode: 'lehipx41',
-                siteId: 'RefArch'
+                clientId: 'c9c45bfd-0ed3-4aa2-9971-40f88962b836',
+                organizationId: 'f_ecom_zzrf_001',
+                shortCode: '8o7m175y',
+                siteId: 'RefArchGlobal'
             }
         },
-        // Einstein api config
         einsteinAPI: {
-            proxyPath: `/mobify/proxy/einstein`,
-            einsteinId: 'undefined',
-            siteId: 'RefArch'
+            host: 'https://api.cquotient.com',
+            einsteinId: '1ea06c6e-c936-4324-bcf0-fada93f83bb1',
+            // This differs from the siteId in commerceAPIConfig for testing purposes
+            siteId: 'aaij-MobileFirst',
+            isProduction: false
         }
     },
-    // This list contains server-side only libraries that you don't want to be compiled by webpack
     externals: [],
-    // Page not found url for your app
     pageNotFoundURL: '/page-not-found',
-    // Enables or disables building the files necessary for server-side rendering.
     ssrEnabled: true,
-    // This list determines which files are available exclusively to the server-side rendering system 
-    // and are not available through the /mobify/bundle/ path.
     ssrOnly: ['ssr.js', 'ssr.js.map', 'node_modules/**/*.*'],
-    // This list determines which files are available to the server-side rendering system 
-    // and available through the /mobify/bundle/ path.
     ssrShared: [
         'static/ico/favicon.ico',
         'static/robots.txt',
@@ -53,33 +47,16 @@ module.exports = {
         '**/*.js.map',
         '**/*.json'
     ],
-    // Additional parameters that configure Express app behavior.
     ssrParameters: {
-        ssrFunctionNodeVersion: '14.x',
+        ssrFunctionNodeVersion: '16.x',
         proxyConfigs: [
             {
-                host: 'lehipx41.api.commercecloud.salesforce.com',
+                host: 'kv7kzm78.api.commercecloud.salesforce.com',
                 path: 'api'
             },
             {
-                host: 'bgfs-001.dx.commercecloud.salesforce.com',
+                host: 'zzrf-001.dx.commercecloud.salesforce.com',
                 path: 'ocapi'
-            },
-            {
-                host: 'api.cquotient.com',
-                path: 'einstein'
-            },
-            {
-                host: 'checkout-test.adyen.com',
-                path: 'adyen'
-            },
-            {
-                host: 'account.demandware.com',
-                path: 'sftoken'
-            },
-            {
-                host: 'a.klaviyo.com',
-                path: 'klaviyo'
             }
         ]
     }

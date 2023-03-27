@@ -30,8 +30,7 @@ export const CheckoutProvider = ({children}) => {
         shippingMethods: undefined,
         paymentMethods: undefined,
         globalError: undefined,
-        sectionError: undefined,
-        adyenData: undefined
+        sectionError: undefined
     })
 
     const CheckoutSteps = {
@@ -185,10 +184,6 @@ export const CheckoutProvider = ({children}) => {
                 mergeState({isGuestCheckout})
             },
 
-            setAdyenData(data) {
-                mergeState({adyenData: data})
-            },
-
             // Async functions
             // Convenience methods for interacting with remote customer and basket data.
             // ----------------
@@ -282,11 +277,6 @@ export const CheckoutProvider = ({children}) => {
                     return
                 }
 
-                if (payment.paymentMethodId === 'AdyenComponent') {
-                    await basket.setPaymentInstrument(payment)
-                    return
-                }
-
                 // The form gives us the expiration date as `MM/YY` - so we need to split it into
                 // month and year to submit them as individual fields.
                 const [expirationMonth, expirationYear] = expiry.split('/')
@@ -353,7 +343,7 @@ export const CheckoutProvider = ({children}) => {
             async placeOrder() {
                 mergeState({globalError: undefined})
                 try {
-                    return await basket.createOrder()
+                    await basket.createOrder()
                 } catch (error) {
                     // Note: It is possible to get localized error messages from OCAPI, but this
                     // is not available for all locales or all error messages. Therefore, we

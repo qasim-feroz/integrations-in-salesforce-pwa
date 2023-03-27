@@ -1,10 +1,3 @@
-# Completed Setup
-[Confluence page for the complete initial setup of this repo](https://nestosh.atlassian.net/wiki/spaces/HC/pages/1763868687/PWA+Kit+Initial+Setup)
-
-The Storefront demo has been build successfully. Deployed on [Managed Runtime](https://temp-pwa-development.mobify-storefront.com/) 
-
-
-
 # The Retail React App
 
 A project template that includes an isomorphic JavaScript storefront and [Progressive Web App](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) built using [React](https://reactjs.org/) and [Express](https://expressjs.com/). It uses a modern headless architecture that enables developers to decouple front-end code from back-end systems. It leverages popular open-source libraries in the React ecosystem, such as [Chakra UI](https://chakra-ui.com/) components, [Emotion](https://emotion.sh/docs/introduction) (CSS-in-JS), [Webpack](https://webpack.js.org/), and many more.
@@ -13,7 +6,7 @@ Developers don’t have to worry about the underlying infrastructure, whether th
 
 ## Requirements
 
--   Node 14
+-   Node 14.17.0 or later
 -   npm 6.14.4 or later
 
 ## Get Started

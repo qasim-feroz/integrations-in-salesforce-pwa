@@ -183,9 +183,9 @@ const PaymentCardSummary = ({payment}) => {
             <Stack direction="row">
                 <Text>{payment.paymentCard.cardType}</Text>
                 <Text>&bull;&bull;&bull;&bull; {payment.paymentCard.numberLastDigits}</Text>
-                {payment.paymentCard.expirationMonth && <Text>
+                <Text>
                     {payment.paymentCard.expirationMonth}/{payment.paymentCard.expirationYear}
-                </Text>}
+                </Text>
             </Stack>
         </Stack>
     )

@@ -39,34 +39,12 @@ const {handler} = runtime.createHandler(options, (app) => {
             contentSecurityPolicy: {
                 useDefaults: true,
                 directives: {
-                    'img-src': ["'self'", '*.commercecloud.salesforce.com', 'data:', 'www.gstatic.com', 'checkoutshopper-test.adyen.com', 'checkoutshopper-live.adyen.com', 'checkout-test.adyen.com', 'account.demandware.com'],
-                    'script-src': ["'self'", "'unsafe-eval'", 'storage.googleapis.com', 'checkoutshopper-test.adyen.com', 'pay.google.com', 'www.gstatic.com', 'checkoutshopper-live.adyen.com', 'checkout-test.adyen.com', 'account.demandware.com'],
+                    'img-src': ["'self'", '*.commercecloud.salesforce.com', 'data:'],
+                    'script-src': ["'self'", "'unsafe-eval'", 'storage.googleapis.com'],
+                    'connect-src': ["'self'", 'api.cquotient.com'],
 
                     // Do not upgrade insecure requests for local development
-                    'upgrade-insecure-requests': isRemote() ? [] : null,
-                    'connect-src': [
-                        "'self'",
-                        "'unsafe-eval'",
-                        'storage.googleapis.com',
-                        'checkoutshopper-test.adyen.com',
-                        'pay.google.com',
-                        'www.gstatic.com',
-                        'checkoutshopper-live.adyen.com',
-                        'checkout-test.adyen.com',
-                        'account.demandware.com',
-                        'a.klaviyo.com'
-                    ],
-                    'default-src': [
-                        "'self'",
-                        "'unsafe-eval'",
-                        'storage.googleapis.com',
-                        'checkoutshopper-test.adyen.com',
-                        'pay.google.com',
-                        'www.gstatic.com',
-                        'checkoutshopper-live.adyen.com',
-                        'checkout-test.adyen.com',
-                        'account.demandware.com'
-                    ]
+                    'upgrade-insecure-requests': isRemote() ? [] : null
                 }
             },
             hsts: isRemote()
@@ -75,6 +53,9 @@ const {handler} = runtime.createHandler(options, (app) => {
 
     // Handle the redirect from SLAS as to avoid error
     app.get('/callback?*', (req, res) => {
+        // This endpoint does nothing and is not expected to change
+        // Thus we cache it for a year to maximize performance
+        res.set('Cache-Control', `max-age=31536000`)
         res.send()
     })
     app.get('/robots.txt', runtime.serveStaticFile('static/robots.txt'))

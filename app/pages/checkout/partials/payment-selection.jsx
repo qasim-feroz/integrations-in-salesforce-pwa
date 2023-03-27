@@ -22,13 +22,12 @@ import {
 import {useForm, Controller} from 'react-hook-form'
 import {LockIcon, PaypalIcon} from '../../../components/icons'
 import {useCheckout} from '../util/checkout-context'
+import CreditCardFields from '../../../components/forms/credit-card-fields'
 import CCRadioGroup from './cc-radio-group'
-import {AdyenCCFields} from 'int_pwa_dev'
-import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 
 const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
     const {formatMessage} = useIntl()
-    const {customer, basket, setAdyenData} = useCheckout()
+    const {customer, basket} = useCheckout()
 
     const hasSavedCards = customer?.paymentInstruments?.length > 0
 
@@ -114,8 +113,7 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                     ? formatMessage({
                                                           defaultMessage:
                                                               'Please select a payment method.',
-                                                          id:
-                                                              'payment_selection.message.select_payment_method'
+                                                          id: 'payment_selection.message.select_payment_method'
                                                       })
                                                     : false
                                             }}
@@ -151,7 +149,7 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                     </Heading>
                                                 )}
 
-                                                <AdyenCCFields setAdyenData={setAdyenData} origin={getAppOrigin()} />
+                                                <CreditCardFields form={form} />
 
                                                 {!hideSubmitButton && (
                                                     <Box>
