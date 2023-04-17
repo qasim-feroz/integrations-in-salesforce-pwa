@@ -22,6 +22,7 @@ import OrderSummary from '../../components/order-summary'
 import AuthorizePayment from '../../integrations/adyen/components/authorizePayment/authorize'
 import Access from '../../integrations/adyen/components/authorizePayment/token'
 import updateAdyenOrderInfo from '../../integrations/adyen/components/authorizePayment/updateAdyenOrder'
+import {EnableMultiShipment} from './partials/enable-multi-shipment'
 
 const Checkout = () => {
     const navigate = useNavigation()
@@ -31,8 +32,17 @@ const Checkout = () => {
     const basket = useBasket()
     const showToast = useToast()
     const {formatMessage} = useIntl()
+    const [multiShipmentState, setmultiShipmentState] = useState(false)
+    const [counterForNextStep, setcounterForNextStep] = useState(1)
 
-    // Scroll to the top when we get a global error
+    // Set multi shipment state to true if multiple addresses already added to basket
+    useEffect(() => {
+        if (basket.getShipmentsCount > 1) {
+            setmultiShipmentState(true)
+        }
+    }, [])
+
+    // Scroll to the top when we get a global error// Scroll to the top when we get a global error
     useEffect(() => {
         if (globalError || step === 4) {
             window.scrollTo({top: 0})
@@ -101,7 +111,31 @@ const Checkout = () => {
                             )}
 
                             <ContactInfo />
-                            <ShippingAddress />
+                            {basket.productItems.length > 1 ? (
+                                <EnableMultiShipment
+                                    multiShipmentState={multiShipmentState}
+                                    setmultiShipmentState={setmultiShipmentState}
+                                />
+                            ) : null}
+                            {multiShipmentState == true ? (
+                                basket.productItems.map((itemsInBasket, index) => {
+                                    return (
+                                        <ShippingAddress
+                                            multiShipmentState={multiShipmentState}
+                                            key={itemsInBasket.itemId}
+                                            counter={index}
+                                            productName={itemsInBasket.itemText}
+                                            counterForNextStep={counterForNextStep}
+                                            setcounterForNextStep={setcounterForNextStep}
+                                        />
+                                    )
+                                })
+                            ) : (
+                                <ShippingAddress
+                                    multiShipmentState={multiShipmentState}
+                                    counter={0}
+                                />
+                            )}
                             <ShippingOptions />
                             <Payment />
 

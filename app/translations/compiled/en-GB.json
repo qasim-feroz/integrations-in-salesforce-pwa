@@ -361,6 +361,12 @@
       "value": "You Might Also Like"
     }
   ],
+  "adyen.error.payment_method_failed": [
+    {
+      "type": 0,
+      "value": "Could not process payment information. Payment method has probably failed!"
+    }
+  ],
   "auth_modal.description.now_signed_in": [
     {
       "type": 0,
@@ -3297,12 +3303,6 @@
     {
       "type": 0,
       "value": "Please sign in to continue!"
-    }
-  ],
-  "adyen.error.payment_method_failed": [
-    {
-      "type": 0,
-      "value": "Could not process payment information. Payment method has probably failed!"
     }
   ]
 }

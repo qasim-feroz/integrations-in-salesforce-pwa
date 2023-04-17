@@ -10,7 +10,13 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 
-function MelissaSuggestionModal({modalState, setModalState, melissaAddress, addressData, submitForm}) {
+function MelissaSuggestionModal({
+    modalState,
+    setModalState,
+    melissaAddress,
+    addressData,
+    submitForm
+}) {
     const closeModel = () => {
         setModalState(false)
     }

@@ -47,7 +47,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkoutshopper-test.adyen.com',
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
-                        'account.demandware.com'
+                        'account.demandware.com',
+                        '*.yotpo.com'
                     ],
                     'script-src': [
                         "'self'",
@@ -94,7 +95,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         '*.melissadata.net',
                         'sandbox-rest.avatax.com',
                         '*.yotpo.com',
-                        'staticw2.yotpo.com'
+                        'staticw2.yotpo.com',
+                        '*.salesforce.com'
                     ]
                 }
             },

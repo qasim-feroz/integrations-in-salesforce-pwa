@@ -10,6 +10,8 @@ import {useCommerceAPI, BasketContext} from '../contexts'
 import useCustomer from './useCustomer'
 import {isError} from '../utils'
 import {calculateTax, getAdminToken, updateBasketTax} from '../../../Int_avatax/avatax'
+import {createShipmentForBasket} from '../../../int_multiShpiment/multiShipmentHelper'
+import {removeShipmentFromBasket} from '../../../int_multiShpiment/multiShipmentHelper'
 
 export default function useBasket(opts = {}) {
     const {currency} = opts
@@ -47,6 +49,11 @@ export default function useBasket(opts = {}) {
                         return sum + item.price
                     }, 0) || 0
                 )
+            },
+
+            /** Get total number of Shipments */
+            get getShipmentsCount() {
+                return basket.shipments.length
             },
 
             /**
@@ -214,6 +221,18 @@ export default function useBasket(opts = {}) {
                     parameters: {
                         basketId: basket.basketId,
                         shipmentId: 'me',
+                        useAsBilling: !basket.billingAddress
+                    }
+                })
+                setBasket(response)
+            },
+
+            async setMultiShippingAddress(counter, address) {
+                const response = await api.shopperBaskets.updateShippingAddressForShipment({
+                    body: address,
+                    parameters: {
+                        basketId: basket.basketId,
+                        shipmentId: `me${counter}`,
                         useAsBilling: !basket.billingAddress
                     }
                 })
@@ -447,6 +466,18 @@ export default function useBasket(opts = {}) {
                     parameters: {customerId: customer?.customerId}
                 })
                 setBasket(customerBaskets['baskets'][0])
+            },
+            async createShipmentForBasket(counter) {
+                const response = await createShipmentForBasket(counter, basket.basketId)
+                if (response.title !== 'Duplicate Shipment Id') {
+                    setBasket(response)
+                }
+            },
+            async removeShipmentFromBasket(shipmentId) {
+                const response = await removeShipmentFromBasket(basket.basketId, shipmentId)
+                if (response.title !== 'Invalid Shipment Id') {
+                    setBasket(response)
+                }
             }
         }
     }, [customer, basket, setBasket])

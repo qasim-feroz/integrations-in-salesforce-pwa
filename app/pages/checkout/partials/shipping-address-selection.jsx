@@ -20,6 +20,7 @@ import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
 import {melissaAddressSuggestion} from '../../../intMelissa/melissaHelper'
 import {MelissaSuggestionModal, ErrorModal} from '../../../intMelissa/modal'
+import useBasket from '../../../commerce-api/hooks/useBasket'
 
 const saveButtonMessage = defineMessage({
     defaultMessage: 'Save & Continue to Shipping Method',
@@ -101,6 +102,10 @@ const submitButtonMessage = defineMessage({
 const ShippingAddressSelection = ({
     form,
     selectedAddress,
+    selectedmultiShipmentAddresses,
+    itemText,
+    counter,
+    multiShipmentState,
     submitButtonLabel = submitButtonMessage,
     hideSubmitButton = false,
     onSubmit = async () => null
@@ -114,16 +119,51 @@ const ShippingAddressSelection = ({
     const [isErrorModalState, setErrorModalState] = useState(false)
     const [melissaAdrressData, setMelissaAdrressData] = useState([''])
     const [addressData, setaddressData] = useState([''])
+    const basket = useBasket()
 
-    form =
-        form ||
-        useForm({
-            mode: 'onChange',
-            shouldUnregister: false,
-            defaultValues: {
-                ...selectedAddress
-            }
-        })
+    if (multiShipmentState == true && selectedmultiShipmentAddresses !== null) {
+        var multiShipmentFormAddresses = {
+            firstName: selectedmultiShipmentAddresses.firstName,
+            lastName: selectedmultiShipmentAddresses.lastName,
+            phone: selectedmultiShipmentAddresses.phone,
+            address1: selectedmultiShipmentAddresses.address1,
+            city: selectedmultiShipmentAddresses.city,
+            stateCode: selectedmultiShipmentAddresses.stateCode,
+            postalCode: selectedmultiShipmentAddresses.postalCode,
+            countryCode: selectedmultiShipmentAddresses.countryCode
+        }
+    } else {
+        multiShipmentFormAddresses = {
+            firstName: '',
+            lastName: '',
+            phone: '',
+            address1: '',
+            city: '',
+            stateCode: '',
+            postalCode: '',
+            countryCode: ''
+        }
+    }
+
+    if (multiShipmentState == true) {
+        form =
+            form ||
+            useForm({
+                mode: 'onChange',
+                shouldUnregister: false,
+                defaultValues: multiShipmentFormAddresses
+            })
+    } else if (multiShipmentState == false) {
+        form =
+            form ||
+            useForm({
+                mode: 'onChange',
+                shouldUnregister: false,
+                defaultValues: {
+                    ...selectedAddress
+                }
+            })
+    }
 
     const matchedAddress =
         hasSavedAddresses &&
@@ -173,14 +213,50 @@ const ShippingAddressSelection = ({
     // Updates the selected customer address if we've an address selected
     // else saves a new customer address
     const submitForm = async (address) => {
-        if (selectedAddressId) {
-            address = {...address, addressId: selectedAddressId}
+        if (multiShipmentState == false) {
+            if (selectedAddressId) {
+                address = {...address, addressId: selectedAddressId}
+            }
+
+            setIsEditingAddress(false)
+            form.reset({addressId: ''})
+
+            await onSubmit(0, address)
+        } else if (multiShipmentState == true) {
+            if (counter == 0) {
+                const item = {
+                    quantity: basket.productItems[counter].quantity,
+                    shipmentId: 'me'
+                }
+                await basket.updateItemInBasket(item, basket.productItems[counter].itemId)
+
+                if (selectedAddressId) {
+                    address = {...address, addressId: selectedAddressId}
+                }
+
+                setIsEditingAddress(false)
+                form.reset({addressId: ''})
+
+                await onSubmit(counter, address)
+            } else if (counter > 0) {
+                await basket.createShipmentForBasket(counter)
+
+                const item = {
+                    quantity: basket.productItems[counter].quantity,
+                    shipmentId: `me${counter}`
+                }
+                await basket.updateItemInBasket(item, basket.productItems[counter].itemId)
+
+                if (selectedAddressId) {
+                    address = {...address, addressId: selectedAddressId}
+                }
+
+                setIsEditingAddress(false)
+                form.reset({addressId: ''})
+
+                await onSubmit(counter, address)
+            }
         }
-
-        setIsEditingAddress(false)
-        form.reset({addressId: ''})
-
-        await onSubmit(address)
     }
 
     const openModal = async (address) => {
@@ -194,7 +270,9 @@ const ShippingAddressSelection = ({
         if (melissaAddressSuggestionResponse.ErrorString == '') {
             setModalOpenState(true)
             setaddressData(address)
-            setMelissaAdrressData(melissaAddressSuggestionResponse.Results[0].Address)
+            if (melissaAddressSuggestionResponse.Results.length !== 0) {
+                setMelissaAdrressData(melissaAddressSuggestionResponse.Results[0].Address)
+            }
         } else {
             setErrorModalState(true)
         }
@@ -240,6 +318,13 @@ const ShippingAddressSelection = ({
 
     return (
         <form onSubmit={form.handleSubmit(openModal)}>
+            {multiShipmentState == true ? (
+                <h1>
+                    Shipping address for
+                    <b> {itemText}</b>
+                </h1>
+            ) : null}
+
             <MelissaSuggestionModal
                 modalState={isModalOpenState}
                 setModalState={setModalOpenState}
@@ -397,7 +482,12 @@ ShippingAddressSelection.propTypes = {
     hideSubmitButton: PropTypes.bool,
 
     /** Callback for form submit */
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+
+    selectedmultiShipmentAddresses: PropTypes.object,
+    itemText: PropTypes.string,
+    counter: PropTypes.string,
+    multiShipmentState: PropTypes.bool
 }
 
 export default ShippingAddressSelection

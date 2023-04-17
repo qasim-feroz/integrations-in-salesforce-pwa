@@ -141,6 +141,10 @@ export const CheckoutProvider = ({children}) => {
                 return basket.shipments && basket.shipments[0].shippingAddress
             },
 
+            get selectedShippingAddresses() {
+                return basket.shipments
+            },
+
             get selectedShippingMethod() {
                 return basket.shipments && basket.shipments[0].shippingMethod
             },
