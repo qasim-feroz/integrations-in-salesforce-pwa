@@ -5,7 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {useIntl, FormattedMessage} from 'react-intl'
 import {useLocation} from 'react-router-dom'
@@ -23,7 +23,7 @@ import {
     Container,
     Link
 } from '@chakra-ui/react'
-
+import Cookies from 'js-cookie'
 // Project Components
 import Hero from '../../components/hero'
 import Seo from '../../components/seo'
@@ -43,6 +43,7 @@ import {
     HOME_SHOP_PRODUCTS_CATEGORY_ID,
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
+import ConsentModel from '../consent-model'
 
 /**
  * This is the home page for Retail React App.
@@ -54,11 +55,19 @@ const Home = ({productSearchResult, isLoading}) => {
     const intl = useIntl()
     const einstein = useEinstein()
     const {pathname} = useLocation()
-
+    const [modelState, setModelState] = useState(true)
     /**************** Einstein ****************/
     useEffect(() => {
         einstein.sendViewPage(pathname)
     }, [])
+
+    let consentAvailable = Cookies.get('sidConsent')
+    useEffect(() => {
+        console.log(consentAvailable, 'Consent Value')
+    }, [consentAvailable])
+    const MyHeader = () => {
+        return <h1>Hello from custom component</h1>
+    }
 
     return (
         <Box data-testid="home-page" layerStyle="page">
@@ -68,6 +77,9 @@ const Home = ({productSearchResult, isLoading}) => {
                 keywords="Commerce Cloud, Retail React App, React Storefront"
             />
 
+            {!consentAvailable && (
+                <ConsentModel isOpen={modelState} onClose={() => setModelState(false)} />
+            )}
             <Hero
                 title={intl.formatMessage({
                     defaultMessage: 'The React PWA Starter Store for Retail',

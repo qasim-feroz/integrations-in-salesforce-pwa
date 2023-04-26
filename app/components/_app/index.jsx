@@ -29,7 +29,7 @@ import CheckoutFooter from '../../pages/checkout/partials/checkout-footer'
 import DrawerMenu from '../drawer-menu'
 import ListMenu from '../list-menu'
 import {HideOnDesktop, HideOnMobile} from '../responsive'
-
+import CookieNotification from '../../pages/cookie-notification'
 // Hooks
 import useShopper from '../../commerce-api/hooks/useShopper'
 import useCustomer from '../../commerce-api/hooks/useCustomer'
@@ -258,6 +258,7 @@ const App = (props) => {
 
                                 {!isCheckout ? <Footer /> : <CheckoutFooter />}
 
+                                <CookieNotification />
                                 <AuthModal {...authModal} />
                             </AddToCartModalProvider>
                         </Box>
