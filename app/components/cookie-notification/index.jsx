@@ -7,20 +7,13 @@ const CookieNotification = () => {
     const [showCustomizeCookieModel, setShowCustomizeCookieModel] = useState(Boolean)
     const storedCookies = Cookies.get('cookiePreferences')
 
-    if (!storedCookies) {
-        console.log('A')
-    } else {
-        console.log(false)
-    }
     useEffect(() => {
         if (storedCookies) {
             const cookiesObject = JSON.parse(storedCookies)
             if (Object.keys(cookiesObject).length !== 0) {
                 setShowBanner(false)
-                console.log('There is data in the object')
             } else {
                 setShowBanner(true)
-                console.log('Data is not available')
             }
         }
     }, [storedCookies])
@@ -118,18 +111,13 @@ const CookieNotification = () => {
                         <Text fontSize="lg" mr="4" noOfLines={[1, 2, 3]}>
                             This site uses cookies
                         </Text>
-                        {/*  <Divider
-                            orientation="vertical"
-                            mb={{base: '2', md: '0'}}
-                            display={{base: 'none', md: 'none', lg: 'block'}}
-            />*/}
+
                         <Text
                             fontSize="md"
                             mr="4"
                             ml={['0', '0', '4']}
                             noOfLines={[1, 2, 3]}
                             textAlign={{base: 'center', md: 'left'}}
-                            // mb="2"
                         >
                             This website uses cookies to ensure you get the best experience on our
                             website.
@@ -177,7 +165,6 @@ const CookieNotification = () => {
                                 Customize
                             </Button>
                         </Flex>
-                        {/*<CloseButton size="sm" onClick={handleClose} position="relative" top="-2px" />*/}
                     </Flex>
                 </Box>
             )}

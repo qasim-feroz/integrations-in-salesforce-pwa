@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import {useHistory, useLocation} from 'react-router-dom'
 import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
 import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
-
+import Cookies from 'js-cookie'
 // Chakra
 import {Box, useDisclosure, useStyleConfig} from '@chakra-ui/react'
 import {SkipNavLink, SkipNavContent} from '@chakra-ui/skip-nav'
@@ -29,7 +29,8 @@ import CheckoutFooter from '../../pages/checkout/partials/checkout-footer'
 import DrawerMenu from '../drawer-menu'
 import ListMenu from '../list-menu'
 import {HideOnDesktop, HideOnMobile} from '../responsive'
-import CookieNotification from '../../pages/cookie-notification'
+import CookieNotification from '../../components/cookie-notification'
+import ConsentModel from '../../components/consent-model'
 // Hooks
 import useShopper from '../../commerce-api/hooks/useShopper'
 import useCustomer from '../../commerce-api/hooks/useCustomer'
@@ -52,7 +53,7 @@ import useMultiSite from '../../hooks/use-multi-site'
 const DEFAULT_NAV_DEPTH = 3
 const DEFAULT_ROOT_CATEGORY = 'root'
 const DEFAULT_LOCALE = 'en-US'
-
+let consentAvailable = Cookies.get('sidConsent')
 const App = (props) => {
     const {
         children,
@@ -73,7 +74,7 @@ const App = (props) => {
     const styles = useStyleConfig('App')
 
     const {isOpen, onOpen, onClose} = useDisclosure()
-
+    const [modelState, setModelState] = useState(true)
     // Used to conditionally render header/footer for checkout page
     const isCheckout = /\/checkout$/.test(location?.pathname)
 
@@ -258,7 +259,15 @@ const App = (props) => {
 
                                 {!isCheckout ? <Footer /> : <CheckoutFooter />}
 
+                                {/* Consent Tracking and cookie notification */}
+                                {!consentAvailable && (
+                                    <ConsentModel
+                                        isOpen={modelState}
+                                        onClose={() => setModelState(false)}
+                                    />
+                                )}
                                 <CookieNotification />
+
                                 <AuthModal {...authModal} />
                             </AddToCartModalProvider>
                         </Box>

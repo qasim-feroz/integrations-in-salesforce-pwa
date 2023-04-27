@@ -43,7 +43,6 @@ import {
     HOME_SHOP_PRODUCTS_CATEGORY_ID,
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
-import ConsentModel from '../consent-model'
 
 /**
  * This is the home page for Retail React App.
@@ -55,16 +54,12 @@ const Home = ({productSearchResult, isLoading}) => {
     const intl = useIntl()
     const einstein = useEinstein()
     const {pathname} = useLocation()
-    const [modelState, setModelState] = useState(true)
+
     /**************** Einstein ****************/
     useEffect(() => {
         einstein.sendViewPage(pathname)
     }, [])
 
-    let consentAvailable = Cookies.get('sidConsent')
-    useEffect(() => {
-        console.log(consentAvailable, 'Consent Value')
-    }, [consentAvailable])
     const MyHeader = () => {
         return <h1>Hello from custom component</h1>
     }
@@ -77,9 +72,6 @@ const Home = ({productSearchResult, isLoading}) => {
                 keywords="Commerce Cloud, Retail React App, React Storefront"
             />
 
-            {!consentAvailable && (
-                <ConsentModel isOpen={modelState} onClose={() => setModelState(false)} />
-            )}
             <Hero
                 title={intl.formatMessage({
                     defaultMessage: 'The React PWA Starter Store for Retail',
