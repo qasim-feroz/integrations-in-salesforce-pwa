@@ -5,7 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {useIntl, FormattedMessage} from 'react-intl'
 import {useLocation} from 'react-router-dom'
@@ -23,7 +23,7 @@ import {
     Container,
     Link
 } from '@chakra-ui/react'
-import Cookies from 'js-cookie'
+
 // Project Components
 import Hero from '../../components/hero'
 import Seo from '../../components/seo'
@@ -59,10 +59,6 @@ const Home = ({productSearchResult, isLoading}) => {
     useEffect(() => {
         einstein.sendViewPage(pathname)
     }, [])
-
-    const MyHeader = () => {
-        return <h1>Hello from custom component</h1>
-    }
 
     return (
         <Box data-testid="home-page" layerStyle="page">
