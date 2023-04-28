@@ -49,6 +49,11 @@ export const API_ERROR_MESSAGE = defineMessage({
     defaultMessage: 'Something went wrong. Try again!'
 })
 
+export const ADYEN_PAYMENT_ERROR = defineMessage({
+    id: 'adyen.error.payment_method_failed',
+    defaultMessage: 'Could not process payment information. Payment method has probably failed!'
+})
+
 export const HOME_HREF = '/'
 
 export const MAX_ORDER_QUANTITY = 10

@@ -45,6 +45,8 @@ import {IntlProvider} from 'react-intl'
 import {watchOnlineStatus, flatten} from '../../utils/utils'
 import {getTargetLocale, fetchTranslations} from '../../utils/locale'
 import {DEFAULT_SITE_TITLE, HOME_HREF, THEME_COLOR} from '../../constants'
+import {useYotpoReviews} from '../../intYotpo'
+import {yotpoAppKey} from '../../../config/default'
 
 import Seo from '../seo'
 import {resolveSiteFromUrl} from '../../utils/site-utils'
@@ -145,6 +147,8 @@ const App = (props) => {
         const path = buildUrl('/account/wishlist')
         history.push(path)
     }
+
+    useYotpoReviews(yotpoAppKey)
 
     return (
         <Box className="sf-app" {...styles.container}>

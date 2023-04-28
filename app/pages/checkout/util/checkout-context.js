@@ -30,7 +30,9 @@ export const CheckoutProvider = ({children}) => {
         shippingMethods: undefined,
         paymentMethods: undefined,
         globalError: undefined,
-        sectionError: undefined
+        sectionError: undefined,
+        isTaxPending: false,
+        adyenData: undefined
     })
 
     const CheckoutSteps = {
@@ -44,6 +46,7 @@ export const CheckoutProvider = ({children}) => {
     const getCheckoutStepName = (step) => {
         return Object.keys(CheckoutSteps).find((key) => CheckoutSteps[key] === step)
     }
+    // why basket's external tax to 0 on order placement in salesforce PWA
 
     const mergeState = useCallback((data) => {
         // If we become unmounted during an async call that results in updating state, we
@@ -184,6 +187,10 @@ export const CheckoutProvider = ({children}) => {
                 mergeState({isGuestCheckout})
             },
 
+            setAdyenData(data) {
+                mergeState({adyenData: data})
+            },
+
             // Async functions
             // Convenience methods for interacting with remote customer and basket data.
             // ----------------
@@ -216,9 +223,19 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
-
+                // mergeState({isTaxPending: true})
                 await basket.setShippingAddress(address)
-
+                // const calculatedTax = await basket.basketCalculateTax(basket, addressData)
+                // const token = await basket.basketGetAdminToken()
+                // const repose = await basket.basketUpdateBasketTax(
+                //     token,
+                //     calculatedTax,
+                //     basket.basketId
+                // )
+                // if (repose.status == 204) {
+                //     await basket.setUpdatedBasket()
+                // }
+                // mergeState({isTaxPending: false})
                 // Add/Update the address to the customer's account if they are registered.
                 if (!state.isGuestCheckout) {
                     !addressId
@@ -248,7 +265,19 @@ export const CheckoutProvider = ({children}) => {
              * @param {string} id - The shipping method id from applicable shipping methods
              */
             async setShippingMethod(id) {
+                // mergeState({isTaxPending: true})
                 await basket.setShippingMethod(id)
+                // const calculatedTax = await basket.basketCalculateTax(basket)
+                // const token = await basket.basketGetAdminToken()
+                // const repose = await basket.basketUpdateBasketTax(
+                //     token,
+                //     calculatedTax,
+                //     basket.basketId
+                // )
+                // if (repose.status == 204) {
+                //     await basket.setUpdatedBasket()
+                // }
+                // mergeState({isTaxPending: false})
             },
 
             /**
@@ -277,6 +306,11 @@ export const CheckoutProvider = ({children}) => {
                     return
                 }
 
+                if (payment.paymentMethodId === 'AdyenComponent') {
+                    await basket.setPaymentInstrument(payment)
+                    return
+                }
+
                 // The form gives us the expiration date as `MM/YY` - so we need to split it into
                 // month and year to submit them as individual fields.
                 const [expirationMonth, expirationYear] = expiry.split('/')
@@ -300,7 +334,6 @@ export const CheckoutProvider = ({children}) => {
                 }
 
                 await basket.setPaymentInstrument(paymentInstrument)
-
                 // Save the payment instrument to the customer's account if they are registered
                 if (!state.isGuestCheckout && !selectedPayment.id) {
                     customer.addSavedPaymentInstrument(paymentInstrument)
@@ -331,8 +364,19 @@ export const CheckoutProvider = ({children}) => {
                     addressName,
                     ...address
                 } = addressData
-
+                // mergeState({isTaxPending: true})
                 await basket.setBillingAddress(address)
+                // const calculatedTax = await basket.basketCalculateTax(basket)
+                // const token = await basket.basketGetAdminToken()
+                // const repose = await basket.basketUpdateBasketTax(
+                //     token,
+                //     calculatedTax,
+                //     basket.basketId
+                // )
+                // if (repose.status == 204) {
+                //     await basket.setUpdatedBasket()
+                // }
+                // mergeState({isTaxPending: false})
 
                 // Save the address to the customer's account if they are registered and its a new address
                 if (!state.isGuestCheckout && !id && !addressId) {
@@ -343,7 +387,7 @@ export const CheckoutProvider = ({children}) => {
             async placeOrder() {
                 mergeState({globalError: undefined})
                 try {
-                    await basket.createOrder()
+                    return await basket.createOrder()
                 } catch (error) {
                     // Note: It is possible to get localized error messages from OCAPI, but this
                     // is not available for all locales or all error messages. Therefore, we

@@ -18,6 +18,8 @@ import AddressDisplay from '../../../components/address-display'
 import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
+import {melissaAddressSuggestion} from '../../../intMelissa/melissaHelper'
+import {MelissaSuggestionModal, ErrorModal} from '../../../intMelissa/modal'
 
 const saveButtonMessage = defineMessage({
     defaultMessage: 'Save & Continue to Shipping Method',
@@ -108,6 +110,10 @@ const ShippingAddressSelection = ({
     const hasSavedAddresses = customer.addresses && customer.addresses.length > 0
     const [isEditingAddress, setIsEditingAddress] = useState(!hasSavedAddresses)
     const [selectedAddressId, setSelectedAddressId] = useState(false)
+    const [isModalOpenState, setModalOpenState] = useState(false)
+    const [isErrorModalState, setErrorModalState] = useState(false)
+    const [melissaAdrressData, setMelissaAdrressData] = useState([''])
+    const [addressData, setaddressData] = useState([''])
 
     form =
         form ||
@@ -159,6 +165,11 @@ const ShippingAddressSelection = ({
         }
     }, [matchedAddress])
 
+    const getmelissaResponse = async (address, city, stateCode, countryCode) => {
+        var response = await melissaAddressSuggestion(address, city, stateCode, countryCode)
+        return response
+    }
+
     // Updates the selected customer address if we've an address selected
     // else saves a new customer address
     const submitForm = async (address) => {
@@ -170,6 +181,23 @@ const ShippingAddressSelection = ({
         form.reset({addressId: ''})
 
         await onSubmit(address)
+    }
+
+    const openModal = async (address) => {
+        var melissaAddressSuggestionResponse = await getmelissaResponse(
+            address.address1,
+            address.city,
+            address.stateCode,
+            address.countryCode
+        )
+
+        if (melissaAddressSuggestionResponse.ErrorString == '') {
+            setModalOpenState(true)
+            setaddressData(address)
+            setMelissaAdrressData(melissaAddressSuggestionResponse.Results[0].Address)
+        } else {
+            setErrorModalState(true)
+        }
     }
 
     // Acts as our `onChange` handler for addressId radio group. We do this
@@ -211,7 +239,18 @@ const ShippingAddressSelection = ({
     }
 
     return (
-        <form onSubmit={form.handleSubmit(submitForm)}>
+        <form onSubmit={form.handleSubmit(openModal)}>
+            <MelissaSuggestionModal
+                modalState={isModalOpenState}
+                setModalState={setModalOpenState}
+                melissaAddress={melissaAdrressData}
+                submitForm={submitForm}
+                addressData={addressData}
+            />
+            <ErrorModal
+                errorModalState={isErrorModalState}
+                setErrorModalState={setErrorModalState}
+            />
             <Stack spacing={4}>
                 {hasSavedAddresses && (
                     <Controller

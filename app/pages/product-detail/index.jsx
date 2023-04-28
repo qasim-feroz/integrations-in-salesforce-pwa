@@ -32,6 +32,9 @@ import useEinstein from '../../commerce-api/hooks/useEinstein'
 // Project Components
 import RecommendedProducts from '../../components/recommended-products'
 import ProductView from '../../partials/product-view'
+import {yotpoMainWidget} from '../../intYotpo'
+import {useYotpoReviewsRefresh} from '../../intYotpo'
+import {ReviewsWidget} from '../../intYotpo/indexes'
 
 // Others/Utils
 import {HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
@@ -56,6 +59,7 @@ const ProductDetail = ({category, product, isLoading}) => {
     const toast = useToast()
     const navigate = useNavigation()
     const [primaryCategory, setPrimaryCategory] = useState(category)
+    const [yotpoMainWidgetState, setyotpoMainWidgetState] = useState([])
 
     // This page uses the `primaryCategoryId` to retrieve the category data. This attribute
     // is only available on `master` products. Since a variation will be loaded once all the
@@ -139,9 +143,20 @@ const ProductDetail = ({category, product, isLoading}) => {
     /**************** Einstein ****************/
     useEffect(() => {
         if (product) {
+            getYotpoResponse()
             einstein.sendViewProduct(product)
         }
     }, [product])
+
+    const getYotpoResponse = async () => {
+        var response = await yotpoMainWidget(product.id)
+
+        if (response !== null) {
+            setyotpoMainWidgetState(response[0].result)
+        }
+    }
+
+    useYotpoReviewsRefresh()
 
     return (
         <Box
@@ -256,6 +271,14 @@ const ProductDetail = ({category, product, isLoading}) => {
                 </Stack>
 
                 {/* Product Recommendations */}
+                {product && (
+                    <ReviewsWidget
+                        data_product_id={product.id}
+                        data_name={product.name}
+                        data_description={product.shortDescription}
+                        yotpoMainWidgetStateData={yotpoMainWidgetState}
+                    />
+                )}
                 <Stack spacing={16}>
                     <RecommendedProducts
                         title={

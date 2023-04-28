@@ -39,11 +39,63 @@ const {handler} = runtime.createHandler(options, (app) => {
             contentSecurityPolicy: {
                 useDefaults: true,
                 directives: {
-                    'img-src': ["'self'", '*.commercecloud.salesforce.com', 'data:'],
-                    'script-src': ["'self'", "'unsafe-eval'", 'storage.googleapis.com'],
+                    'img-src': [
+                        "'self'",
+                        '*.commercecloud.salesforce.com',
+                        'data:',
+                        'www.gstatic.com',
+                        'checkoutshopper-test.adyen.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com'
+                    ],
+                    'script-src': [
+                        "'self'",
+                        "'unsafe-eval'",
+                        'storage.googleapis.com',
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        '*.melissadata.net',
+                        '*.yotpo.com'
+                    ],
+                    'style-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", '*.yotpo.com'],
+                    'default-src': [
+                        "'self'",
+                        "'unsafe-eval'",
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com',
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        '*.melissadata.net',
+                        'sandbox-rest.avatax.com',
+                        'storage.googleapis.com'
+                    ],
 
                     // Do not upgrade insecure requests for local development
-                    'upgrade-insecure-requests': isRemote() ? [] : null
+                    'upgrade-insecure-requests': isRemote() ? [] : null,
+                    'connect-src': [
+                        "'self'",
+                        "'unsafe-eval'",
+                        'storage.googleapis.com',
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        '*.melissadata.net',
+                        'sandbox-rest.avatax.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com'
+                    ]
                 }
             },
             hsts: isRemote()

@@ -46,6 +46,7 @@ import Refinements from './partials/refinements'
 import SelectedRefinements from './partials/selected-refinements'
 import EmptySearchResults from './partials/empty-results'
 import PageHeader from './partials/page-header'
+import {yotpoBottomLineBatchCall} from '../../intYotpo'
 
 // Icons
 import {FilterIcon, ChevronDownIcon} from '../../components/icons'
@@ -250,6 +251,27 @@ const ProductList = (props) => {
         selectedSortingOptionLabel = productSearchResult?.sortingOptions?.[0]
     }
 
+    const arrayofIDs = []
+    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
+
+    const getYotpoResponse = async () => {
+        var response = await yotpoBottomLineBatchCall(arrayofIDs)
+        setyotpoBottomLineState(response)
+    }
+
+    useEffect(() => {
+        if (arrayofIDs.length > 0) {
+            getYotpoResponse()
+        }
+    }, [isLoading])
+
+    if (productSearchResult) {
+        productSearchResult.hits.map((productSearchItem) => {
+            const id = productSearchItem.productId
+            arrayofIDs.push(id)
+        })
+    }
+
     return (
         <Box
             className="sf-product-list-page"
@@ -390,7 +412,7 @@ const ProductList = (props) => {
                                           .map((value, index) => (
                                               <ProductTileSkeleton key={index} />
                                           ))
-                                    : productSearchResult.hits.map((productSearchItem) => {
+                                    : productSearchResult.hits.map((productSearchItem, index) => {
                                           const productId = productSearchItem.productId
                                           const isInWishlist = !!wishlist.findItemByProductId(
                                               productId
@@ -403,6 +425,7 @@ const ProductList = (props) => {
                                                   product={productSearchItem}
                                                   enableFavourite={true}
                                                   isFavourite={isInWishlist}
+                                                  responseData={yotpoBottomLineState[index]}
                                                   onClick={() => {
                                                       if (searchQuery) {
                                                           einstein.sendClickSearch(

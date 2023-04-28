@@ -9,6 +9,7 @@ import useEinstein from './useEinstein'
 import {useCommerceAPI, BasketContext} from '../contexts'
 import useCustomer from './useCustomer'
 import {isError} from '../utils'
+import {calculateTax, getAdminToken, updateBasketTax} from '../../../Int_avatax/avatax'
 
 export default function useBasket(opts = {}) {
     const {currency} = opts
@@ -25,7 +26,6 @@ export default function useBasket(opts = {}) {
     const self = useMemo(() => {
         return {
             ...basket,
-
             // Check if a this represents a valid basket
             get loaded() {
                 return basket && basket.basketId
@@ -71,7 +71,12 @@ export default function useBasket(opts = {}) {
 
                 if (!basket) {
                     // Back to using ShopperBaskets for all basket interaction.
-                    basket = await api.shopperBaskets.createBasket({})
+                    basket = await api.shopperBaskets.createBasket({
+                        // body: {},
+                        // parameters: {
+                        //     taxMode: 'external'
+                        // }
+                    })
 
                     // Throw if there was a problem creating the basket
                     if (isError(basket)) {
@@ -212,7 +217,6 @@ export default function useBasket(opts = {}) {
                         useAsBilling: !basket.billingAddress
                     }
                 })
-
                 setBasket(response)
             },
 
@@ -226,7 +230,6 @@ export default function useBasket(opts = {}) {
                     body: {id},
                     parameters: {basketId: basket.basketId, shipmentId: 'me'}
                 })
-
                 setBasket(response)
             },
 
@@ -369,6 +372,21 @@ export default function useBasket(opts = {}) {
             /**
              * Creates an order using the current basket.
              */
+            // async createOrder() {
+            //     const response = await api.shopperBaskets.createOrder({
+            //         body: {basketId: basket.basketId}
+            //     })
+
+            //     if (response.fault || (response.title && response.type && response.detail)) {
+            //         throw new Error(response.title)
+            //     }
+
+            //     // We replace the basket with the order result data so we can display
+            //     // it on the confirmation page. The basket is automatically deleted
+            //     // in SF so we need to make sure a new one is created when leaving the confirmation.
+            //     setBasket(response)
+            //     return response
+            // }
             async createOrder() {
                 const response = await api.shopperOrders.createOrder({
                     body: {basketId: basket.basketId}
@@ -413,9 +431,26 @@ export default function useBasket(opts = {}) {
                 }
 
                 setBasket(response)
+            },
+            async basketCalculateTax(basket, addressData) {
+                return await calculateTax(basket, addressData)
+            },
+            async basketGetAdminToken() {
+                // todo: admin token should be from auth.js with proper expiration check.
+                return await getAdminToken()
+            },
+            async basketUpdateBasketTax(token, taxCalculated, basketId) {
+                return await updateBasketTax(token, taxCalculated, basketId)
+            },
+            async setUpdatedBasket() {
+                const customerBaskets = await api.shopperCustomers.getCustomerBaskets({
+                    parameters: {customerId: customer?.customerId}
+                })
+                setBasket(customerBaskets['baskets'][0])
             }
         }
     }, [customer, basket, setBasket])
 
     return self
 }
+//call to
