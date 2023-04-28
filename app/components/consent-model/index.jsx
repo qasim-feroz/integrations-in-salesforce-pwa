@@ -14,6 +14,7 @@ import {
 import Cookies from 'js-cookie'
 import {createOcapiFetch} from '../../commerce-api/utils'
 import {app as appConfig} from '../../../config/default'
+import parse from 'html-react-parser'
 const ConsentModel = ({isOpen, onClose}) => {
     const [consentData, setConsentData] = useState(undefined)
     let data
@@ -58,7 +59,7 @@ const ConsentModel = ({isOpen, onClose}) => {
                             Tracking Consent
                         </Text>
                         <Divider />
-                        <ModalBody>{consentData}</ModalBody>
+                        <ModalBody>{parse(consentData)}</ModalBody>
                         <Divider />
                         <ModalFooter>
                             <Button colorScheme="blue" mr={3} onClick={submitConsent}>
