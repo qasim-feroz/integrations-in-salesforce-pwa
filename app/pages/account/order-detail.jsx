@@ -44,10 +44,62 @@ const AccountOrderDetail = () => {
     }, [])
 
     const shipment = order?.shipments[0]
-    const {shippingAddress, shippingMethod, shippingStatus, trackingNumber} = shipment || {}
+    const {trackingNumber} = shipment || {}
     const paymentCard = order?.paymentInstruments[0]?.paymentCard
     const CardIcon = getCreditCardIcon(paymentCard?.cardType)
     const itemCount = order?.productItems.reduce((count, item) => item.quantity + count, 0)
+
+    const getMultiShipmentAddresses = () => {
+        return order.shipments.map((addresses, idx) => {
+            return (
+                <Box key={idx}>
+                    {order.shipments.length > 1 ? (
+                        <Text fontWeight="bold" fontSize="sm">
+                            {order.productItems[idx].itemText}
+                        </Text>
+                    ) : null}
+
+                    <Text fontSize="sm">
+                        {addresses.shippingAddress.firstName} {addresses.shippingAddress.lastName}
+                    </Text>
+                    <Text fontSize="sm">{addresses.shippingAddress.address1}</Text>
+                    <Text fontSize="sm">
+                        {addresses.shippingAddress.city}, {addresses.shippingAddress.stateCode}{' '}
+                        {addresses.shippingAddress.postalCode}
+                    </Text>
+                </Box>
+            )
+        })
+    }
+
+    const getMultiShippingMethod = () => {
+        return order.shipments.map((addresses, idx) => {
+            return (
+                <Box key={idx}>
+                    {order.shipments.length > 1 ? (
+                        <Text fontWeight="bold" fontSize="sm">
+                            {order.productItems[idx].itemText}
+                        </Text>
+                    ) : null}
+
+                    <Text fontSize="sm">{addresses.shippingStatus}</Text>
+                    <Text fontSize="sm">{addresses.shippingMethod.name}</Text>
+                    <Text fontSize="sm">
+                        <FormattedMessage
+                            defaultMessage="Tracking Number"
+                            id="account_order_detail.label.tracking_number"
+                        />
+                        :{' '}
+                        {trackingNumber ||
+                            formatMessage({
+                                defaultMessage: 'Pending',
+                                id: 'account_order_detail.label.pending_tracking_number'
+                            })}
+                    </Text>
+                </Box>
+            )
+        })
+    }
 
     return (
         <Stack spacing={6} data-testid="account-order-details-page">
@@ -125,6 +177,11 @@ const AccountOrderDetail = () => {
             </Stack>
 
             <Box layerStyle="cardBordered">
+                {order?.shipments.length > 1 ? (
+                    <Text fontWeight="bold" fontSize="sm">
+                        {'Multi Shipment Order'}
+                    </Text>
+                ) : null}
                 <Grid templateColumns={{base: '1fr', xl: '60% 1fr'}} gap={{base: 6, xl: 2}}>
                     <SimpleGrid columns={{base: 1, sm: 2}} columnGap={4} rowGap={5} py={{xl: 6}}>
                         {isLoading && (
@@ -156,29 +213,11 @@ const AccountOrderDetail = () => {
                                 <Stack spacing={1}>
                                     <Text fontWeight="bold" fontSize="sm">
                                         <FormattedMessage
-                                            defaultMessage="Shipping Method"
+                                            defaultMessage="Shipping Method(s)"
                                             id="account_order_detail.heading.shipping_method"
                                         />
                                     </Text>
-                                    <Box>
-                                        <Text fontSize="sm" textTransform="titlecase">
-                                            {shippingStatus.replace(/_/g, ' ')}
-                                        </Text>
-                                        <Text fontSize="sm">{shippingMethod.name}</Text>
-                                        <Text fontSize="sm">
-                                            <FormattedMessage
-                                                defaultMessage="Tracking Number"
-                                                id="account_order_detail.label.tracking_number"
-                                            />
-                                            :{' '}
-                                            {trackingNumber ||
-                                                formatMessage({
-                                                    defaultMessage: 'Pending',
-                                                    id:
-                                                        'account_order_detail.label.pending_tracking_number'
-                                                })}
-                                        </Text>
-                                    </Box>
+                                    {getMultiShippingMethod()}
                                 </Stack>
                                 <Stack spacing={1}>
                                     <Text fontWeight="bold" fontSize="sm">
@@ -204,24 +243,7 @@ const AccountOrderDetail = () => {
                                         </Box>
                                     </Stack>
                                 </Stack>
-                                <Stack spacing={1}>
-                                    <Text fontWeight="bold" fontSize="sm">
-                                        <FormattedMessage
-                                            defaultMessage="Shipping Address"
-                                            id="account_order_detail.heading.shipping_address"
-                                        />
-                                    </Text>
-                                    <Box>
-                                        <Text fontSize="sm">
-                                            {shippingAddress.firstName} {shippingAddress.lastName}
-                                        </Text>
-                                        <Text fontSize="sm">{shippingAddress.address1}</Text>
-                                        <Text fontSize="sm">
-                                            {shippingAddress.city}, {shippingAddress.stateCode}{' '}
-                                            {shippingAddress.postalCode}
-                                        </Text>
-                                    </Box>
-                                </Stack>
+                                <Stack spacing={1}>{getMultiShipmentAddresses()}</Stack>
                                 <Stack spacing={1}>
                                     <Text fontWeight="bold" fontSize="sm">
                                         <FormattedMessage
