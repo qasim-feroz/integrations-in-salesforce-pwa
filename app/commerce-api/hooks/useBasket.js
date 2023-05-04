@@ -9,6 +9,7 @@ import useEinstein from './useEinstein'
 import {useCommerceAPI, BasketContext} from '../contexts'
 import useCustomer from './useCustomer'
 import {isError} from '../utils'
+import coreBasket from '../../../int_pwa_dev/src/hooks/coreBasket'
 
 export default function useBasket(opts = {}) {
     const {currency} = opts
@@ -19,12 +20,17 @@ export default function useBasket(opts = {}) {
 
     const setBasket = (basketData) => {
         const _productItemsDetail = basket?._productItemsDetail
-        _setBasket({_productItemsDetail, ...basketData})
+        const custom = basket?.custom
+        _setBasket({_productItemsDetail, custom, ...basketData})
     }
+
+    const secondBasket = coreBasket({api, basket, setBasket})
 
     const self = useMemo(() => {
         return {
             ...basket,
+
+            ...secondBasket,
 
             // Check if a this represents a valid basket
             get loaded() {
@@ -287,23 +293,6 @@ export default function useBasket(opts = {}) {
             /**
              * Remove the payment instrument for the current basket
              */
-            async removePaymentInstrument() {
-                let paymentInstrumentId =
-                    basket.paymentInstruments && basket.paymentInstruments[0]?.paymentInstrumentId
-
-                if (!paymentInstrumentId) {
-                    return
-                }
-
-                const response = await api.shopperBaskets.removePaymentInstrumentFromBasket({
-                    parameters: {
-                        basketId: basket.basketId,
-                        paymentInstrumentId: paymentInstrumentId
-                    }
-                })
-
-                setBasket(response)
-            },
 
             /**
              * Update the customer information for the current basket.
@@ -416,7 +405,7 @@ export default function useBasket(opts = {}) {
                 setBasket(response)
             }
         }
-    }, [customer, basket, setBasket])
+    }, [customer, basket, setBasket, secondBasket])
 
     return self
 }
