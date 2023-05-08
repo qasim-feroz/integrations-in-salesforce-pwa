@@ -5,11 +5,11 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import React, { useEffect, useState } from 'react'
-import { FormattedMessage, useIntl } from 'react-intl'
+import React, {useEffect, useState} from 'react'
+import {FormattedMessage, useIntl} from 'react-intl'
 
 // Chakra Components
-import { Box, Stack, Grid, GridItem, Container, useDisclosure, Button } from '@chakra-ui/react'
+import {Box, Stack, Grid, GridItem, Container, useDisclosure, Button} from '@chakra-ui/react'
 
 // Project Components
 import CartCta from './partials/cart-cta'
@@ -24,7 +24,7 @@ import ProductViewModal from '../../components/product-view-modal'
 import RecommendedProducts from '../../components/recommended-products'
 
 // Hooks
-import { useToast } from '../../hooks/use-toast'
+import {useToast} from '../../hooks/use-toast'
 import useWishlist from '../../hooks/use-wishlist'
 import useCustomer from '../../commerce-api/hooks/useCustomer'
 import useNavigation from '../../hooks/use-navigation'
@@ -36,7 +36,7 @@ import {
     TOAST_ACTION_VIEW_WISHLIST,
     TOAST_MESSAGE_ADDED_TO_WISHLIST
 } from '../../constants'
-import { REMOVE_CART_ITEM_CONFIRMATION_DIALOG_CONFIG } from './partials/cart-secondary-button-group'
+import {REMOVE_CART_ITEM_CONFIRMATION_DIALOG_CONFIG} from './partials/cart-secondary-button-group'
 
 // Utilities
 import debounce from 'lodash/debounce'
@@ -47,8 +47,8 @@ const Cart = () => {
     const [selectedItem, setSelectedItem] = useState(undefined)
     const [localQuantity, setLocalQuantity] = useState({})
     const [isCartItemLoading, setCartItemLoading] = useState(false)
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const { formatMessage } = useIntl()
+    const {isOpen, onOpen, onClose} = useDisclosure()
+    const {formatMessage} = useIntl()
     const toast = useToast()
     const navigate = useNavigation()
     const modalProps = useDisclosure()
@@ -69,7 +69,7 @@ const Cart = () => {
                 quantity: product.quantity
             })
             toast({
-                title: formatMessage(TOAST_MESSAGE_ADDED_TO_WISHLIST, { quantity: 1 }),
+                title: formatMessage(TOAST_MESSAGE_ADDED_TO_WISHLIST, {quantity: 1}),
                 status: 'success',
                 action: (
                     // it would be better if we could use <Button as={Link}>
@@ -90,28 +90,17 @@ const Cart = () => {
     useEffect(() => {
         // Set the default shipping method if none is already selected
         if (basket.basketId && basket.shipments.length > 0 && !basket.shipments[0].shippingMethod) {
-            ; (async () => {
+            ;(async () => {
                 const shippingMethods = await basket.getShippingMethods()
                 basket.setShippingMethod(shippingMethods.defaultShippingMethodId)
             })()
         }
     }, [basket.basketId])
 
-    // TODO: sample code must be deleted
-    useEffect(() => {
-        if (basket) {
-            ; (async () => {
-                const shippingMethodsCore = await basket.getShippingMethodsForShipmentCore()
-                console.log(shippingMethodsCore)
-            })()
-        }
-    }, [basket])
-
     if (!basket?.basketId) {
         return <CartSkeleton />
     }
 
-    
     if (!basket?.productItems) {
         return <EmptyCart isRegistered={customer.isRegistered} />
     }
@@ -121,7 +110,7 @@ const Cart = () => {
         onClose()
         try {
             setCartItemLoading(true)
-            const productIds = basket.productItems.map(({ productId }) => productId)
+            const productIds = basket.productItems.map(({productId}) => productId)
             // The user is selecting different variant, and it has not existed in basket
             if (selectedItem.id !== variant.productId && !productIds.includes(variant.productId)) {
                 const item = {
@@ -136,7 +125,7 @@ const Cart = () => {
             if (selectedItem.id !== variant.productId && productIds.includes(variant.productId)) {
                 await basket.removeItemFromBasket(selectedItem.itemId)
                 const basketItem = basket.productItems.find(
-                    ({ productId }) => productId === variant.productId
+                    ({productId}) => productId === variant.productId
                 )
                 const newQuantity = quantity + basketItem.quantity
                 return await changeItemQuantity(newQuantity, basketItem)
@@ -156,7 +145,7 @@ const Cart = () => {
     const changeItemQuantity = debounce(async (quantity, product) => {
         // This local state allows the dropdown to show the desired quantity
         // while the API call to update it is happening.
-        setLocalQuantity({ ...localQuantity, [product.itemId]: quantity })
+        setLocalQuantity({...localQuantity, [product.itemId]: quantity})
         setCartItemLoading(true)
         setSelectedItem(product)
         try {
@@ -171,12 +160,12 @@ const Cart = () => {
             // reset the state
             setCartItemLoading(false)
             setSelectedItem(undefined)
-            setLocalQuantity({ ...localQuantity, [product.itemId]: undefined })
+            setLocalQuantity({...localQuantity, [product.itemId]: undefined})
         }
     }, 750)
 
     const handleChangeItemQuantity = async (product, value) => {
-        const { stockLevel } = basket._productItemsDetail[product.productId].inventory
+        const {stockLevel} = basket._productItemsDetail[product.productId].inventory
 
         // Handle removing of the items when 0 is selected.
         if (value === 0) {
@@ -232,16 +221,16 @@ const Cart = () => {
             <Container
                 maxWidth="container.xl"
                 px={[4, 6, 6, 4]}
-                paddingTop={{ base: 8, lg: 8 }}
-                paddingBottom={{ base: 8, lg: 14 }}
+                paddingTop={{base: 8, lg: 8}}
+                paddingBottom={{base: 8, lg: 14}}
             >
                 <Stack spacing={24}>
                     <Stack spacing={4}>
                         <CartTitle />
 
                         <Grid
-                            templateColumns={{ base: '1fr', lg: '66% 1fr' }}
-                            gap={{ base: 10, xl: 20 }}
+                            templateColumns={{base: '1fr', lg: '66% 1fr'}}
+                            gap={{base: 10, xl: 20}}
                         >
                             <GridItem>
                                 <Stack spacing={4}>
@@ -297,7 +286,7 @@ const Cart = () => {
                             <GridItem>
                                 <Stack spacing={4}>
                                     <OrderSummary showPromoCodeForm={true} isEstimate={true} />
-                                    <Box display={{ base: 'none', lg: 'block' }}>
+                                    <Box display={{base: 'none', lg: 'block'}}>
                                         <CartCta />
                                     </Box>
                                 </Stack>
@@ -314,7 +303,7 @@ const Cart = () => {
                                     />
                                 }
                                 recommender={'viewed-recently-einstein'}
-                                mx={{ base: -4, sm: -6, lg: 0 }}
+                                mx={{base: -4, sm: -6, lg: 0}}
                             />
 
                             <RecommendedProducts
@@ -329,7 +318,7 @@ const Cart = () => {
                                 shouldFetch={() =>
                                     basket?.basketId && basket.productItems?.length > 0
                                 }
-                                mx={{ base: -4, sm: -6, lg: 0 }}
+                                mx={{base: -4, sm: -6, lg: 0}}
                             />
                         </Stack>
                     </Stack>
@@ -341,7 +330,7 @@ const Cart = () => {
                 position="sticky"
                 bottom={0}
                 bg="white"
-                display={{ base: 'block', lg: 'none' }}
+                display={{base: 'block', lg: 'none'}}
                 align="center"
             >
                 <CartCta />
@@ -352,7 +341,7 @@ const Cart = () => {
                 onPrimaryAction={() => {
                     handleRemoveItem(selectedItem)
                 }}
-                onAlternateAction={() => { }}
+                onAlternateAction={() => {}}
                 {...modalProps}
             />
         </Box>
