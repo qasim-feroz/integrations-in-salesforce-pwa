@@ -9,7 +9,7 @@ import useEinstein from './useEinstein'
 import {useCommerceAPI, BasketContext} from '../contexts'
 import useCustomer from './useCustomer'
 import {isError} from '../utils'
-import useCoreBasket from 'pwa-custom-core/extensions/hooks/coreBasket'
+import useCoreBasket from 'pwa-custom-core/src/extensions/hooks/coreBasket'
 
 export default function useBasket(opts = {}) {
     const {currency} = opts

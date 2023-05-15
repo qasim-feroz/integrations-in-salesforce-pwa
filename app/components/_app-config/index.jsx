@@ -24,7 +24,7 @@ import { resolveSiteFromUrl } from '../../utils/site-utils'
 import { resolveLocaleFromUrl } from '../../utils/utils'
 import { getConfig } from 'pwa-kit-runtime/utils/ssr-config'
 import { createUrlTemplate } from '../../utils/url'
-import { coreAppConfig } from 'pwa-custom-core/base/config/AppConfig'
+import { coreAppConfig } from 'pwa-custom-core/src'
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
  * methods for all Route Components in the app – typically you'd want to do this

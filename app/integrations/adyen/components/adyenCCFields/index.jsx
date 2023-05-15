@@ -1,5 +1,4 @@
 import React from 'react'
-import fetch from 'cross-fetch'
 
 import AdyenCheckout from '@adyen/adyen-web';
 import '../../styles/adyen.css'
@@ -7,10 +6,15 @@ import '../../styles/adyen.css'
 import { getAppOrigin } from 'pwa-kit-react-sdk/utils/url'
 import { useEffect } from 'react';
 import { useCheckout } from '../../../../pages/checkout/util/checkout-context';
+import { httpClient, coreAppConfig } from 'pwa-custom-core/src'
+import { RequestTarget } from 'pwa-custom-core/src/base/enums';
+
 
 const AdyenCCFields = () => {
     let cardInfo = {}
     const { setAdyenData } = useCheckout()
+
+    const adyenCreds = coreAppConfig.getAdyenCredentials()
 
     const handleChange = (event, component) => {
         cardInfo.paymentMethod = event.data.paymentMethod
@@ -34,10 +38,29 @@ const AdyenCCFields = () => {
         onBrand: handleBrand
     }
 
+    const params = {
+        url: 'mobify/proxy/adyen/v69/sessions',
+        method: 'POST',
+        headers: {
+            'Authorization': 'Basic '.concat(adyenCreds.ADYEN_API_KEY),
+        },
+        payload: {
+            "merchantAccount": "NestoshECOM",
+            "amount": {
+                "value": 2000,
+                "currency": "USD"
+            },
+            "returnUrl": `${getAppOrigin()}/en/content-search`,
+            "reference": "Juice123",
+            "countryCode": "US"
+        },
+        target: RequestTarget.None
+    }
+
     useEffect(async () => {
-        renderCCFields().then(function (result) {
-            renderPaymentComponent(result, options)
-        })
+        const sessionResult = await httpClient.getFetch(params)
+        if (!sessionResult.error)
+        renderPaymentComponent(sessionResult.response, options, adyenCreds)
     }, [])
 
     return (
@@ -47,16 +70,16 @@ const AdyenCCFields = () => {
     )
 }
 
-const renderPaymentComponent = async (result, options) => {
+const renderPaymentComponent = async (result, options, adyenCreds) => {
     const configuration = {
         environment: 'test', // Change to one of the environment values specified in step 4.
-        clientKey: 'test_KUFFQNQDM5DDZGBXFOHKXOXVTMJ2UEM6', // Public key used for client-side authentication: https://docs.adyen.com/development-resources/client-side-authentication
+        clientKey: adyenCreds.ADYEN_CLIENT_KEY, // Public key used for client-side authentication: https://docs.adyen.com/development-resources/client-side-authentication
         analytics: {
             enabled: true // Set to false to not send analytics data to Adyen.
         },
         session: {
-            id: result.sessionResult.id, // Unique identifier for the payment session.
-            sessionData: result.sessionResult.sessionData
+            id: result.id, // Unique identifier for the payment session.
+            sessionData: result.sessionData
             // The payment session data.
         },
         onPaymentCompleted: (result, component) => {
@@ -77,36 +100,6 @@ const renderPaymentComponent = async (result, options) => {
     };
     const checkout = await AdyenCheckout(configuration)
     const dropinComponent = checkout.create('card', options).mount('#card-container')
-}
-
-const renderCCFields = async () => {
-    let sessionResult, error
-    const result = await fetch(
-        `${getAppOrigin()}/mobify/proxy/adyen/v69/sessions`, {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Basic d3NfNDU5MDQwQENvbXBhbnkuTmVzdG9zaDpkWXhZKUAqZjVrNVRJNDJReCZrOTQ2PFVV',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "merchantAccount": "NestoshECOM",
-            "amount": {
-                "value": 2000,
-                "currency": "USD"
-            },
-            "returnUrl": `${getAppOrigin()}/en/content-search`,
-            "reference": "Juice123",
-            "countryCode": "US"
-        })
-    })
-
-    if (result.ok) {
-        sessionResult = await result.json()
-    } else {
-        error = await result.json()
-    }
-
-    return { sessionResult, error }
 }
 
 export default AdyenCCFields
