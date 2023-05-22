@@ -7,16 +7,19 @@
 import {useContext, useMemo} from 'react'
 import {nanoid} from 'nanoid'
 import {useCommerceAPI, CustomerContext} from '../contexts'
+import useCoreCustomer from 'pwa-custom-core/src/extensions/hooks/coreCustomer'
 
 const AuthTypes = Object.freeze({GUEST: 'guest', REGISTERED: 'registered'})
 
 export default function useCustomer() {
     const api = useCommerceAPI()
     const {customer, setCustomer} = useContext(CustomerContext)
+    const coreCustomer = useCoreCustomer({api, customer, setCustomer})
 
     const self = useMemo(() => {
         return {
             ...customer,
+            ...coreCustomer,
 
             /**
              * Returns boolean value whether the user data is initialized

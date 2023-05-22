@@ -104,10 +104,11 @@
     "last 4 ChromeAndroid versions"
   ],
   "dependencies": {
-    "@chakra-ui/core": "^0.8.0",
     "@adyen/adyen-web": "^5.31.2",
+    "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^11.0.0",
     "pwa-custom-core": "file:pwa-custom-core",
-    "stylelint": "^14.16.1"
+    "stylelint": "^14.16.1",
+    "typescript": "^5.0.4"
   }
 }

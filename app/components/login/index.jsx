@@ -12,7 +12,7 @@ import {Alert, Box, Button, Stack, Text} from '@chakra-ui/react'
 import {AlertIcon, BrandLogo} from '../icons'
 import LoginFields from '../../components/forms/login-fields'
 import {noop} from '../../utils/utils'
-
+import {LoginWihGoogle} from 'pwa-custom-core/src/Integrations/idps/index'
 const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount = noop, form}) => {
     return (
         <Fragment>
@@ -61,6 +61,9 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                                 defaultMessage="Sign In"
                                 id="login_form.button.sign_in"
                             />
+                        </Button>
+                        <Button type="button" onClick={() => LoginWihGoogle()}>
+                            Login With Google
                         </Button>
 
                         <Stack direction="row" spacing={1} justify="center">
