@@ -22,10 +22,7 @@ import {
     MelissaSuggestionModal,
     ErrorModal
 } from 'pwa-custom-core/src/integrations/address-verification/melissa/components/modal'
-import {httpClient} from 'pwa-custom-core/src/base'
-import {RequestTarget} from 'pwa-custom-core/src/base/enums'
-import {melissaId} from '../../../../config/default'
-import {getAppOrigin} from 'pwa-custom-core/src/base/httpClient'
+import {getmelissaResponse} from 'pwa-custom-core/src/integrations/address-verification/melissa/helper/melissaHelper'
 
 const saveButtonMessage = defineMessage({
     defaultMessage: 'Save & Continue to Shipping Method',
@@ -182,17 +179,6 @@ const ShippingAddressSelection = ({
         form.reset({addressId: ''})
 
         await onSubmit(address)
-    }
-
-    const getmelissaResponse = async (address, city, stateCode, countryCode) => {
-        const apiData = {
-            method: 'GET',
-            target: RequestTarget.None,
-            requiresToken: false,
-            url: `${getAppOrigin()}/mobify/proxy/melissa/web/GlobalExpressFreeForm?format=JSON&id=${melissaId}&ff=${address} ${city} ${stateCode}&country=${countryCode}`
-        }
-        const response = await httpClient.getFetch(apiData)
-        return response.response
     }
 
     const openModal = async (address) => {
