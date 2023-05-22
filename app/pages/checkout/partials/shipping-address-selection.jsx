@@ -18,6 +18,14 @@ import AddressDisplay from '../../../components/address-display'
 import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
+import {
+    MelissaSuggestionModal,
+    ErrorModal
+} from 'pwa-custom-core/src/integrations/address-verification/melissa/components/modal'
+import {httpClient} from 'pwa-custom-core/src/base'
+import {RequestTarget} from 'pwa-custom-core/src/base/enums'
+import {melissaId} from '../../../../config/default'
+import {getAppOrigin} from 'pwa-custom-core/src/base/httpClient'
 
 const saveButtonMessage = defineMessage({
     defaultMessage: 'Save & Continue to Shipping Method',
@@ -108,6 +116,10 @@ const ShippingAddressSelection = ({
     const hasSavedAddresses = customer.addresses && customer.addresses.length > 0
     const [isEditingAddress, setIsEditingAddress] = useState(!hasSavedAddresses)
     const [selectedAddressId, setSelectedAddressId] = useState(false)
+    const [isModalOpenState, setModalOpenState] = useState(false)
+    const [isErrorModalState, setErrorModalState] = useState(false)
+    const [melissaAdrressData, setMelissaAdrressData] = useState([''])
+    const [addressData, setaddressData] = useState([''])
 
     form =
         form ||
@@ -172,6 +184,37 @@ const ShippingAddressSelection = ({
         await onSubmit(address)
     }
 
+    const getmelissaResponse = async (address, city, stateCode, countryCode) => {
+        const apiData = {
+            method: 'GET',
+            target: RequestTarget.None,
+            requiresToken: false,
+            url: `${getAppOrigin()}/mobify/proxy/melissa/web/GlobalExpressFreeForm?format=JSON&id=${melissaId}&ff=${address} ${city} ${stateCode}&country=${countryCode}`
+        }
+        const response = await httpClient.getFetch(apiData)
+        return response.response
+    }
+
+    const openModal = async (address) => {
+        var melissaAddressSuggestionResponse = await getmelissaResponse(
+            address.address1,
+            address.city,
+            address.stateCode,
+            address.countryCode
+        )
+
+        if (
+            melissaAddressSuggestionResponse.ErrorString == '' &&
+            melissaAddressSuggestionResponse.Results.length !== 0
+        ) {
+            setModalOpenState(true)
+            setaddressData(address)
+            setMelissaAdrressData(melissaAddressSuggestionResponse.Results[0].Address)
+        } else {
+            submitForm(address)
+        }
+    }
+
     // Acts as our `onChange` handler for addressId radio group. We do this
     // manually here so we can toggle off the 'add address' form as needed.
     const handleAddressIdSelection = (addressId) => {
@@ -211,7 +254,18 @@ const ShippingAddressSelection = ({
     }
 
     return (
-        <form onSubmit={form.handleSubmit(submitForm)}>
+        <form onSubmit={form.handleSubmit(openModal)}>
+            <MelissaSuggestionModal
+                modalState={isModalOpenState}
+                setModalState={setModalOpenState}
+                melissaAddress={melissaAdrressData}
+                submitForm={submitForm}
+                addressData={addressData}
+            />
+            <ErrorModal
+                errorModalState={isErrorModalState}
+                setErrorModalState={setErrorModalState}
+            />
             <Stack spacing={4}>
                 {hasSavedAddresses && (
                     <Controller
