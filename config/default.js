@@ -34,6 +34,7 @@ module.exports = {
             einsteinId: 'undefined',
             siteId: 'RefArch'
         },
+        // google Recaptcha credentials
         googleRecaptcha: {
             siteKey: '6LeVQxglAAAAALm5-jbgPw5OCn-ws7UKytkV8fAn',
             secretKey: '6LeVQxglAAAAAMwpUAhoJar-g_TTOxEwjYeNoLnF',
