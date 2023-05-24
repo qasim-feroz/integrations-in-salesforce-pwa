@@ -23,6 +23,7 @@ import {
     FormControl
 } from '@chakra-ui/react'
 import {useIntl} from 'react-intl'
+
 import LinksList from '../links-list'
 import SocialIcons from '../social-icons'
 import {HideOnDesktop, HideOnMobile} from '../responsive'
@@ -211,9 +212,8 @@ const Subscribe = ({...otherProps}) => {
             </Text>
 
             <Box>
-                {/*ReCAPTCHA implimentation */}
+                {/*GoogleRecaptch implimentation*/}
                 <GoogleRecaptcha captchaRef={captchaRef} />
-
                 <form onSubmit={onSubmit}>
                     <InputGroup>
                         <Input
