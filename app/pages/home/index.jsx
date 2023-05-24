@@ -60,6 +60,27 @@ const Home = ({productSearchResult, isLoading}) => {
         einstein.sendViewPage(pathname)
     }, [])
 
+    const productSearchResultIDs = []
+    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
+
+    const getYotpoResponse = async () => {
+        var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
+        setyotpoBottomLineState(response)
+    }
+
+    useEffect(() => {
+        if (productSearchResultIDs.length > 0) {
+            getYotpoResponse()
+        }
+    }, [isLoading])
+    // TODO: productSearchResult is not comming caused code break that's why commented out
+    // if (productSearchResult) {
+    //     productSearchResult.hits.map((productSearchItem) => {
+    //         const id = productSearchItem.productId
+    //         productSearchResultIDs.push(id)
+    //     })
+    // }
+
     return (
         <Box data-testid="home-page" layerStyle="page">
             <Seo
