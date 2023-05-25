@@ -11,6 +11,11 @@ const {getRuntime} = require('pwa-kit-runtime/ssr/server/express')
 const {isRemote} = require('pwa-kit-runtime/utils/ssr-server')
 const {getConfig} = require('pwa-kit-runtime/utils/ssr-config')
 const helmet = require('helmet')
+const apiMiddleware = require('pwa-custom-core/src/base/middleware/ApiMiddleware')
+const express = require('express')
+
+//loads environemnt variables from the file
+require('dotenv').config({ path: `.env.${process.env.NODE_INSTANCE}`})
 
 const options = {
     // The build directory (an absolute path)
@@ -72,10 +77,18 @@ const {handler} = runtime.createHandler(options, (app) => {
         })
     )
 
+    app.use(express.json())
+
     // Handle the redirect from SLAS as to avoid error
     app.get('/callback?*', (req, res) => {
         res.send()
     })
+
+    app.post('/api', async (req, res) => {
+        var response = await apiMiddleware(req, res);
+        res.send(response);
+    });
+
     app.get('/robots.txt', runtime.serveStaticFile('static/robots.txt'))
     app.get('/favicon.ico', runtime.serveStaticFile('static/ico/favicon.ico'))
 
