@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import {useHistory, useParams} from 'react-router-dom'
 import {FormattedMessage, useIntl} from 'react-intl'
 import {Helmet} from 'react-helmet'
-
+import {useLocation} from 'react-router-dom'
 // Components
 import {
     Box,
@@ -72,6 +72,9 @@ import {
 } from '../../constants'
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../../components/loading-spinner'
+
+// import from core
+import {googleTagManager} from 'pwa-custom-core/src'
 
 // NOTE: You can ignore certain refinements on a template level by updating the below
 // list of ignored refinements.
@@ -181,6 +184,8 @@ const ProductList = (props) => {
     }
 
     /**************** Einstein ****************/
+    const {pathname} = useLocation()
+
     useEffect(() => {
         if (productSearchResult) {
             searchQuery
@@ -188,6 +193,12 @@ const ProductList = (props) => {
                 : einstein.sendViewCategory(category, productSearchResult)
         }
     }, [productSearchResult])
+
+    //submiting pathname to GTM start
+    useEffect(() => {
+        googleTagManager.gtmPageView(pathname)
+    }, [])
+    //submiting pathname to GTM end
 
     /**************** Filters ****************/
     const [searchParams, {stringify: stringifySearchParams}] = useSearchParams()
