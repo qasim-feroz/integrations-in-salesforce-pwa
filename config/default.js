@@ -41,8 +41,6 @@ module.exports = {
             verifySiteUrl: 'https://www.google.com/recaptcha/api/siteverify'
         },
 
-        // Google tag manager id
-
         GoogleTagManagerId: 'GTM-MW4F7V7'
     },
     // This list contains server-side only libraries that you don't want to be compiled by webpack
