@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import React, { useState } from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import { ChakraProvider } from '@chakra-ui/react'
+import {ChakraProvider} from '@chakra-ui/react'
 
 // Removes focus for non-keyboard interactions for the whole application
 import 'focus-visible/dist/focus-visible'
@@ -19,12 +19,16 @@ import {
     CustomerProductListsProvider,
     CustomerProvider
 } from '../../commerce-api/contexts'
-import { MultiSiteProvider } from '../../contexts'
-import { resolveSiteFromUrl } from '../../utils/site-utils'
-import { resolveLocaleFromUrl } from '../../utils/utils'
-import { getConfig } from 'pwa-kit-runtime/utils/ssr-config'
-import { createUrlTemplate } from '../../utils/url'
-import { coreAppConfig } from 'pwa-custom-core/src'
+import {MultiSiteProvider} from '../../contexts'
+import {resolveSiteFromUrl} from '../../utils/site-utils'
+import {resolveLocaleFromUrl} from '../../utils/utils'
+import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
+import {createUrlTemplate} from '../../utils/url'
+
+// imports from pwa-custom-core
+import {coreAppConfig} from 'pwa-custom-core/src'
+import {googleTagManager} from 'pwa-custom-core/src'
+
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
  * methods for all Route Components in the app – typically you'd want to do this
@@ -33,16 +37,25 @@ import { coreAppConfig } from 'pwa-custom-core/src'
  * You can also use the AppConfig to configure a state-management library such
  * as Redux, or Mobx, if you like.
  */
-const AppConfig = ({ children, locals = {} }) => {
+const AppConfig = ({children, locals = {}}) => {
     const [basket, setBasket] = useState(null)
-    const [customer, setCustomer] = useState(null);
+    const [customer, setCustomer] = useState(null)
 
-    coreAppConfig.init(locals.config);
+    //coreAppConfig start
+    coreAppConfig.init(locals.config)
+    //coreAppConfig end
+
+    // gtm intilization start
+    useEffect(() => {
+        googleTagManager.gtmInit()
+    }, [])
+    // gtm intilization end
+
     return (
         <MultiSiteProvider site={locals.site} locale={locals.locale} buildUrl={locals.buildUrl}>
             <CommerceAPIProvider value={locals.api}>
-                <CustomerProvider value={{ customer, setCustomer }}>
-                    <BasketProvider value={{ basket, setBasket }}>
+                <CustomerProvider value={{customer, setCustomer}}>
+                    <BasketProvider value={{basket, setBasket}}>
                         <CustomerProductListsProvider>
                             <ChakraProvider theme={theme}>{children}</ChakraProvider>
                         </CustomerProductListsProvider>
@@ -61,8 +74,8 @@ AppConfig.restore = (locals = {}) => {
     const site = resolveSiteFromUrl(path)
     const locale = resolveLocaleFromUrl(path)
     const currency = locale.preferredCurrency
-    const config = getConfig();
-    const { app: appConfig } = config;
+    const config = getConfig()
+    const {app: appConfig} = config
     const apiConfig = {
         ...appConfig.commerceAPI,
         einsteinConfig: appConfig.einsteinAPI
@@ -70,7 +83,7 @@ AppConfig.restore = (locals = {}) => {
 
     apiConfig.parameters.siteId = site.id
 
-    locals.api = new CommerceAPI({ ...apiConfig, locale: locale.id, currency })
+    locals.api = new CommerceAPI({...apiConfig, locale: locale.id, currency})
     locals.buildUrl = createUrlTemplate(appConfig, site.alias || site.id, locale.id)
     locals.site = site
     locals.locale = locale

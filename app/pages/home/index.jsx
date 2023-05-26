@@ -44,6 +44,9 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
+// imports from core
+import {googleTagManager} from 'pwa-custom-core/src'
+
 /**
  * This is the home page for Retail React App.
  * The page is created for demonstration purposes.
@@ -58,6 +61,10 @@ const Home = ({productSearchResult, isLoading}) => {
     /**************** Einstein ****************/
     useEffect(() => {
         einstein.sendViewPage(pathname)
+
+        // submiting page-path to GTM start
+        googleTagManager.gtmPageView(pathname)
+        // submiting page-path to GTM end
     }, [])
 
     const productSearchResultIDs = []

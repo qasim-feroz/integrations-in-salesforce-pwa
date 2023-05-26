@@ -35,6 +35,9 @@ import CartItemVariantName from '../../components/item-variant/item-name'
 import CartItemVariantAttributes from '../../components/item-variant/item-attributes'
 import CartItemVariantPrice from '../../components/item-variant/item-price'
 
+// import from core
+import {googleTagManager} from 'pwa-custom-core/src'
+
 const CheckoutConfirmation = () => {
     const navigate = useNavigation()
     const basket = useBasket()
@@ -53,6 +56,12 @@ const CheckoutConfirmation = () => {
             lastName: customer.lastName || order?.billingAddress?.lastName
         }
     })
+
+    // submitting checkout details to GTM start
+    useEffect(() => {
+        googleTagManager.gtmCheckout(basket)
+    }, [])
+    // submitting checkout details to GTM end
 
     // If we don't have an order object on first render we need to transition back to a
     // different page. Fow now, we push to the homepage.
