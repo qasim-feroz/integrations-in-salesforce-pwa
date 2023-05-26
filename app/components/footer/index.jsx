@@ -30,7 +30,7 @@ import {HideOnDesktop, HideOnMobile} from '../responsive'
 import {getPathWithLocale} from '../../utils/url'
 import LocaleText from '../locale-text'
 import useMultiSite from '../../hooks/use-multi-site'
-
+import {GoogleRecaptcha} from 'pwa-custom-core/src'
 const Footer = ({...otherProps}) => {
     const styles = useMultiStyleConfig('Footer')
     const intl = useIntl()
@@ -190,6 +190,11 @@ export default Footer
 const Subscribe = ({...otherProps}) => {
     const styles = useStyles()
     const intl = useIntl()
+    const captchaRef = React.createRef()
+    const onSubmit = (event) => {
+        event.preventDefault()
+        captchaRef.current.execute()
+    }
 
     return (
         <Box {...styles.subscribe} {...otherProps}>
@@ -207,17 +212,26 @@ const Subscribe = ({...otherProps}) => {
             </Text>
 
             <Box>
-                <InputGroup>
-                    <Input type="email" placeholder="you@email.com" {...styles.subscribeField} />
-                    <InputRightElement {...styles.subscribeButtonContainer}>
-                        <Button variant="footer">
-                            {intl.formatMessage({
-                                id: 'footer.subscribe.button.sign_up',
-                                defaultMessage: 'Sign Up'
-                            })}
-                        </Button>
-                    </InputRightElement>
-                </InputGroup>
+                {/*GoogleRecaptch implimentation start*/}
+                <GoogleRecaptcha captchaRef={captchaRef} />
+                {/*GoogleRecaptch implimentation end*/}
+                <form onSubmit={onSubmit}>
+                    <InputGroup>
+                        <Input
+                            type="email"
+                            placeholder="you@email.com"
+                            {...styles.subscribeField}
+                        />
+                        <InputRightElement {...styles.subscribeButtonContainer}>
+                            <Button type="submit" variant="footer">
+                                {intl.formatMessage({
+                                    id: 'footer.subscribe.button.sign_up',
+                                    defaultMessage: 'Sign Up'
+                                })}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+                </form>
             </Box>
 
             <SocialIcons variant="flex-start" pinterestInnerColor="black" {...styles.socialIcons} />
