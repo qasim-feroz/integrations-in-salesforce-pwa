@@ -47,6 +47,9 @@ import {rebuildPathWithParams} from '../../utils/url'
 import {useHistory} from 'react-router-dom'
 import {useToast} from '../../hooks/use-toast'
 
+// import from core
+import {googleTagManager} from 'pwa-custom-core/src'
+
 const ProductDetail = ({category, product, isLoading}) => {
     const {formatMessage} = useIntl()
     const basket = useBasket()
@@ -69,6 +72,13 @@ const ProductDetail = ({category, product, isLoading}) => {
     }, [category])
 
     /**************** Product Variant ****************/
+
+    //submitting product details to GTM start
+    useEffect(() => {
+        googleTagManager.gtmPDP(product)
+    }, [product])
+    //submitting product details to GTM end
+
     useEffect(() => {
         // update the variation attributes parameter on
         // the url accordingly as the variant changes
@@ -131,6 +141,10 @@ const ProductDetail = ({category, product, isLoading}) => {
             ]
 
             await basket.addItemToBasket(productItems)
+
+            //submitiong Add to cart to GTM start
+            googleTagManager.gtmAddToCart(variant, quantity)
+            //submitiong Add to cart to GTM end
         } catch (error) {
             showError(error)
         }

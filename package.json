@@ -110,8 +110,7 @@
     "dotenv": "^16.0.3",
     "node-cache": "^5.1.2",
     "pwa-custom-core": "file:pwa-custom-core",
-    "redis-server": "^1.2.2",
+    "react-google-recaptcha": "^2.1.0",
     "stylelint": "^14.16.1"
-  },
-  "pkce": "./app/commerce-api/pkce.js"
+  }
 }
