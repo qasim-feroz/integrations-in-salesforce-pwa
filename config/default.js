@@ -43,7 +43,7 @@ module.exports = {
 
         // Google tag manager id
 
-        gtmId: 'GTM-MW4F7V7'
+        GoogleTagManagerId: 'GTM-MW4F7V7'
     },
     // This list contains server-side only libraries that you don't want to be compiled by webpack
     externals: [],
