@@ -10,7 +10,11 @@ import PropTypes from 'prop-types'
 import {useHistory, useParams} from 'react-router-dom'
 import {FormattedMessage, useIntl} from 'react-intl'
 import {Helmet} from 'react-helmet'
+
+//custom-core-change
 import {useLocation} from 'react-router-dom'
+//custom-core-change
+
 // Components
 import {
     Box,
@@ -55,7 +59,6 @@ import {useLimitUrls, usePageUrls, useSortUrls, useSearchParams} from '../../hoo
 import {useToast} from '../../hooks/use-toast'
 import useWishlist from '../../hooks/use-wishlist'
 import {parse as parseSearchParams} from '../../hooks/use-search-params'
-import {useCategories} from '../../hooks/use-categories'
 import useEinstein from '../../commerce-api/hooks/useEinstein'
 
 // Others
@@ -73,8 +76,10 @@ import {
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../../components/loading-spinner'
 
+//custom-core-change
 // import from core
 import {googleTagManager} from 'pwa-custom-core/src'
+//custom-core-change
 
 // NOTE: You can ignore certain refinements on a template level by updating the below
 // list of ignored refinements.
@@ -89,6 +94,7 @@ const ProductList = (props) => {
     const {
         searchQuery,
         productSearchResult,
+        category,
         // eslint-disable-next-line react/prop-types
         staticContext,
         location,
@@ -96,22 +102,14 @@ const ProductList = (props) => {
         ...rest
     } = props
     const {total, sortingOptions} = productSearchResult || {}
-
     const {isOpen, onOpen, onClose} = useDisclosure()
     const [sortOpen, setSortOpen] = useState(false)
     const {formatMessage} = useIntl()
     const navigate = useNavigation()
     const history = useHistory()
     const params = useParams()
-    const {categories} = useCategories()
     const toast = useToast()
     const einstein = useEinstein()
-
-    // Get the current category from global state.
-    let category = undefined
-    if (!searchQuery) {
-        category = categories[params.categoryId]
-    }
 
     const basePath = `${location.pathname}${location.search}`
     // Reset scroll position when `isLoaded` becomes `true`.
@@ -184,7 +182,10 @@ const ProductList = (props) => {
     }
 
     /**************** Einstein ****************/
+    
+    //custom-core-change
     const {pathname} = useLocation()
+    //custom-core-change
 
     useEffect(() => {
         if (productSearchResult) {
@@ -194,11 +195,13 @@ const ProductList = (props) => {
         }
     }, [productSearchResult])
 
+//custom-core-change
     //submiting pathname to GTM start
     useEffect(() => {
         googleTagManager.gtmPageView(pathname)
     }, [])
     //submiting pathname to GTM end
+//custom-core-change
 
     /**************** Filters ****************/
     const [searchParams, {stringify: stringifySearchParams}] = useSearchParams()
@@ -214,25 +217,34 @@ const ProductList = (props) => {
         // If we aren't allowing for multiple selections, simply clear any value set for the
         // attribute, and apply a new one if required.
         if (!allowMultiple) {
+            const previousValue = searchParamsCopy.refine[attributeId]
             delete searchParamsCopy.refine[attributeId]
 
-            if (!selected) {
+            // Note the loose comparison, for "string != number" checks.
+            if (!selected && value.value != previousValue) {
                 searchParamsCopy.refine[attributeId] = value.value
             }
         } else {
             // Get the attibute value as an array.
             let attributeValue = searchParamsCopy.refine[attributeId] || []
-            let values = Array.isArray(attributeValue) ? attributeValue : attributeValue.split('|')
+
+            // Ensure that the value is still converted into an array if it's a `string` or `number`.
+            if (typeof attributeValue === 'string') {
+                attributeValue = attributeValue.split('|')
+            } else if (typeof attributeValue === 'number') {
+                attributeValue = [attributeValue]
+            }
 
             // Either set the value, or filter the value out.
             if (!selected) {
-                values.push(value.value)
+                attributeValue.push(value.value)
             } else {
-                values = values?.filter((v) => v !== value.value)
+                // Note the loose comparison, for "string != number" checks.
+                attributeValue = attributeValue?.filter((v) => v != value.value)
             }
 
             // Update the attribute value in the new search params.
-            searchParamsCopy.refine[attributeId] = values
+            searchParamsCopy.refine[attributeId] = attributeValue
 
             // If the update value is an empty array, remove the current attribute key.
             if (searchParamsCopy.refine[attributeId].length === 0) {
@@ -403,9 +415,8 @@ const ProductList = (props) => {
                                           ))
                                     : productSearchResult.hits.map((productSearchItem) => {
                                           const productId = productSearchItem.productId
-                                          const isInWishlist = !!wishlist.findItemByProductId(
-                                              productId
-                                          )
+                                          const isInWishlist =
+                                              !!wishlist.findItemByProductId(productId)
 
                                           return (
                                               <ProductTile
@@ -611,9 +622,6 @@ ProductList.getProps = async ({res, params, location, api}) => {
         searchParams.refine.push(`cgid=${categoryId}`)
     }
 
-    // only search master products
-    searchParams.refine.push('htype=master')
-
     // Set the `cache-control` header values to align with the Commerce API settings.
     if (res) {
         res.set('Cache-Control', `max-age=${MAX_CACHE_AGE}`)
@@ -641,7 +649,7 @@ ProductList.getProps = async ({res, params, location, api}) => {
         throw new HTTPNotFound(category.detail)
     }
 
-    return {searchQuery: searchQuery, productSearchResult}
+    return {searchQuery: searchQuery, productSearchResult, category}
 }
 
 ProductList.propTypes = {
@@ -665,7 +673,8 @@ ProductList.propTypes = {
     location: PropTypes.object,
     searchQuery: PropTypes.string,
     onAddToWishlistClick: PropTypes.func,
-    onRemoveWishlistClick: PropTypes.func
+    onRemoveWishlistClick: PropTypes.func,
+    category: PropTypes.object
 }
 
 export default ProductList

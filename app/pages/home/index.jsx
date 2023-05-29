@@ -5,7 +5,10 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+//custom-core-change
 import React, {useEffect, useState} from 'react'
+//custom-core-change
+
 import PropTypes from 'prop-types'
 import {useIntl, FormattedMessage} from 'react-intl'
 import {useLocation} from 'react-router-dom'
@@ -44,8 +47,10 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
+//custom-core-change
 // imports from core
 import {googleTagManager} from 'pwa-custom-core/src'
+//custom-core-change
 
 /**
  * This is the home page for Retail React App.
@@ -62,11 +67,15 @@ const Home = ({productSearchResult, isLoading}) => {
     useEffect(() => {
         einstein.sendViewPage(pathname)
 
+//custom-core-change
         // submiting page-path to GTM start
         googleTagManager.gtmPageView(pathname)
-        // submiting page-path to GTM end
+        // submiting page-path to GTM end	
+//custom-core-change
+	
     }, [])
 
+//custom-core-change
     const productSearchResultIDs = []
     const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
 
@@ -87,6 +96,8 @@ const Home = ({productSearchResult, isLoading}) => {
     //         productSearchResultIDs.push(id)
     //     })
     // }
+    
+    //custom-core-change
 
     return (
         <Box data-testid="home-page" layerStyle="page">

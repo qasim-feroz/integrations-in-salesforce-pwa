@@ -8,8 +8,10 @@ import {useContext, useMemo} from 'react'
 import useEinstein from './useEinstein'
 import {useCommerceAPI, BasketContext} from '../contexts'
 import useCustomer from './useCustomer'
-import {isError} from '../utils'
+import {isError} from '../utils
+// custom-core-change
 import useCoreBasket from 'pwa-custom-core/src/extensions/hooks/coreBasket'
+// custom-core-change
 
 export default function useBasket(opts = {}) {
     const {currency} = opts
@@ -22,14 +24,18 @@ export default function useBasket(opts = {}) {
         const _productItemsDetail = basket?._productItemsDetail
         _setBasket({_productItemsDetail, ...basketData})
     }
-
+    
+// custom-core-change
     const coreBasket = useCoreBasket({api, basket, setBasket})
+// custom-core-change
 
     const self = useMemo(() => {
         return {
             ...basket,
-
+            
+// custom-core-change
             ...coreBasket,
+// custom-core-change
 
             // Check if a this represents a valid basket
             get loaded() {
@@ -128,13 +134,7 @@ export default function useBasket(opts = {}) {
                     throw new Error(response)
                 } else {
                     setBasket(response)
-                    const einsteinProduct = {
-                        id: item[0].productId,
-                        sku: '',
-                        price: item[0].price,
-                        quantity: item[0].quantity
-                    }
-                    einstein.sendAddToCart(einsteinProduct)
+                    item.map((eachItem) => einstein.sendAddToCart(eachItem))
                 }
             },
 
@@ -376,6 +376,11 @@ export default function useBasket(opts = {}) {
              */
             async createOrder() {
                 const response = await api.shopperOrders.createOrder({
+                    // We send the SLAS usid via this header. This is required by ECOM to map
+                    // Einstein events sent via the API with the finishOrder event fired by ECOM
+                    // when an Order transitions from Created to New status.
+                    // Without this, various order conversion metrics will not appear on reports and dashboards
+                    headers: {_sfdc_customer_id: api.auth.usid},
                     body: {basketId: basket.basketId}
                 })
 
@@ -387,7 +392,11 @@ export default function useBasket(opts = {}) {
                 // it on the confirmation page. The basket is automatically deleted
                 // in SF so we need to make sure a new one is created when leaving the confirmation.
                 setBasket(response)
+                
+                // custom-core-change
                 return response
+                // custom-core-change
+                
             },
 
             /**
@@ -421,7 +430,11 @@ export default function useBasket(opts = {}) {
                 setBasket(response)
             }
         }
+        
+        // custom-core-change
     }, [customer, basket, setBasket, coreBasket])
+      // custom-core-change
+
 
     return self
 }
