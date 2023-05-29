@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./",
+      "paths": {
+        "@myhooks/*": ["app/hooks/*"],
+        "@commerceAPI/*": ["app/commerce-api/hooks/*"],
+        // Add more aliases as needed
+      }
+    },
+    "exclude": ["node_modules", "build"]
+  }
