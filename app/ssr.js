@@ -106,6 +106,9 @@ const {handler} = runtime.createHandler(options, (app) => {
 
     // Handle the redirect from SLAS as to avoid error
     app.get('/callback?*', (req, res) => {
+        // This endpoint does nothing and is not expected to change
+        // Thus we cache it for a year to maximize performance
+        res.set('Cache-Control', `max-age=31536000`)
         res.send()
     })
 

@@ -22,8 +22,12 @@ import {
 import {useForm, Controller} from 'react-hook-form'
 import {LockIcon, PaypalIcon} from '../../../components/icons'
 import {useCheckout} from '../util/checkout-context'
-import CCRadioGroup from './cc-radio-group'
+
+//custom-core-change
 import AdyenCCFields from 'pwa-custom-core/src/integrations/payments/components/adyenCCFields'
+//custom-core-change
+
+import CCRadioGroup from './cc-radio-group'
 
 const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
     const {formatMessage} = useIntl()
@@ -113,8 +117,7 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                     ? formatMessage({
                                                           defaultMessage:
                                                               'Please select a payment method.',
-                                                          id:
-                                                              'payment_selection.message.select_payment_method'
+                                                          id: 'payment_selection.message.select_payment_method'
                                                       })
                                                     : false
                                             }}
@@ -150,7 +153,9 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                     </Heading>
                                                 )}
 
+//custom-core-change
                                                 <AdyenCCFields form={form} />
+//custom-core-change
 
                                                 {!hideSubmitButton && (
                                                     <Box>
