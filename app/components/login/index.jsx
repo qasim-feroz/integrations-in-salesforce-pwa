@@ -12,6 +12,7 @@ import {Alert, Box, Button, Stack, Text} from '@chakra-ui/react'
 import {AlertIcon, BrandLogo} from '../icons'
 import LoginFields from '../../components/forms/login-fields'
 import {noop} from '../../utils/utils'
+import {createCodeVerifier, generateCodeChallenge} from '../../commerce-api/pkce'
 import {LoginWihGoogle} from 'pwa-custom-core/src/Integrations/idps/index'
 const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount = noop, form}) => {
     return (
@@ -62,7 +63,7 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                                 id="login_form.button.sign_in"
                             />
                         </Button>
-                        <Button type="button" onClick={() => LoginWihGoogle()}>
+                        <Button type="button" onClick={() => LoginWihGoogle({createCodeVerifier, generateCodeChallenge})}>
                             Login With Google
                         </Button>
 
