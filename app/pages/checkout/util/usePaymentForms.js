@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useCheckout } from '../util/checkout-context'
+import {useEffect, useState} from 'react'
+import {useForm} from 'react-hook-form'
+import {useCheckout} from '../util/checkout-context'
 
 /**
  * A hook for managing and coordinating the billing address and payment method forms.
@@ -21,7 +21,11 @@ const usePaymentForms = () => {
         setBillingAddress,
         isBillingSameAsShipping,
         goToNextStep,
+        
+        //custom-core-change
         adyenData
+        //custom-core-change
+        
     } = useCheckout()
 
     // This local state value manages the 'checked' state of the billing address form's
@@ -53,6 +57,8 @@ const usePaymentForms = () => {
         // This works because a payment cannot be edited, only removed. In the UI,
         // we ensure that the any applied payment is removed before showing the
         // the payment form.
+        
+        //custom-core-change
         if (Object.keys(payment).length === 0 && adyenData) {
             payment = {
                 paymentMethodId: 'AdyenComponent',
@@ -62,6 +68,8 @@ const usePaymentForms = () => {
                 }
             }
         }
+        //custom-core-change
+        
         if (!selectedPayment) {
             await setPayment(payment)
         }

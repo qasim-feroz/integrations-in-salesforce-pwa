@@ -183,9 +183,13 @@ const PaymentCardSummary = ({payment}) => {
             <Stack direction="row">
                 <Text>{payment.paymentCard.cardType}</Text>
                 <Text>&bull;&bull;&bull;&bull; {payment.paymentCard.numberLastDigits}</Text>
+		
+		//custom-core-change
                 {payment.paymentCard.expirationMonth && <Text>
                     {payment.paymentCard.expirationMonth}/{payment.paymentCard.expirationYear}
                 </Text>}
+		//custom-core-change
+		
             </Stack>
         </Stack>
     )

@@ -6,5 +6,6 @@
  */
 
 module.exports = {
-    extends: require.resolve('pwa-kit-dev/configs/eslint/eslint-config')
+    extends: require.resolve('pwa-kit-dev/configs/eslint/eslint-config'),
+    rules: {'prettier/prettier': ['error', {endOfLine: 'auto'}]}
 }
