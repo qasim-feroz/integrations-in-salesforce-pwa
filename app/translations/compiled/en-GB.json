@@ -3298,16 +3298,5 @@
       "type": 0,
       "value": "Please sign in to continue!"
     }
-  ],
-  
-  //custom-core-change
-  "adyen.error.payment_method_failed": [
-    {
-      "type": 0,
-      "value": "Could not process payment information. Payment method has probably failed!"
-    }
-    
-    //custom-core-change
-    
   ]
 }
