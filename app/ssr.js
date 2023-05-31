@@ -11,7 +11,7 @@ const {getRuntime} = require('pwa-kit-runtime/ssr/server/express')
 const {isRemote} = require('pwa-kit-runtime/utils/ssr-server')
 const {getConfig} = require('pwa-kit-runtime/utils/ssr-config')
 const helmet = require('helmet')
-// const apiMiddleware = require('pwa-custom-core/src/base/middleware/ApiMiddleware')
+const apiMiddleware = require('pwa-custom-core/src/base/middleware/ApiMiddleware')
 const express = require('express')
 
 //loads environemnt variables from the file
@@ -114,17 +114,13 @@ const {handler} = runtime.createHandler(options, (app) => {
 
     // Handle the redirect from SLAS as to avoid error
     app.get('/callback?*', (req, res) => {
-        // This endpoint does nothing and is not expected to change
-        // Thus we cache it for a year to maximize performance
-        res.set('Cache-Control', `max-age=31536000`)
         res.send()
     })
 
-    // TODO: uncomment this section after the apiMiddleware added into Develop -> pwa-custom-core
-    // app.post('/api', async (req, res) => {
-    //     var response = await apiMiddleware(req, res);
-    //     res.send(response);
-    // });
+    app.post('/api', async (req, res) => {
+        var response = await apiMiddleware(req, res)
+        res.send(response)
+    })
 
     app.get('/robots.txt', runtime.serveStaticFile('static/robots.txt'))
     app.get('/favicon.ico', runtime.serveStaticFile('static/ico/favicon.ico'))
