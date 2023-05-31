@@ -182,7 +182,7 @@ const ProductList = (props) => {
     }
 
     /**************** Einstein ****************/
-    
+
     //custom-core-change
     const {pathname} = useLocation()
     //custom-core-change
@@ -195,13 +195,13 @@ const ProductList = (props) => {
         }
     }, [productSearchResult])
 
-//custom-core-change
+    //custom-core-change
     //submiting pathname to GTM start
     useEffect(() => {
         googleTagManager.gtmPageView(pathname)
     }, [])
     //submiting pathname to GTM end
-//custom-core-change
+    //custom-core-change
 
     /**************** Filters ****************/
     const [searchParams, {stringify: stringifySearchParams}] = useSearchParams()

@@ -67,15 +67,14 @@ const Home = ({productSearchResult, isLoading}) => {
     useEffect(() => {
         einstein.sendViewPage(pathname)
 
-//custom-core-change
+        //custom-core-change
         // submiting page-path to GTM start
         googleTagManager.gtmPageView(pathname)
-        // submiting page-path to GTM end	
-//custom-core-change
-	
+        // submiting page-path to GTM end
+        //custom-core-change
     }, [])
 
-//custom-core-change
+    //custom-core-change
     const productSearchResultIDs = []
     const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
 
@@ -96,8 +95,6 @@ const Home = ({productSearchResult, isLoading}) => {
     //         productSearchResultIDs.push(id)
     //     })
     // }
-    
-    //custom-core-change
 
     return (
         <Box data-testid="home-page" layerStyle="page">

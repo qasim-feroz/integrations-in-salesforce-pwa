@@ -194,7 +194,7 @@ export default Footer
 const Subscribe = ({...otherProps}) => {
     const styles = useStyles()
     const intl = useIntl()
-    
+
     //custom-core-change
     const captchaRef = React.createRef()
     const onSubmit = (event) => {
@@ -219,14 +219,12 @@ const Subscribe = ({...otherProps}) => {
             </Text>
 
             <Box>
-	    
-	    //custom-core-change
+                {/*custom-core-change*/}
                 {/*GoogleRecaptch implimentation start*/}
                 <GoogleRecaptcha captchaRef={captchaRef} />
                 {/*GoogleRecaptch implimentation end*/}
                 <form onSubmit={onSubmit}>
-		//custom-core-change
-		
+                    {/*custom-core-change*/}
                     <InputGroup>
                         <Input
                             type="email"
@@ -234,11 +232,10 @@ const Subscribe = ({...otherProps}) => {
                             {...styles.subscribeField}
                         />
                         <InputRightElement {...styles.subscribeButtonContainer}>
-			
-			//custom-core-change
+                            {/*custom-core-change*/}
                             <Button type="submit" variant="footer">
-			    //custom-core-change
-			    
+                                {/*custom-core-change*/}
+
                                 {intl.formatMessage({
                                     id: 'footer.subscribe.button.sign_up',
                                     defaultMessage: 'Sign Up'
@@ -246,11 +243,9 @@ const Subscribe = ({...otherProps}) => {
                             </Button>
                         </InputRightElement>
                     </InputGroup>
-		    
-		    //custom-core-change
+                    {/*custom-core-change*/}
                 </form>
-		//custom-core-change
-
+                {/*custom-core-change*/}
             </Box>
 
             <SocialIcons variant="flex-start" pinterestInnerColor="black" {...styles.socialIcons} />

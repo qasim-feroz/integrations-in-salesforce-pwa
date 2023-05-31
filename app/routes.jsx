@@ -98,10 +98,15 @@ const routes = [
         path: '/account/wishlist',
         component: Wishlist
     },
+
+    // custom-core-change
     {
-        path: '/page-viewer/:pageId',
-        component: PageViewer
+        path: '/:pageId',
+        component: PageViewer,
+        exact: true
     },
+    // custom-core-change
+
     {
         path: '*',
         component: PageNotFound
