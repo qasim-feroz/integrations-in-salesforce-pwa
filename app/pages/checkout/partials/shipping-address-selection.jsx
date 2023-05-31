@@ -18,8 +18,10 @@ import AddressDisplay from '../../../components/address-display'
 import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
+// *****  Core: Melissa - Start  *****
 import {MelissaSuggestionModal} from 'pwa-custom-core/src/integrations/address-verification/melissa/components/modal'
-import {openModal} from 'pwa-custom-core/src/integrations/address-verification/melissa/helper/melissaHelper'
+import {openMelissaModal} from 'pwa-custom-core/src/integrations/address-verification/melissa/helper/melissaHelper'
+// *****  Core: Melissa - End   *****
 
 const saveButtonMessage = defineMessage({
     defaultMessage: 'Save & Continue to Shipping Method',
@@ -111,15 +113,21 @@ const ShippingAddressSelection = ({
     const [isEditingAddress, setIsEditingAddress] = useState(!hasSavedAddresses)
     const [selectedAddressId, setSelectedAddressId] = useState(false)
 
-    // Melissa Custom Core Changes
+    // *****  Core: Melissa - End   *****
     const [isModalOpenState, setModalOpenState] = useState(false)
     const [melissaAdrressData, setMelissaAdrressData] = useState([''])
     const [addressData, setaddressData] = useState([''])
 
     const melissaModal = async (address) => {
-        openModal(address, submitForm, setModalOpenState, setaddressData, setMelissaAdrressData)
+        openMelissaModal(
+            address,
+            submitForm,
+            setModalOpenState,
+            setaddressData,
+            setMelissaAdrressData
+        )
     }
-    // Melissa Custom Core Changes
+    // *****  Core: Melissa - End   *****
 
     form =
         form ||
@@ -224,7 +232,7 @@ const ShippingAddressSelection = ({
 
     return (
         <form onSubmit={form.handleSubmit(melissaModal)}>
-            {/* Melissa Custom Core Changes */}
+            {/* Core: Melissa - Start */}
             {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
             <MelissaSuggestionModal
                 modalState={isModalOpenState}
@@ -233,7 +241,7 @@ const ShippingAddressSelection = ({
                 submitForm={submitForm}
                 addressData={addressData}
             />
-            {/* Melissa Custom Core Changes */}
+            {/* Core: Melissa - End */}
             <Stack spacing={4}>
                 {hasSavedAddresses && (
                     <Controller
