@@ -31,6 +31,10 @@ import {getPathWithLocale} from '../../utils/url'
 import LocaleText from '../locale-text'
 import useMultiSite from '../../hooks/use-multi-site'
 
+//custom-core-change
+import {GoogleRecaptcha} from 'pwa-custom-core/src'
+//custom-core-change
+
 const Footer = ({...otherProps}) => {
     const styles = useMultiStyleConfig('Footer')
     const intl = useIntl()
@@ -190,6 +194,14 @@ export default Footer
 const Subscribe = ({...otherProps}) => {
     const styles = useStyles()
     const intl = useIntl()
+    
+    //custom-core-change
+    const captchaRef = React.createRef()
+    const onSubmit = (event) => {
+        event.preventDefault()
+        captchaRef.current.execute()
+    }
+    //custom-core-change
 
     return (
         <Box {...styles.subscribe} {...otherProps}>
@@ -207,17 +219,38 @@ const Subscribe = ({...otherProps}) => {
             </Text>
 
             <Box>
-                <InputGroup>
-                    <Input type="email" placeholder="you@email.com" {...styles.subscribeField} />
-                    <InputRightElement {...styles.subscribeButtonContainer}>
-                        <Button variant="footer">
-                            {intl.formatMessage({
-                                id: 'footer.subscribe.button.sign_up',
-                                defaultMessage: 'Sign Up'
-                            })}
-                        </Button>
-                    </InputRightElement>
-                </InputGroup>
+	    
+	    //custom-core-change
+                {/*GoogleRecaptch implimentation start*/}
+                <GoogleRecaptcha captchaRef={captchaRef} />
+                {/*GoogleRecaptch implimentation end*/}
+                <form onSubmit={onSubmit}>
+		//custom-core-change
+		
+                    <InputGroup>
+                        <Input
+                            type="email"
+                            placeholder="you@email.com"
+                            {...styles.subscribeField}
+                        />
+                        <InputRightElement {...styles.subscribeButtonContainer}>
+			
+			//custom-core-change
+                            <Button type="submit" variant="footer">
+			    //custom-core-change
+			    
+                                {intl.formatMessage({
+                                    id: 'footer.subscribe.button.sign_up',
+                                    defaultMessage: 'Sign Up'
+                                })}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+		    
+		    //custom-core-change
+                </form>
+		//custom-core-change
+
             </Box>
 
             <SocialIcons variant="flex-start" pinterestInnerColor="black" {...styles.socialIcons} />

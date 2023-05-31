@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {ChakraProvider} from '@chakra-ui/react'
 
@@ -24,7 +24,12 @@ import {resolveSiteFromUrl} from '../../utils/site-utils'
 import {resolveLocaleFromUrl} from '../../utils/utils'
 import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
-import {coreAppConfig} from 'pwa-custom-core/src/base/config/AppConfig'
+
+//custom-core-change
+import {coreAppConfig} from 'pwa-custom-core/src'
+import {googleTagManager} from 'pwa-custom-core/src'
+//custom-core-change
+
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
  * methods for all Route Components in the app – typically you'd want to do this
@@ -35,9 +40,20 @@ import {coreAppConfig} from 'pwa-custom-core/src/base/config/AppConfig'
  */
 const AppConfig = ({children, locals = {}}) => {
     const [basket, setBasket] = useState(null)
-    const [customer, setCustomer] = useState(null);
+    const [customer, setCustomer] = useState(null)
 
-    coreAppConfig.init(locals.config);
+//custom-core-change
+    //coreAppConfig start
+    coreAppConfig.init(locals.config)
+    //coreAppConfig end
+
+    // gtm intilization start
+    useEffect(() => {
+        googleTagManager.gtmInit()
+    }, [])
+    // gtm intilization end
+//custom-core-change
+
     return (
         <MultiSiteProvider site={locals.site} locale={locals.locale} buildUrl={locals.buildUrl}>
             <CommerceAPIProvider value={locals.api}>
@@ -61,8 +77,12 @@ AppConfig.restore = (locals = {}) => {
     const site = resolveSiteFromUrl(path)
     const locale = resolveLocaleFromUrl(path)
     const currency = locale.preferredCurrency
+
+    //custom-core-change
     const config = getConfig()
     const {app: appConfig} = config
+    //custom-core-change
+
     const apiConfig = {
         ...appConfig.commerceAPI,
         einsteinConfig: appConfig.einsteinAPI
@@ -74,7 +94,11 @@ AppConfig.restore = (locals = {}) => {
     locals.buildUrl = createUrlTemplate(appConfig, site.alias || site.id, locale.id)
     locals.site = site
     locals.locale = locale
+
+    //custom-core-change
     locals.config = config
+    //custom-core-change
+
 }
 
 AppConfig.freeze = () => undefined
