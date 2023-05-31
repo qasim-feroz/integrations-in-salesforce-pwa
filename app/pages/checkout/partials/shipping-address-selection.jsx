@@ -110,9 +110,16 @@ const ShippingAddressSelection = ({
     const hasSavedAddresses = customer.addresses && customer.addresses.length > 0
     const [isEditingAddress, setIsEditingAddress] = useState(!hasSavedAddresses)
     const [selectedAddressId, setSelectedAddressId] = useState(false)
+
+    // Melissa Custom Core Changes
     const [isModalOpenState, setModalOpenState] = useState(false)
     const [melissaAdrressData, setMelissaAdrressData] = useState([''])
     const [addressData, setaddressData] = useState([''])
+
+    const melissaModal = async (address) => {
+        openModal(address, submitForm, setModalOpenState, setaddressData, setMelissaAdrressData)
+    }
+    // Melissa Custom Core Changes
 
     form =
         form ||
@@ -177,10 +184,6 @@ const ShippingAddressSelection = ({
         await onSubmit(address)
     }
 
-    const melissaModal = async (address) => {
-        openModal(address, submitForm, setModalOpenState, setaddressData, setMelissaAdrressData)
-    }
-
     // Acts as our `onChange` handler for addressId radio group. We do this
     // manually here so we can toggle off the 'add address' form as needed.
     const handleAddressIdSelection = (addressId) => {
@@ -221,6 +224,7 @@ const ShippingAddressSelection = ({
 
     return (
         <form onSubmit={form.handleSubmit(melissaModal)}>
+            {/* Melissa Custom Core Changes */}
             {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
             <MelissaSuggestionModal
                 modalState={isModalOpenState}
@@ -229,6 +233,7 @@ const ShippingAddressSelection = ({
                 submitForm={submitForm}
                 addressData={addressData}
             />
+            {/* Melissa Custom Core Changes */}
             <Stack spacing={4}>
                 {hasSavedAddresses && (
                     <Controller
