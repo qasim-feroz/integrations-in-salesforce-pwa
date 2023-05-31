@@ -1,4 +1,5 @@
 const sites = require('./sites.js')
+
 module.exports = {
     app: {
         // Customize how your 'site' and 'locale' are displayed in the url.
