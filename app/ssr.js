@@ -54,10 +54,12 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkout-test.adyen.com',
                         'account.demandware.com',
                         'www.google.com',
-                        'www.googletagmanager.com'
+                        'www.googletagmanager.com',
+                        'api.cquotient.com'
                     ],
                     'script-src': [
                         "'self'",
+                        "'unsafe-inline'",
                         "'unsafe-eval'",
                         'storage.googleapis.com',
                         'checkoutshopper-test.adyen.com',
@@ -67,13 +69,15 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkout-test.adyen.com',
                         'account.demandware.com',
                         'www.google.com',
-                        'www.googletagmanager.com'
+                        'www.googletagmanager.com',
+                        'api.cquotient.com'
                     ],
 
                     // Do not upgrade insecure requests for local development
                     'upgrade-insecure-requests': isRemote() ? [] : null,
                     'connect-src': [
                         "'self'",
+                        "'unsafe-inline'",
                         "'unsafe-eval'",
                         'storage.googleapis.com',
                         'checkoutshopper-test.adyen.com',
@@ -81,7 +85,10 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'www.gstatic.com',
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
-                        'account.demandware.com'
+                        'account.demandware.com',
+                        'www.google.com',
+                        'www.googletagmanager.com',
+                        'api.cquotient.com'
                     ],
                     'default-src': [
                         "'self'",
@@ -94,7 +101,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkout-test.adyen.com',
                         'account.demandware.com',
                         'www.google.com',
-                        'www.googletagmanager.com'
+                        'www.googletagmanager.com',
+                        'api.cquotient.com'
                     ]
                 }
             },
