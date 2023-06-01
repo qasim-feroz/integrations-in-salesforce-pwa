@@ -152,11 +152,9 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                         />
                                                     </Heading>
                                                 )}
-
-//custom-core-change
+                                                //custom-core-change
                                                 <AdyenCCFields form={form} />
-//custom-core-change
-
+                                                //custom-core-change
                                                 {!hideSubmitButton && (
                                                     <Box>
                                                         <Container variant="form">
