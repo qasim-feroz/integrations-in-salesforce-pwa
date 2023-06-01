@@ -42,7 +42,7 @@ const AppConfig = ({children, locals = {}}) => {
     const [basket, setBasket] = useState(null)
     const [customer, setCustomer] = useState(null)
 
-//custom-core-change
+    //custom-core-change
     //coreAppConfig start
     coreAppConfig.init(locals.config)
     //coreAppConfig end
@@ -52,7 +52,7 @@ const AppConfig = ({children, locals = {}}) => {
         googleTagManager.gtmInit()
     }, [])
     // gtm intilization end
-//custom-core-change
+    //custom-core-change
 
     return (
         <MultiSiteProvider site={locals.site} locale={locals.locale} buildUrl={locals.buildUrl}>
@@ -77,12 +77,12 @@ AppConfig.restore = (locals = {}) => {
     const site = resolveSiteFromUrl(path)
     const locale = resolveLocaleFromUrl(path)
     const currency = locale.preferredCurrency
-    
+
     //custom-core-change
     const config = getConfig()
     const {app: appConfig} = config
     //custom-core-change
-    
+
     const apiConfig = {
         ...appConfig.commerceAPI,
         einsteinConfig: appConfig.einsteinAPI
@@ -94,11 +94,10 @@ AppConfig.restore = (locals = {}) => {
     locals.buildUrl = createUrlTemplate(appConfig, site.alias || site.id, locale.id)
     locals.site = site
     locals.locale = locale
-    
+
     //custom-core-change
     locals.config = config
     //custom-core-change
-    
 }
 
 AppConfig.freeze = () => undefined

@@ -59,13 +59,13 @@ const CheckoutConfirmation = () => {
         }
     })
 
-//custom-core-change
+    //custom-core-change
     // submitting checkout details to GTM start
     useEffect(() => {
         googleTagManager.gtmCheckout(basket)
     }, [])
     // submitting checkout details to GTM end
-//custom-core-change
+    //custom-core-change
     // If we don't have an order object on first render we need to transition back to a
     // different page. Fow now, we push to the homepage.
     useEffect(() => {
