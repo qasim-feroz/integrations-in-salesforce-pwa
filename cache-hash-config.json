@@ -1,7 +1,5 @@
 {
-    "files": [
-        "app/static/**/*"
-    ],
+    "files": ["app/static/**/*"],
     "baseDir": "app",
     "hashLength": 8,
     "destinationFolder": "app"
