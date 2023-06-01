@@ -90,10 +90,6 @@ module.exports = {
             {
                 host: 'account.demandware.com',
                 path: 'sftoken'
-            },
-            {
-                host: 'expressentry.melissadata.net',
-                path: 'melissa'
             }
         ]
     }
