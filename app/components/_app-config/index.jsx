@@ -24,6 +24,7 @@ import {resolveSiteFromUrl} from '../../utils/site-utils'
 import {resolveLocaleFromUrl} from '../../utils/utils'
 import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
+
 //custom-core-change
 import {coreAppConfig} from 'pwa-custom-core/src'
 import {googleTagManager} from 'pwa-custom-core/src'
@@ -76,6 +77,7 @@ AppConfig.restore = (locals = {}) => {
     const site = resolveSiteFromUrl(path)
     const locale = resolveLocaleFromUrl(path)
     const currency = locale.preferredCurrency
+
     //custom-core-change
     const config = getConfig()
     const {app: appConfig} = config
@@ -92,6 +94,7 @@ AppConfig.restore = (locals = {}) => {
     locals.buildUrl = createUrlTemplate(appConfig, site.alias || site.id, locale.id)
     locals.site = site
     locals.locale = locale
+
     //custom-core-change
     locals.config = config
     //custom-core-change
