@@ -27,8 +27,8 @@ module.exports = {
                 shortCode: 'lehipx41',
                 siteId: 'RefArch'
             },
-            ocapiHost: 'https://bgfs-001.dx.commercecloud.salesforce.com',
-            scapiHost: 'https://lehipx41.api.commercecloud.salesforce.com'
+            ocapiHostname: 'https://bgfs-001.dx.commercecloud.salesforce.com',
+            scapiHostname: 'https://lehipx41.api.commercecloud.salesforce.com'
         },
         // Einstein api config
         einsteinAPI: {
