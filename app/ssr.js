@@ -68,7 +68,6 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
                         'account.demandware.com',
-                        '*.melissadata.net',
                         'www.google.com',
                         'www.googletagmanager.com',
                         'api.cquotient.com'
@@ -87,7 +86,6 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
                         'account.demandware.com',
-                        '*.melissadata.net',
                         'www.google.com',
                         'www.googletagmanager.com',
                         'api.cquotient.com'
@@ -102,7 +100,6 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
                         'account.demandware.com',
-                        '*.melissadata.net',
                         'www.google.com',
                         'www.googletagmanager.com',
                         'api.cquotient.com'
