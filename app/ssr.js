@@ -11,7 +11,7 @@ const {getRuntime} = require('pwa-kit-runtime/ssr/server/express')
 const {isRemote} = require('pwa-kit-runtime/utils/ssr-server')
 const {getConfig} = require('pwa-kit-runtime/utils/ssr-config')
 const helmet = require('helmet')
-// const apiMiddleware = require('pwa-custom-core/src/base/middleware/ApiMiddleware')
+const apiMiddleware = require('pwa-custom-core/src/base/middleware/ApiMiddleware')
 const express = require('express')
 
 //loads environemnt variables from the file
@@ -54,10 +54,12 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkout-test.adyen.com',
                         'account.demandware.com',
                         'www.google.com',
-                        'www.googletagmanager.com'
+                        'www.googletagmanager.com',
+                        'api.cquotient.com'
                     ],
                     'script-src': [
                         "'self'",
+                        "'unsafe-inline'",
                         "'unsafe-eval'",
                         'storage.googleapis.com',
                         'checkoutshopper-test.adyen.com',
@@ -67,13 +69,15 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkout-test.adyen.com',
                         'account.demandware.com',
                         'www.google.com',
-                        'www.googletagmanager.com'
+                        'www.googletagmanager.com',
+                        'api.cquotient.com'
                     ],
 
                     // Do not upgrade insecure requests for local development
                     'upgrade-insecure-requests': isRemote() ? [] : null,
                     'connect-src': [
                         "'self'",
+                        "'unsafe-inline'",
                         "'unsafe-eval'",
                         'storage.googleapis.com',
                         'checkoutshopper-test.adyen.com',
@@ -81,7 +85,10 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'www.gstatic.com',
                         'checkoutshopper-live.adyen.com',
                         'checkout-test.adyen.com',
-                        'account.demandware.com'
+                        'account.demandware.com',
+                        'www.google.com',
+                        'www.googletagmanager.com',
+                        'api.cquotient.com'
                     ],
                     'default-src': [
                         "'self'",
@@ -94,7 +101,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'checkout-test.adyen.com',
                         'account.demandware.com',
                         'www.google.com',
-                        'www.googletagmanager.com'
+                        'www.googletagmanager.com',
+                        'api.cquotient.com'
                     ]
                 }
             },
@@ -112,11 +120,10 @@ const {handler} = runtime.createHandler(options, (app) => {
         res.send()
     })
 
-    // TODO: uncomment this section after the apiMiddleware added into Develop -> pwa-custom-core
-    // app.post('/api', async (req, res) => {
-    //     var response = await apiMiddleware(req, res);
-    //     res.send(response);
-    // });
+    app.post('/api', async (req, res) => {
+        var response = await apiMiddleware(req, res)
+        res.send(response)
+    })
 
     app.get('/robots.txt', runtime.serveStaticFile('static/robots.txt'))
     app.get('/favicon.ico', runtime.serveStaticFile('static/ico/favicon.ico'))

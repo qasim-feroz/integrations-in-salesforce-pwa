@@ -235,7 +235,6 @@ const Subscribe = ({...otherProps}) => {
                             {/*custom-core-change*/}
                             <Button type="submit" variant="footer">
                                 {/*custom-core-change*/}
-
                                 {intl.formatMessage({
                                     id: 'footer.subscribe.button.sign_up',
                                     defaultMessage: 'Sign Up'

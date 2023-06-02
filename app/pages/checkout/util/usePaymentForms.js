@@ -21,11 +21,10 @@ const usePaymentForms = () => {
         setBillingAddress,
         isBillingSameAsShipping,
         goToNextStep,
-        
+
         //custom-core-change
         adyenData
         //custom-core-change
-        
     } = useCheckout()
 
     // This local state value manages the 'checked' state of the billing address form's
@@ -38,7 +37,7 @@ const usePaymentForms = () => {
     const billingAddressForm = useForm({
         mode: 'onChange',
         shouldUnregister: false,
-        defaultValues: { ...selectedBillingAddress }
+        defaultValues: {...selectedBillingAddress}
     })
 
     // This effect watches for changes to our basket's shipping/billing address. If they
@@ -57,19 +56,19 @@ const usePaymentForms = () => {
         // This works because a payment cannot be edited, only removed. In the UI,
         // we ensure that the any applied payment is removed before showing the
         // the payment form.
-        
+
         //custom-core-change
         if (Object.keys(payment).length === 0 && adyenData) {
             payment = {
                 paymentMethodId: 'AdyenComponent',
                 paymentCard: {
                     number: adyenData.maskedNumber,
-                    cardType: adyenData.brand,
+                    cardType: adyenData.brand
                 }
             }
         }
         //custom-core-change
-        
+
         if (!selectedPayment) {
             await setPayment(payment)
         }

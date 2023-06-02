@@ -24,18 +24,18 @@ export default function useBasket(opts = {}) {
         const _productItemsDetail = basket?._productItemsDetail
         _setBasket({_productItemsDetail, ...basketData})
     }
-    
-// custom-core-change
+
+    // custom-core-change
     const coreBasket = useCoreBasket({api, basket, setBasket})
-// custom-core-change
+    // custom-core-change
 
     const self = useMemo(() => {
         return {
             ...basket,
-            
-// custom-core-change
+
+            // custom-core-change
             ...coreBasket,
-// custom-core-change
+            // custom-core-change
 
             // Check if a this represents a valid basket
             get loaded() {
@@ -392,11 +392,10 @@ export default function useBasket(opts = {}) {
                 // it on the confirmation page. The basket is automatically deleted
                 // in SF so we need to make sure a new one is created when leaving the confirmation.
                 setBasket(response)
-                
+
                 // custom-core-change
                 return response
                 // custom-core-change
-                
             },
 
             /**
@@ -430,11 +429,10 @@ export default function useBasket(opts = {}) {
                 setBasket(response)
             }
         }
-        
+
         // custom-core-change
     }, [customer, basket, setBasket, coreBasket])
-      // custom-core-change
-
+    // custom-core-change
 
     return self
 }

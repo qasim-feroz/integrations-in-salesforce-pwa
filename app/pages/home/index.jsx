@@ -96,6 +96,8 @@ const Home = ({productSearchResult, isLoading}) => {
     //     })
     // }
 
+    //custom-core-change
+
     return (
         <Box data-testid="home-page" layerStyle="page">
             <Seo
