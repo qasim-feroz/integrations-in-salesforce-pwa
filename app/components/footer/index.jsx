@@ -80,7 +80,9 @@ const Footer = ({...otherProps}) => {
                                 })}
                                 links={[
                                     {
-                                        href: '/',
+                                        // custom-core change start
+                                        href: '/order-status',
+                                        // custom-core change end
                                         text: intl.formatMessage({
                                             id: 'footer.link.order_status',
                                             defaultMessage: 'Order Status'

@@ -36,6 +36,14 @@ const ProductDetail = loadable(() => import('./pages/product-detail'), {fallback
 const ProductList = loadable(() => import('./pages/product-list'), {fallback})
 const Wishlist = loadable(() => import('./pages/account/wishlist'), {fallback})
 const PageViewer = loadable(() => import('./pages/page-viewer'), {fallback})
+// custom-core imports
+const OrderStatus = loadable(
+    () => import('pwa-custom-core/src/integrations/track-order/pages/order-status/OrderStatus'),
+    {fallback}
+)
+const OrderDetails = loadable(() =>
+    import('pwa-custom-core/src/integrations/track-order/pages/order-details/OrderDetails')
+)
 const PageNotFound = loadable(() => import('./pages/page-not-found'))
 const routes = [
     {
@@ -98,6 +106,16 @@ const routes = [
         path: '/account/wishlist',
         component: Wishlist
     },
+    // custom-core tracking order start
+    {
+        path: '/order-status',
+        component: OrderStatus
+    },
+    {
+        path: '/orders/:orderNo',
+        component: OrderDetails
+    },
+    // custom-core tracking order end
     {
         path: '/page-viewer/:pageId',
         component: PageViewer

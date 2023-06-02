@@ -28,6 +28,7 @@ import {createUrlTemplate} from '../../utils/url'
 //custom-core-change
 import {coreAppConfig} from 'pwa-custom-core/src'
 import {googleTagManager} from 'pwa-custom-core/src'
+import {CoreContextProvider} from 'pwa-custom-core/src/extensions/contexts/CoreContexts'
 //custom-core-change
 
 /**
@@ -59,9 +60,13 @@ const AppConfig = ({children, locals = {}}) => {
             <CommerceAPIProvider value={locals.api}>
                 <CustomerProvider value={{customer, setCustomer}}>
                     <BasketProvider value={{basket, setBasket}}>
-                        <CustomerProductListsProvider>
-                            <ChakraProvider theme={theme}>{children}</ChakraProvider>
-                        </CustomerProductListsProvider>
+                        {/*custom-core context provider start*/}
+                        <CoreContextProvider>
+                            <CustomerProductListsProvider>
+                                <ChakraProvider theme={theme}>{children}</ChakraProvider>
+                            </CustomerProductListsProvider>
+                        </CoreContextProvider>
+                        {/*custom-core context provider end*/}
                     </BasketProvider>
                 </CustomerProvider>
             </CommerceAPIProvider>
