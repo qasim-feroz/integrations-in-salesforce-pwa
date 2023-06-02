@@ -67,7 +67,12 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                         </Button>
 
                         {/* custom-core-change */}
-                        <Button type="button" onClick={() => LoginWihGoogle({createCodeVerifier, generateCodeChallenge})}>
+                        <Button
+                            type="button"
+                            onClick={() =>
+                                LoginWihGoogle({createCodeVerifier, generateCodeChallenge})
+                            }
+                        >
                             Login With Google
                         </Button>
                         {/* custom-core-change */}
