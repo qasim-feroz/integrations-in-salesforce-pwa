@@ -25,11 +25,11 @@ import {resolveLocaleFromUrl} from '../../utils/utils'
 import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
 
-//custom-core-change
+// *****  Core: Imports - Start  *****
 import {coreAppConfig} from 'pwa-custom-core/src'
 import {googleTagManager} from 'pwa-custom-core/src'
 import {CoreContextProvider} from 'pwa-custom-core/src'
-//custom-core-change
+// *****  Core: Imports - end  *****
 
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
@@ -60,13 +60,13 @@ const AppConfig = ({children, locals = {}}) => {
             <CommerceAPIProvider value={locals.api}>
                 <CustomerProvider value={{customer, setCustomer}}>
                     <BasketProvider value={{basket, setBasket}}>
-                        {/*custom-core context provider start*/}
+                        {/****** Core: CoreContextProvider - start ******/}
                         <CoreContextProvider>
                             <CustomerProductListsProvider>
                                 <ChakraProvider theme={theme}>{children}</ChakraProvider>
                             </CustomerProductListsProvider>
                         </CoreContextProvider>
-                        {/*custom-core context provider end*/}
+                        {/****** Core: CoreContextProvider - end ******/}
                     </BasketProvider>
                 </CustomerProvider>
             </CommerceAPIProvider>
