@@ -15,6 +15,7 @@ This component takes a page object and renders it using the specified components
 const PageViewer = ({page}) => (
     <Box layerStyle={'page'}>
         {/******  Core: Page Designer - Start  *****/}
+        {/******  Added PAGEDESIGNER_TO_COMPONENT from core   *****/}
         <Page page={page} components={PAGEDESIGNER_TO_COMPONENT} />
         {/******  Core: Page Designer - end  *****/}
     </Box>
