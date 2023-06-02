@@ -44,7 +44,6 @@ import {useToast} from '../../hooks/use-toast'
 import {googleTagManager} from 'pwa-custom-core/src'
 //custom-core-change
 
-
 const ProductDetail = ({category, product, isLoading}) => {
     const {formatMessage} = useIntl()
     const basket = useBasket()
@@ -72,13 +71,13 @@ const ProductDetail = ({category, product, isLoading}) => {
 
     /**************** Product Variant ****************/
 
-//custom-core-change
+    //custom-core-change
     //submitting product details to GTM start
     useEffect(() => {
         googleTagManager.gtmPDP(product)
     }, [product])
     //submitting product details to GTM end
-//custom-core-change
+    //custom-core-change
 
     useEffect(() => {
         // update the variation attributes parameter on
@@ -139,17 +138,16 @@ const ProductDetail = ({category, product, isLoading}) => {
 
             await basket.addItemToBasket(productItems)
 
-//custom-core-change
+            //custom-core-change
             //submitiong Add to cart to GTM start
             googleTagManager.gtmAddToCart(variant, quantity)
             //submitiong Add to cart to GTM end
-//custom-core-change
+            //custom-core-change
 
-	// If the items were sucessfully added, set the return value to be used
-	
-	// by the add to cart modal.
+            // If the items were sucessfully added, set the return value to be used
+
+            // by the add to cart modal.
             return productSelectionValues
-
         } catch (error) {
             showError(error)
         }

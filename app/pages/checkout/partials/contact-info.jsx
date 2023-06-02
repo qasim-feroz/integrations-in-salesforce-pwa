@@ -26,7 +26,6 @@ import {
 import {useHistory} from 'react-router-dom'
 //custom-core-change
 
-
 import {useForm} from 'react-hook-form'
 import {FormattedMessage, useIntl} from 'react-intl'
 import {useCheckout} from '../util/checkout-context'
@@ -38,11 +37,11 @@ import useNavigation from '../../../hooks/use-navigation'
 
 const ContactInfo = () => {
     const {formatMessage} = useIntl()
-    
+
     //custom-core-change
     const history = useHistory()
     //custom-core-change
-    
+
     const authModal = useAuthModal('password')
     const navigate = useNavigation()
 

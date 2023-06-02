@@ -27,11 +27,11 @@ module.exports = {
                 shortCode: 'lehipx41',
                 siteId: 'RefArch'
             },
-            ocapiHost: 'https://bgfs-001.dx.commercecloud.salesforce.com',
-            scapiHost: 'https://lehipx41.api.commercecloud.salesforce.com'
+            ocapiHostname: 'https://bgfs-001.dx.commercecloud.salesforce.com',
+            scapiHostname: 'https://lehipx41.api.commercecloud.salesforce.com'
         },
         // Einstein api config
-        einsteinAPI:  {
+        einsteinAPI: {
             host: 'https://api.cquotient.com',
             einsteinId: '1ea06c6e-c936-4324-bcf0-fada93f83bb1',
             siteId: 'aaij-MobileFirst',
@@ -55,10 +55,10 @@ module.exports = {
     pageNotFoundURL: '/page-not-found',
     // Enables or disables building the files necessary for server-side rendering.
     ssrEnabled: true,
-    // This list determines which files are available exclusively to the server-side rendering system 
+    // This list determines which files are available exclusively to the server-side rendering system
     // and are not available through the /mobify/bundle/ path.
     ssrOnly: ['ssr.js', 'ssr.js.map', 'node_modules/**/*.*'],
-    // This list determines which files are available to the server-side rendering system 
+    // This list determines which files are available to the server-side rendering system
     // and available through the /mobify/bundle/ path.
     ssrShared: [
         'static/ico/favicon.ico',

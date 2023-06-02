@@ -7,7 +7,7 @@
 import React, {useEffect, useState} from 'react'
 
 //custom-core-change
-import { FormattedMessage, useIntl } from 'react-intl'
+import {FormattedMessage, useIntl} from 'react-intl'
 //custom-core-change
 
 import {Alert, AlertIcon, Box, Button, Container, Grid, GridItem, Stack} from '@chakra-ui/react'
@@ -22,8 +22,8 @@ import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
 
 //custom-core-change
-import { useToast } from '../../hooks/use-toast'
-import { ADYEN_PAYMENT_ERROR } from '../../constants'
+import {useToast} from '../../hooks/use-toast'
+import {ADYEN_PAYMENT_ERROR} from '../../constants'
 //custom-core-change
 
 import OrderSummary from '../../components/order-summary'
@@ -34,22 +34,21 @@ import Access from '../../integrations/adyen/components/authorizePayment/token'
 import updateAdyenOrderInfo from '../../integrations/adyen/components/authorizePayment/updateAdyenOrder'
 //custom-core-change
 
-
 const Checkout = () => {
     const navigate = useNavigation()
-    
+
     //custom-core-change
-    const { globalError, step, placeOrder, adyenData } = useCheckout()
+    const {globalError, step, placeOrder, adyenData} = useCheckout()
     //custom-core-change
-    
+
     const [isLoading, setIsLoading] = useState(false)
-    
+
     //custom-core-change
     const customer = useCustomer()
     const basket = useBasket()
     const showToast = useToast()
     const {formatMessage} = useIntl()
-//custom-core-change
+    //custom-core-change
 
     // Scroll to the top when we get a global error
     useEffect(() => {
@@ -61,22 +60,30 @@ const Checkout = () => {
     const submitOrder = async () => {
         setIsLoading(true)
         try {
-	
-	//custom-core-change
+            //custom-core-change
             let orderResult, paymentResult, token
-            if (basket && basket.paymentInstruments && basket.paymentInstruments[0].paymentMethodId === 'AdyenComponent') {
-                await AuthorizePayment(basket, customer, adyenData.paymentMethod).then(function(result) {
+            if (
+                basket &&
+                basket.paymentInstruments &&
+                basket.paymentInstruments[0].paymentMethodId === 'AdyenComponent'
+            ) {
+                await AuthorizePayment(basket, customer, adyenData.paymentMethod).then(function (
+                    result
+                ) {
                     paymentResult = result
                 })
             }
-            if (paymentResult.paymentResult.resultCode && paymentResult.paymentResult.resultCode === 'Authorised') {
+            if (
+                paymentResult.paymentResult.resultCode &&
+                paymentResult.paymentResult.resultCode === 'Authorised'
+            ) {
                 orderResult = await placeOrder()
-		
-		//custom-core-change
-		
+
+                //custom-core-change
+
                 navigate('/checkout/confirmation')
-		
-		//custom-core-change
+
+                //custom-core-change
             } else {
                 showToast({
                     title: formatMessage(ADYEN_PAYMENT_ERROR),
@@ -87,11 +94,15 @@ const Checkout = () => {
             if (token && orderResult.orderNo && paymentResult) {
                 const tokenResult = await Access()
                 token = await tokenResult.json()
-                await updateAdyenOrderInfo(token.access_token, orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, paymentResult.paymentResult.resultCode)
+                await updateAdyenOrderInfo(
+                    token.access_token,
+                    orderResult.orderNo,
+                    orderResult.paymentInstruments[0].paymentInstrumentId,
+                    paymentResult.paymentResult.resultCode
+                )
             }
-	    
-	    //custom-core-change
-	    
+
+            //custom-core-change
         } catch (error) {
             setIsLoading(false)
         }
