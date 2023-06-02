@@ -28,7 +28,7 @@ import {createUrlTemplate} from '../../utils/url'
 //custom-core-change
 import {coreAppConfig} from 'pwa-custom-core/src'
 import {googleTagManager} from 'pwa-custom-core/src'
-import {CoreContextProvider} from 'pwa-custom-core/src/extensions/contexts/CoreContexts'
+import {CoreContextProvider} from 'pwa-custom-core/src'
 //custom-core-change
 
 /**
