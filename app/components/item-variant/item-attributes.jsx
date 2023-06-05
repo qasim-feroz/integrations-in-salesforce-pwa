@@ -88,12 +88,12 @@ const ItemAttributes = ({includeQuantity, currency, ...props}) => {
                             <FormattedNumber
                                 style="currency"
                                 currency={currency || basket.currency || activeCurrency}
-                                //  *****  Core: Order Track - Start  *****
+                                //  *****  Core:  Track Order - Start  *****
                                 value={
                                     variant.priceAdjustments[0].price ||
                                     variant.priceAdjustments[0].netPrice
                                 }
-                                //   *****  Core: Order Track - Start  *****
+                                //   *****  Core:  Track Order - Start  *****
                             />
                         </Text>
                     </Text>

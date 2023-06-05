@@ -37,12 +37,13 @@ const ProductList = loadable(() => import('./pages/product-list'), {fallback})
 const Wishlist = loadable(() => import('./pages/account/wishlist'), {fallback})
 const PageViewer = loadable(() => import('./pages/page-viewer'), {fallback})
 // *****  Core: imports - Start  *****
-const OrderStatus = loadable(
-    () => import('pwa-custom-core/src/integrations/track-order/pages/order-status/OrderStatus'),
+const TrackOrderStatus = loadable(
+    () =>
+        import('pwa-custom-core/src/integrations/track-order/pages/order-status/TrackOrderStatus'),
     {fallback}
 )
-const OrderDetails = loadable(() =>
-    import('pwa-custom-core/src/integrations/track-order/pages/order-details/OrderDetails')
+const TrackOrderDetails = loadable(() =>
+    import('pwa-custom-core/src/integrations/track-order/pages/order-details/TrackOrderDetails')
 )
 // *****  Core: imports - end  *****
 const PageNotFound = loadable(() => import('./pages/page-not-found'))
@@ -107,16 +108,16 @@ const routes = [
         path: '/account/wishlist',
         component: Wishlist
     },
-    //  *****  Core: Order Track - Start  *****
+    //  *****  Core: Track Order - Start  *****
     {
         path: '/order-status',
-        component: OrderStatus
+        component: TrackOrderStatus
     },
     {
         path: '/orders/:orderNo',
-        component: OrderDetails
+        component: TrackOrderDetails
     },
-    //  *****  Core: Order Track - end  *****
+    //  *****  Core: Track Order - end  *****
     {
         path: '/page-viewer/:pageId',
         component: PageViewer
