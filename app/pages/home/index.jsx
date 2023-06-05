@@ -52,6 +52,10 @@ import {
 import {googleTagManager} from 'pwa-custom-core/src'
 //custom-core-change
 
+// *****  Core: Yotpo - Start  *****
+// import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
+// *****  Core: Yotpo - End  *****
+
 /**
  * This is the home page for Retail React App.
  * The page is created for demonstration purposes.
@@ -74,29 +78,28 @@ const Home = ({productSearchResult, isLoading}) => {
         //custom-core-change
     }, [])
 
-    //custom-core-change
-    const productSearchResultIDs = []
-    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
+    // *****  Core: Yotpo - Start  *****
+    // const arrayofIDs = []
+    // const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
 
-    const getYotpoResponse = async () => {
-        var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
-        setyotpoBottomLineState(response)
-    }
+    // const getYotpoResponse = async () => {
+    //     var response = await yotpoBottomLineBatchCall(arrayofIDs)
+    //     setyotpoBottomLineState(response)
+    // }
 
-    useEffect(() => {
-        if (productSearchResultIDs.length > 0) {
-            getYotpoResponse()
-        }
-    }, [isLoading])
-    // TODO: productSearchResult is not comming caused code break that's why commented out
+    // useEffect(() => {
+    //     if (arrayofIDs.length > 0) {
+    //         getYotpoResponse()
+    //     }
+    // }, [isLoading])
+
     // if (productSearchResult) {
     //     productSearchResult.hits.map((productSearchItem) => {
     //         const id = productSearchItem.productId
-    //         productSearchResultIDs.push(id)
+    //         arrayofIDs.push(id)
     //     })
     // }
-
-    //custom-core-change
+    // *****  Core: Yotpo - End   *****
 
     return (
         <Box data-testid="home-page" layerStyle="page">
@@ -230,6 +233,7 @@ const Home = ({productSearchResult, isLoading}) => {
                         <ProductScroller
                             products={productSearchResult?.hits}
                             isLoading={isLoading}
+                            // yotpoBottomLineWidget={yotpoBottomLineState}
                         />
                     </Stack>
                 </Section>
