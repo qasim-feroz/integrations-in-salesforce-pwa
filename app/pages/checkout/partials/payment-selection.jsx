@@ -24,7 +24,7 @@ import {LockIcon, PaypalIcon} from '../../../components/icons'
 import {useCheckout} from '../util/checkout-context'
 
 //custom-core-change
-import AdyenCCFields from 'pwa-custom-core/src/integrations/payments/components/adyenCCFields'
+import AdyenCCFields from 'pwa-custom-core/src/integrations/payments/adyen/components/adyenCCFields'
 //custom-core-change
 
 import CCRadioGroup from './cc-radio-group'
