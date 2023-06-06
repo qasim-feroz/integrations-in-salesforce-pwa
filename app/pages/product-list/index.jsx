@@ -288,7 +288,6 @@ const ProductList = (props) => {
     */
     const getYotpoResponse = async () => {
         var response = await yotpoBottomLineBatchCall(arrayofIDs)
-        console.log(`response: ${response}`)
         setyotpoBottomLineState(response)
     }
 
