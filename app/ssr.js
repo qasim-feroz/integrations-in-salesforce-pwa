@@ -88,7 +88,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'account.demandware.com',
                         'www.google.com',
                         'www.googletagmanager.com',
-                        'api.cquotient.com'
+                        'api.cquotient.com',
+                        '*.algolia.net'
                     ],
                     'default-src': [
                         "'self'",

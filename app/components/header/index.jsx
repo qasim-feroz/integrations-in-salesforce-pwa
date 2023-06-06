@@ -48,6 +48,7 @@ import {noop} from '../../utils/utils'
 import {navLinks, messages} from '../../pages/account/constant'
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../loading-spinner'
+import AlgoliaSearch from '../algolia-search'
 
 const ENTER_KEY = 'Enter'
 
@@ -147,6 +148,9 @@ const Header = ({
                             })}
                             {...styles.search}
                         />
+                    </Box>
+                    <Box>
+                        <AlgoliaSearch />
                     </Box>
                     <AccountIcon
                         {...styles.accountIcon}
