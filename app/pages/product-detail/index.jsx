@@ -77,7 +77,7 @@ const ProductDetail = ({category, product, isLoading}) => {
         googleTagManager.gtmPDP(product)
     }, [product])
 
-    //  *****  Core: google tag manager - start  *****
+    //  *****  Core: google tag manager - end  *****
 
     useEffect(() => {
         // update the variation attributes parameter on
