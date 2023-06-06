@@ -219,6 +219,11 @@ const ProductDetail = ({category, product, isLoading}) => {
     }, [product])
 
     // *****  Core: Yotpo - Start  *****
+    /**
+
+    Retrieves the Yotpo response by calling the yotpoMainWidget function with the provided product ID.
+    Updates the yotpoMainWidgetState with the obtained response.
+    */
     const getYotpoResponse = async () => {
         var response = await yotpoMainWidget(product.id)
 

@@ -288,6 +288,11 @@ const ProductView = forwardRef(
         }, [variant?.productId, quantity])
 
         // *****  Core: Yotpo - Start  *****
+        /**
+
+        Retrieves the Yotpo response by calling the yotpoBottomLine function with the provided product ID.
+        Updates the yotpoBottomLineState with the obtained response.
+        */
         const getYotpoResponse = async () => {
             if (product) {
                 var response = await yotpoBottomLine(product.id)

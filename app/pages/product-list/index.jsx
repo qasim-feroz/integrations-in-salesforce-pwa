@@ -281,6 +281,11 @@ const ProductList = (props) => {
     const arrayofIDs = []
     const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
 
+    /**
+
+    Retrieves the Yotpo response by calling the yotpoBottomLineBatchCall function with the provided array of IDs.
+    Updates the yotpoBottomLineState with the obtained response.
+    */
     const getYotpoResponse = async () => {
         var response = await yotpoBottomLineBatchCall(arrayofIDs)
         console.log(`response: ${response}`)
@@ -293,6 +298,12 @@ const ProductList = (props) => {
         }
     }, [isLoading])
 
+    /**
+
+    Maps through the productSearchResult.hits array and retrieves the product IDs.
+    Adds each product ID to the arrayofIDs array.
+    @param {Object} productSearchResult - The result of a product search.
+    */
     if (productSearchResult) {
         productSearchResult.hits.map((productSearchItem) => {
             const id = productSearchItem.productId
