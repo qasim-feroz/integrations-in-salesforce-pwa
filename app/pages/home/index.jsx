@@ -53,7 +53,7 @@ import {googleTagManager} from 'pwa-custom-core/src'
 //custom-core-change
 
 // *****  Core: Yotpo - Start  *****
-// import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
+import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
 // *****  Core: Yotpo - End  *****
 
 /**
@@ -79,26 +79,37 @@ const Home = ({productSearchResult, isLoading}) => {
     }, [])
 
     // *****  Core: Yotpo - Start  *****
-    // const arrayofIDs = []
-    // const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
+    const productSearchResultIDs = []
+    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
 
-    // const getYotpoResponse = async () => {
-    //     var response = await yotpoBottomLineBatchCall(arrayofIDs)
-    //     setyotpoBottomLineState(response)
-    // }
+    /**
 
-    // useEffect(() => {
-    //     if (arrayofIDs.length > 0) {
-    //         getYotpoResponse()
-    //     }
-    // }, [isLoading])
+    Retrieves the Yotpo response by calling the yotpoBottomLineBatchCall function with the provided productSearchResultIDs.
+    Updates the yotpoBottomLineState with the obtained response.
+    */
+    const getYotpoResponse = async () => {
+        var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
+        setyotpoBottomLineState(response)
+    }
 
-    // if (productSearchResult) {
-    //     productSearchResult.hits.map((productSearchItem) => {
-    //         const id = productSearchItem.productId
-    //         arrayofIDs.push(id)
-    //     })
-    // }
+    useEffect(() => {
+        if (productSearchResultIDs.length > 0) {
+            getYotpoResponse()
+        }
+    }, [isLoading])
+
+    /**
+
+    Maps through the productSearchResult.hits array and retrieves the product IDs.
+    Adds each product ID to the productSearchResultIDs array.
+    @param {Object} productSearchResult - The result of a product search.
+    */
+    if (productSearchResult) {
+        productSearchResult.hits.map((productSearchItem) => {
+            const id = productSearchItem.productId
+            productSearchResultIDs.push(id)
+        })
+    }
     // *****  Core: Yotpo - End   *****
 
     return (
@@ -233,7 +244,7 @@ const Home = ({productSearchResult, isLoading}) => {
                         <ProductScroller
                             products={productSearchResult?.hits}
                             isLoading={isLoading}
-                            // yotpoBottomLineWidget={yotpoBottomLineState}
+                            yotpoBottomLineWidget={yotpoBottomLineState}
                         />
                     </Stack>
                 </Section>

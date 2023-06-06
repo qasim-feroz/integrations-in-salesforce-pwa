@@ -278,7 +278,7 @@ const ProductList = (props) => {
     }
 
     // *****  Core: Yotpo - Start  *****
-    const arrayofIDs = []
+    const productSearchResultIDs = []
     const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
 
     /**
@@ -287,12 +287,12 @@ const ProductList = (props) => {
     Updates the yotpoBottomLineState with the obtained response.
     */
     const getYotpoResponse = async () => {
-        var response = await yotpoBottomLineBatchCall(arrayofIDs)
+        var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
         setyotpoBottomLineState(response)
     }
 
     useEffect(() => {
-        if (arrayofIDs.length > 0) {
+        if (productSearchResultIDs.length > 0) {
             getYotpoResponse()
         }
     }, [isLoading])
@@ -300,13 +300,13 @@ const ProductList = (props) => {
     /**
 
     Maps through the productSearchResult.hits array and retrieves the product IDs.
-    Adds each product ID to the arrayofIDs array.
+    Adds each product ID to the productSearchResultIDs array.
     @param {Object} productSearchResult - The result of a product search.
     */
     if (productSearchResult) {
         productSearchResult.hits.map((productSearchItem) => {
             const id = productSearchItem.productId
-            arrayofIDs.push(id)
+            productSearchResultIDs.push(id)
         })
     }
     // *****  Core: Yotpo - End  *****
