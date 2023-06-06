@@ -6,9 +6,8 @@
  */
 import React, {useEffect, useState} from 'react'
 
-//custom-core-change
+// *****  Core: imports - Start  *****
 import {FormattedMessage, useIntl} from 'react-intl'
-//custom-core-change
 
 import {Alert, AlertIcon, Box, Button, Container, Grid, GridItem, Stack} from '@chakra-ui/react'
 import useNavigation from '../../hooks/use-navigation'
@@ -21,34 +20,35 @@ import useBasket from '../../commerce-api/hooks/useBasket'
 import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
 
-//custom-core-change
+// *****  Core: imports - Start  *****
 import {useToast} from '../../hooks/use-toast'
 import {ADYEN_PAYMENT_ERROR} from '../../constants'
-//custom-core-change
+// *****  Core: imports - end  *****
 
 import OrderSummary from '../../components/order-summary'
 
-//custom-core-change
+// *****  Core: imports - Start  *****
 import AuthorizePayment from '../../integrations/adyen/components/authorizePayment/authorize'
 import Access from '../../integrations/adyen/components/authorizePayment/token'
 import updateAdyenOrderInfo from '../../integrations/adyen/components/authorizePayment/updateAdyenOrder'
-//custom-core-change
+import {googleTagManager} from 'pwa-custom-core/src'
+// *****  Core: imports - end  *****
 
 const Checkout = () => {
     const navigate = useNavigation()
 
-    //custom-core-change
+    // *****  Core: Adyen - Start  *****
     const {globalError, step, placeOrder, adyenData} = useCheckout()
-    //custom-core-change
+    // *****  Core: Adyen - end  *****
 
     const [isLoading, setIsLoading] = useState(false)
 
-    //custom-core-change
+    // *****  Core: Adyen - Start  *****
     const customer = useCustomer()
     const basket = useBasket()
     const showToast = useToast()
     const {formatMessage} = useIntl()
-    //custom-core-change
+    // *****  Core: Adyen - end  *****
 
     // Scroll to the top when we get a global error
     useEffect(() => {
@@ -57,10 +57,23 @@ const Checkout = () => {
         }
     }, [globalError, step])
 
+    // *****  Core: google tag manager - Start  *****
+    useEffect(() => {
+        var customerType
+        if (customer.authType === 'guest') {
+            customerType = false
+        } else {
+            customerType = true
+        }
+        // submitting customer type to gtm
+        googleTagManager.gtmCustomerType(customerType)
+    }, [customer])
+    // *****  Core: google tag manager - end  *****
+
     const submitOrder = async () => {
         setIsLoading(true)
         try {
-            //custom-core-change
+            // *****  Core: Adyen - start  *****
             let orderResult, paymentResult, token
             if (
                 basket &&
@@ -79,11 +92,7 @@ const Checkout = () => {
             ) {
                 orderResult = await placeOrder()
 
-                //custom-core-change
-
                 navigate('/checkout/confirmation')
-
-                //custom-core-change
             } else {
                 showToast({
                     title: formatMessage(ADYEN_PAYMENT_ERROR),
@@ -102,7 +111,7 @@ const Checkout = () => {
                 )
             }
 
-            //custom-core-change
+            // *****  Core: Adyen - end  *****
         } catch (error) {
             setIsLoading(false)
         }
