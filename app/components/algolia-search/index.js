@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import algoliasearch from 'algoliasearch'
 import {Box, HStack, Input, Button, Grid, VStack} from '@chakra-ui/react'
 
+// Adding comment here
 const AlgoliaSearch = () => {
     const client = algoliasearch('latency', '56f24e4276091e774e8157fe4b8b11f6')
     const index = client.initIndex('movies')
