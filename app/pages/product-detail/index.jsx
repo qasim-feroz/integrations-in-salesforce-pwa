@@ -39,10 +39,9 @@ import {rebuildPathWithParams} from '../../utils/url'
 import {useHistory} from 'react-router-dom'
 import {useToast} from '../../hooks/use-toast'
 
-//custom-core-change
-// import from core
+// *****  Core: imports - Start  *****
 import {googleTagManager} from 'pwa-custom-core/src'
-//custom-core-change
+// *****  Core: imports - end  *****
 
 // *****  Core: Yotpo - Start  *****
 import Parser from 'html-react-parser'
@@ -81,13 +80,14 @@ const ProductDetail = ({category, product, isLoading}) => {
 
     /**************** Product Variant ****************/
 
-    //custom-core-change
+    //  *****  Core: google tag manager - start  *****
     //submitting product details to GTM start
+
     useEffect(() => {
         googleTagManager.gtmPDP(product)
     }, [product])
-    //submitting product details to GTM end
-    //custom-core-change
+
+    //  *****  Core: google tag manager - end  *****
 
     useEffect(() => {
         // update the variation attributes parameter on
@@ -148,11 +148,10 @@ const ProductDetail = ({category, product, isLoading}) => {
 
             await basket.addItemToBasket(productItems)
 
-            //custom-core-change
-            //submitiong Add to cart to GTM start
-            googleTagManager.gtmAddToCart(variant, quantity)
-            //submitiong Add to cart to GTM end
-            //custom-core-change
+            //  *****  Core: google tag manager - start  *****
+            // submitting add to cart details to GTM
+            googleTagManager.gtmAddToCart(productItems)
+            //  *****  Core: google tag manager - end  *****
 
             // If the items were sucessfully added, set the return value to be used
 
