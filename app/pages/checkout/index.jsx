@@ -65,8 +65,8 @@ const Checkout = () => {
         } else {
             customerType = true
         }
-        // submitting customer type to gtm
-        googleTagManager.gtmCustomerType(customerType, step)
+        // submitting customer type and current step to gtm
+        googleTagManager.gtmCheckoutSteps(customerType, step)
     }, [customer, step])
     // *****  Core: google tag manager - end  *****
 
