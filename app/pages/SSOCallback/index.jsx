@@ -1,4 +1,5 @@
-/* custom-core-change page for the callback google */
+//******  Core: Google SSO - Start
+//page for the callback google
 import {googleCallback} from 'pwa-custom-core/src/integrations/idps'
 import useCustomer from '../../commerce-api/hooks/useCustomer'
 import useNavigation from '../../../app/hooks/use-navigation'
@@ -12,3 +13,4 @@ const SSOCallback = () => {
     return googleCallback({useCustomer, useNavigation, createGetTokenBody})
 }
 export default SSOCallback
+//******  Core: Google SSO - End

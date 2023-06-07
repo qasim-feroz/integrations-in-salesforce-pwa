@@ -12,10 +12,10 @@ import {Alert, Box, Button, Stack, Text} from '@chakra-ui/react'
 import {AlertIcon, BrandLogo} from '../icons'
 import LoginFields from '../../components/forms/login-fields'
 import {noop} from '../../utils/utils'
-/* custom-core-change */
+// *****  Core: imports - Start  *****
 import {createCodeVerifier, generateCodeChallenge} from '../../commerce-api/pkce'
 import {LoginWihGoogle} from 'pwa-custom-core/src/Integrations/idps/index'
-/* custom-core-change */
+// *****  Core: imports - End  *****
 const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount = noop, form}) => {
     return (
         <Fragment>
@@ -66,7 +66,7 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                             />
                         </Button>
 
-                        {/* custom-core-change */}
+                        {/* *****  Core: Google SSO - Start  */}
                         <Button
                             type="button"
                             onClick={() =>
@@ -75,7 +75,7 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                         >
                             Login With Google
                         </Button>
-                        {/* custom-core-change */}
+                        {/* *****  Core: Google SSO - End  */}
 
                         <Stack direction="row" spacing={1} justify="center">
                             <Text fontSize="sm">

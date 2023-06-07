@@ -8,9 +8,9 @@ import {useContext, useMemo} from 'react'
 import {nanoid} from 'nanoid'
 import {useCommerceAPI, CustomerContext} from '../contexts'
 
-/* custom-core-change */
+// *****  Core: imports - start  *****
 import useCoreCustomer from 'pwa-custom-core/src/extensions/hooks/coreCustomer'
-/* custom-core-change */
+// *****  Core: imports - end  *****
 const AuthTypes = Object.freeze({GUEST: 'guest', REGISTERED: 'registered'})
 
 // This value represents the max age in milliseconds a customer can be before they are
@@ -23,17 +23,17 @@ export default function useCustomer() {
     const api = useCommerceAPI()
     const {customer, setCustomer} = useContext(CustomerContext)
 
-    /* custom-core-change */
+    // *****  Core: Extending Customer Basket - Start  *****
     const coreCustomer = useCoreCustomer({api, customer, setCustomer})
-    /* custom-core-change */
+    // *****  Core: Extending Customer Basket - End  *****
 
     const self = useMemo(() => {
         return {
             ...customer,
 
-            /* custom-core-change */
+            // *****  Core: Extending Customer Basket - Start  *****
             ...coreCustomer,
-            /* custom-core-change */
+            // *****  Core: Extending Customer Basket - End  *****
 
             /**
              * Returns boolean value whether the user data is initialized
