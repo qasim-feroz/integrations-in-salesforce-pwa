@@ -118,13 +118,13 @@ const routes = [
         component: TrackOrderDetails
     },
     //  *****  Core: Track Order - end  *****
+    //  *****  Core: page designer - start  *****
     {
         path: '/:pageId',
         component: PageViewer,
         exact: true
     },
-    // custom-core-change
-
+    //  *****  Core: page designer - end  *****
     {
         path: '*',
         component: PageNotFound
