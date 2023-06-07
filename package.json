@@ -113,6 +113,7 @@
         "@chakra-ui/core": "^0.8.0",
         "@emotion/core": "^11.0.0",
         "dotenv": "^16.0.3",
+        "html-react-parser": "^4.0.0",
         "node-cache": "^5.1.2",
         "pwa-custom-core": "file:pwa-custom-core",
         "react-google-recaptcha": "^2.1.0",

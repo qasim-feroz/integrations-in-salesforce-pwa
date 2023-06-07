@@ -52,6 +52,10 @@ import {
 import {googleTagManager} from 'pwa-custom-core/src'
 //custom-core-change
 
+// *****  Core: Yotpo - Start  *****
+import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
+// *****  Core: Yotpo - End  *****
+
 /**
  * This is the home page for Retail React App.
  * The page is created for demonstration purposes.
@@ -74,10 +78,15 @@ const Home = ({productSearchResult, isLoading}) => {
         //custom-core-change
     }, [])
 
-    //custom-core-change
+    // *****  Core: Yotpo - Start  *****
     const productSearchResultIDs = []
     const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
 
+    /**
+
+    Retrieves the Yotpo response by calling the yotpoBottomLineBatchCall function with the provided productSearchResultIDs.
+    Updates the yotpoBottomLineState with the obtained response.
+    */
     const getYotpoResponse = async () => {
         var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
         setyotpoBottomLineState(response)
@@ -88,15 +97,20 @@ const Home = ({productSearchResult, isLoading}) => {
             getYotpoResponse()
         }
     }, [isLoading])
-    // TODO: productSearchResult is not comming caused code break that's why commented out
-    // if (productSearchResult) {
-    //     productSearchResult.hits.map((productSearchItem) => {
-    //         const id = productSearchItem.productId
-    //         productSearchResultIDs.push(id)
-    //     })
-    // }
 
-    //custom-core-change
+    /**
+
+    Maps through the productSearchResult.hits array and retrieves the product IDs.
+    Adds each product ID to the productSearchResultIDs array.
+    @param {Object} productSearchResult - The result of a product search.
+    */
+    if (productSearchResult) {
+        productSearchResult.hits.map((productSearchItem) => {
+            const id = productSearchItem.productId
+            productSearchResultIDs.push(id)
+        })
+    }
+    // *****  Core: Yotpo - End   *****
 
     return (
         <Box data-testid="home-page" layerStyle="page">
@@ -230,6 +244,7 @@ const Home = ({productSearchResult, isLoading}) => {
                         <ProductScroller
                             products={productSearchResult?.hits}
                             isLoading={isLoading}
+                            yotpoBottomLineWidget={yotpoBottomLineState}
                         />
                     </Stack>
                 </Section>
