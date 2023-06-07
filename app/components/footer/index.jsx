@@ -31,9 +31,9 @@ import {getPathWithLocale} from '../../utils/url'
 import LocaleText from '../locale-text'
 import useMultiSite from '../../hooks/use-multi-site'
 
-//custom-core-change
+// *****  Core: imports - start  *****
 import {GoogleRecaptcha} from 'pwa-custom-core/src'
-//custom-core-change
+// *****  Core: imports - end  *****
 
 const Footer = ({...otherProps}) => {
     const styles = useMultiStyleConfig('Footer')
@@ -197,13 +197,13 @@ const Subscribe = ({...otherProps}) => {
     const styles = useStyles()
     const intl = useIntl()
 
-    //custom-core-change
+    // *****  Core: GoogleRecaptch- start  *****
     const captchaRef = React.createRef()
     const onSubmit = (event) => {
         event.preventDefault()
         captchaRef.current.execute()
     }
-    //custom-core-change
+    // *****  Core: GoogleRecaptch - end  *****
 
     return (
         <Box {...styles.subscribe} {...otherProps}>
@@ -221,22 +221,22 @@ const Subscribe = ({...otherProps}) => {
             </Text>
 
             <Box>
-                {/*custom-core-change*/}
-                {/*GoogleRecaptch implimentation start*/}
+                {/*****  Core: GoogleRecaptch- start  *****/}
                 <GoogleRecaptcha captchaRef={captchaRef} />
-                {/*GoogleRecaptch implimentation end*/}
+                {/*** Core: GoogleRecaptch- end ***/}
+
                 <form onSubmit={onSubmit}>
-                    {/*custom-core-change*/}
                     <InputGroup>
                         <Input
                             type="email"
                             placeholder="you@email.com"
                             {...styles.subscribeField}
+                            required
                         />
                         <InputRightElement {...styles.subscribeButtonContainer}>
-                            {/*custom-core-change*/}
+                            {/*** Core: GoogleRecaptch- start ***/}
                             <Button type="submit" variant="footer">
-                                {/*custom-core-change*/}
+                                {/*** Core: GoogleRecaptch- end ***/}
                                 {intl.formatMessage({
                                     id: 'footer.subscribe.button.sign_up',
                                     defaultMessage: 'Sign Up'
@@ -244,9 +244,7 @@ const Subscribe = ({...otherProps}) => {
                             </Button>
                         </InputRightElement>
                     </InputGroup>
-                    {/*custom-core-change*/}
                 </form>
-                {/*custom-core-change*/}
             </Box>
 
             <SocialIcons variant="flex-start" pinterestInnerColor="black" {...styles.socialIcons} />
