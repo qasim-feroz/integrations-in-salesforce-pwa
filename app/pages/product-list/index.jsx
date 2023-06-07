@@ -82,7 +82,7 @@ import {googleTagManager} from 'pwa-custom-core/src'
 //custom-core-change
 
 // *****  Core: Yotpo - Start  *****
-import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
+import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
 // *****  Core: Yotpo - End  *****
 
 // NOTE: You can ignore certain refinements on a template level by updating the below

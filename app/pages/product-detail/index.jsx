@@ -45,7 +45,7 @@ import {googleTagManager} from 'pwa-custom-core/src'
 
 // *****  Core: Yotpo - Start  *****
 import Parser from 'html-react-parser'
-import {yotpoMainWidget} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
+import {yotpoMainWidget} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
 import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 import {useYotpoReviewsRefresh} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
 // *****  Core: Yotpo - End   *****
