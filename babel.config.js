@@ -14,10 +14,7 @@ if (config && config.default && config.default.plugins) {
                 root: ['./app'],
                 extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.svg', '.png'],
                 alias: {
-                    App: './app',
-                    hooks: './app/hooks',
-                    components: './app/components',
-                    itemvariant: './app/components/item-variant',
+                    App: './app'
                 }
             }])
 }

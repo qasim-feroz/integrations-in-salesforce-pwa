@@ -3,11 +3,7 @@
         "jsx": "react",
         "baseUrl": ".",
         "paths": {
-            "*": ["app/*"],
-            "App/*": ["./app/*"],
-            "hooks": ["./app/hooks"],
-            "itemvariant": ["./app/components/item-variant"],
-            "components": ["./app/components"]
+            "App/*": ["./app/*"]
         }
     }
 }
