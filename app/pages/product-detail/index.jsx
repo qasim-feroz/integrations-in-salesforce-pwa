@@ -43,6 +43,13 @@ import {useToast} from '../../hooks/use-toast'
 import {googleTagManager} from 'pwa-custom-core/src'
 // *****  Core: imports - end  *****
 
+// *****  Core: Yotpo - Start  *****
+import Parser from 'html-react-parser'
+import {yotpoMainWidget} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
+import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
+import {useYotpoReviewsRefresh} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
+// *****  Core: Yotpo - End   *****
+
 const ProductDetail = ({category, product, isLoading}) => {
     const {formatMessage} = useIntl()
     const basket = useBasket()
@@ -53,6 +60,9 @@ const ProductDetail = ({category, product, isLoading}) => {
     const navigate = useNavigation()
     const [primaryCategory, setPrimaryCategory] = useState(category)
     const [productSetSelection, setProductSetSelection] = useState({})
+    // *****  Core: Yotpo - Start  *****
+    const [yotpoMainWidgetState, setyotpoMainWidgetState] = useState([])
+    // *****  Core: Yotpo - End   *****
     const childProductRefs = React.useRef({})
 
     const isProductASet = product?.type.set
@@ -200,9 +210,27 @@ const ProductDetail = ({category, product, isLoading}) => {
                 einstein.sendViewProduct(child)
             })
         } else if (product) {
+            // *****  Core: Yotpo - Start  *****
+            getYotpoResponse()
+            // *****  Core: Yotpo - End   *****
             einstein.sendViewProduct(product)
         }
     }, [product])
+
+    // *****  Core: Yotpo - Start  *****
+    /**
+
+    Retrieves the Yotpo response by calling the yotpoMainWidget function with the provided product ID.
+    Updates the yotpoMainWidgetState with the obtained response.
+    */
+    const getYotpoResponse = async () => {
+        var response = await yotpoMainWidget(product.id)
+
+        setyotpoMainWidgetState(response[0].result)
+    }
+
+    useYotpoReviewsRefresh()
+    // *****  Core: Yotpo - End   *****
 
     return (
         <Box
@@ -305,6 +333,20 @@ const ProductDetail = ({category, product, isLoading}) => {
                 )}
 
                 {/* Product Recommendations */}
+                {/* *****  Core: Yotpo - Start  ***** */}
+                {product && (
+                    <div
+                        className="yotpo yotpo-main-widget"
+                        data-product-id={product.id}
+                        data-name={product.name}
+                        data-url={`${getAppOrigin()}/product/${product.id}`}
+                        data-image-url="[[ URL TO THE IMAGE OF THE PRODUCT ]]"
+                        data-description={product.shortDescription}
+                    >
+                        {Parser(yotpoMainWidgetState.toString())}
+                    </div>
+                )}
+                {/* *****  Core: Yotpo - End   ***** */}
                 <Stack spacing={16}>
                     {!isProductASet && (
                         <RecommendedProducts

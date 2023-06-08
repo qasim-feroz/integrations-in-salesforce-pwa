@@ -24,6 +24,9 @@ const ProductScroller = forwardRef(
             scrollProps,
             itemWidth = {base: '70%', md: '40%', lg: 'calc(33.33% - 10px)'},
             productTileProps,
+            // *****  Core: Yotpo - Start  *****
+            yotpoBottomLineWidget,
+            // *****  Core: Yotpo - End   *****
             ...props
         },
         ref
@@ -94,6 +97,11 @@ const ProductScroller = forwardRef(
                                     ) : (
                                         <ProductTile
                                             data-testid="product-scroller-item"
+                                            // *****  Core: Yotpo - Start  *****
+                                            starRatingWidget={
+                                                yotpoBottomLineWidget && yotpoBottomLineWidget[idx]
+                                            }
+                                            // *****  Core: Yotpo - End   *****
                                             product={product}
                                             {...(typeof productTileProps === 'function'
                                                 ? {...productTileProps(product)}

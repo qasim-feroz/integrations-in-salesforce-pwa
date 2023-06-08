@@ -1411,10 +1411,7 @@
     "with_registration.info.please_sign_in": {
         "defaultMessage": "Please sign in to continue!"
     },
-
-    //custom-core-change
     "adyen.error.payment_method_failed": {
         "defaultMessage": "Could not process payment information. Payment method has probably failed!"
     }
-    //custom-core-change
 }
