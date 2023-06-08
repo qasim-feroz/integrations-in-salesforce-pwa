@@ -7,7 +7,7 @@ import {PAGE_DESIGNER_COMPONENT} from 'pwa-custom-core/src'
 
 /**
 Component for rendering a page using the Page Designer.
-This component takes a page object and renders it using the specified components from the PAGEDESIGNER_TO_COMPONENT mapping.
+This component takes a page object and renders it using the specified components from the PAGE_DESIGNER_COMPONENT mapping.
 @component
 @param {Object} page - The page object to be rendered.
 */
