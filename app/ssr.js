@@ -55,7 +55,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'account.demandware.com',
                         'www.google.com',
                         'www.googletagmanager.com',
-                        'api.cquotient.com'
+                        'api.cquotient.com',
+                        '*.yotpo.com'
                     ],
                     'script-src': [
                         "'self'",
@@ -70,8 +71,11 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'account.demandware.com',
                         'www.google.com',
                         'www.googletagmanager.com',
-                        'api.cquotient.com'
+                        'api.cquotient.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com'
                     ],
+                    'style-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", '*.yotpo.com'],
 
                     // Do not upgrade insecure requests for local development
                     'upgrade-insecure-requests': isRemote() ? [] : null,
@@ -88,7 +92,9 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'account.demandware.com',
                         'www.google.com',
                         'www.googletagmanager.com',
-                        'api.cquotient.com'
+                        'api.cquotient.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com'
                     ],
                     'default-src': [
                         "'self'",
@@ -102,7 +108,9 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'account.demandware.com',
                         'www.google.com',
                         'www.googletagmanager.com',
-                        'api.cquotient.com'
+                        'api.cquotient.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com'
                     ]
                 }
             },
