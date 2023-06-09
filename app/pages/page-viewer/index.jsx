@@ -1,36 +1,35 @@
 import React from 'react'
 import {Box} from '@chakra-ui/react'
 import {Page, pageType} from '../../page-designer'
-import {ImageTile, ImageWithText} from '../../page-designer/assets'
-import {
-    Carousel,
-    MobileGrid1r1c,
-    MobileGrid2r1c,
-    MobileGrid2r2c,
-    MobileGrid2r3c,
-    MobileGrid3r1c,
-    MobileGrid3r2c
-} from '../../page-designer/layouts'
-
 import {HTTPError, HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
+// *****  Core: import - start  *****
+import {PAGE_DESIGNER_COMPONENT} from 'pwa-custom-core/src'
+// *****  Core: import - end  *****
 
-const PAGEDESIGNER_TO_COMPONENT = {
-    'commerce_assets.photoTile': ImageTile,
-    'commerce_assets.imageAndText': ImageWithText,
-    'commerce_layouts.carousel': Carousel,
-    'commerce_layouts.mobileGrid1r1c': MobileGrid1r1c,
-    'commerce_layouts.mobileGrid2r1c': MobileGrid2r1c,
-    'commerce_layouts.mobileGrid2r2c': MobileGrid2r2c,
-    'commerce_layouts.mobileGrid2r3c': MobileGrid2r3c,
-    'commerce_layouts.mobileGrid3r1c': MobileGrid3r1c,
-    'commerce_layouts.mobileGrid3r2c': MobileGrid3r2c
-}
+/**
+Component for rendering a page using the Page Designer.
+This component takes a page object and renders it using the specified components from the PAGE_DESIGNER_COMPONENT mapping.
+@component
+@param {Object} page - The page object to be rendered.
+*/
 
 const PageViewer = ({page}) => (
     <Box layerStyle={'page'}>
-        <Page page={page} components={PAGEDESIGNER_TO_COMPONENT} />
+        {/******  Core: page designer - start  *****/}
+        <Page page={page} components={PAGE_DESIGNER_COMPONENT} />
+        {/******  Core: page designer - end  *****/}
     </Box>
 )
+
+/**
+Retrieves the props for the PageViewer component.
+This function fetches the page data using the provided API and parameters, and returns the page object as a prop.
+@param {Object} options - The options object containing the API and params.
+@param {Object} options.api - The API instance for fetching the page data.
+@param {Object} options.params - The parameters object containing the pageId.
+@returns {Object} The props object containing the fetched page.
+@throws {Error} Throws an error if the page fetch fails or returns an error.
+*/
 
 PageViewer.getProps = async ({api, params}) => {
     const {pageId} = params
