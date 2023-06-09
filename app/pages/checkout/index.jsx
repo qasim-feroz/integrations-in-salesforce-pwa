@@ -20,8 +20,8 @@ import OrderSummary from '../../components/order-summary'
 
 // *****  Core: Adyen - START  *****
 import { useToast } from '../../hooks/use-toast'
-import { isAdyenAuthorized, googleTagManager } from 'pwa-custom-core/src'
-import { updateOrderPaymentTransaction } from 'pwa-custom-core/src/integrations/payments/services/CommercePaymentService'
+import { isAdyenAuthorized, googleTagManager } from 'Core/src'
+import { updateOrderPaymentTransaction } from 'Core/src/integrations/payments/services/CommercePaymentService'
 // *****  Core: Adyen - End   *****
 
 const Checkout = () => {

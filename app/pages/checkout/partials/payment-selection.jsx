@@ -23,9 +23,9 @@ import {useForm, Controller} from 'react-hook-form'
 import {LockIcon, PaypalIcon} from '../../../components/icons'
 import {useCheckout} from '../util/checkout-context'
 
-//custom-core-change
-import AdyenCCFields from 'pwa-custom-core/src/integrations/payments/adyen/components/adyenCCFields'
-//custom-core-change
+// *****  Core: Adyen - START  *****
+import AdyenCCFields from 'Core/src/integrations/payments/adyen/components/adyenCCFields'
+// *****  Core: Adyen - END  *****
 
 import CCRadioGroup from './cc-radio-group'
 
@@ -152,9 +152,9 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                         />
                                                     </Heading>
                                                 )}
-                                                //custom-core-change
+                                                {/*****  Core: Adyen - START  *****/}
                                                 <AdyenCCFields form={form} />
-                                                //custom-core-change
+                                                {/*****  Core: Adyen - END  *****/}
                                                 {!hideSubmitButton && (
                                                     <Box>
                                                         <Container variant="form">
