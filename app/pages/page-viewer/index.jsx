@@ -4,6 +4,7 @@ import {Page, pageType} from '../../page-designer'
 import {HTTPError, HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
 // *****  Core: import - start  *****
 import {PAGE_DESIGNER_COMPONENT} from 'pwa-custom-core/src'
+// *****  Core: import - end  *****
 
 /**
 Component for rendering a page using the Page Designer.
@@ -14,9 +15,9 @@ This component takes a page object and renders it using the specified components
 
 const PageViewer = ({page}) => (
     <Box layerStyle={'page'}>
-        {/******  Core: Page Designer - start  *****/}
+        {/******  Core: page designer - start  *****/}
         <Page page={page} components={PAGE_DESIGNER_COMPONENT} />
-        {/******  Core: Page Designer - end  *****/}
+        {/******  Core: page designer - end  *****/}
     </Box>
 )
 
