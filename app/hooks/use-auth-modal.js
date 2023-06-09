@@ -29,6 +29,12 @@ import {noop} from '../utils/utils'
 import {API_ERROR_MESSAGE} from '../constants'
 import useNavigation from './use-navigation'
 
+// *****  Core: klavio - Start  *****
+// importing methods for klavio reset password
+import KlaviyoPasswordResetMetric from 'Core/src/integrations/marketing/klaviyo/KlaviyoPasswordResetMetric'
+import GetResetPasswordToken from 'Core/src/integrations/marketing/klaviyo/services/scapi-extented-services/getResetPasswordToken'
+// *****  Core: klavio - End  *****
+
 const LOGIN_VIEW = 'login'
 const REGISTER_VIEW = 'register'
 const PASSWORD_VIEW = 'password'
@@ -84,7 +90,11 @@ export const AuthModal = ({
 
     const handleResetPassword = async ({email}) => {
         try {
-            await customer.getResetPasswordToken(email)
+            // *****  Core: klavio - Start  *****
+            const tokenResult = await GetResetPasswordToken(email)
+            await KlaviyoPasswordResetMetric(email, tokenResult.data.resetToken)
+            // *****  Core: klavio - End  *****
+
             // Execute action to be perfromed on successful passoword reset
             await onPasswordResetSuccess()
             submittedEmail.current = email

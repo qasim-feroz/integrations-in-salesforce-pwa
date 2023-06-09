@@ -18,6 +18,12 @@ import useNavigation from '../../hooks/use-navigation'
 import useEinstein from '../../commerce-api/hooks/useEinstein'
 import {useLocation} from 'react-router-dom'
 
+// *****  Core: klavio - Start  *****
+// importing methods for klavio reset password
+import KlaviyoPasswordResetMetric from 'Core/src/integrations/marketing/klaviyo/KlaviyoPasswordResetMetric'
+import GetResetPasswordToken from 'Core/src/integrations/marketing/klaviyo/services/scapi-extented-services/getResetPasswordToken'
+// *****  Core: klavio - End  *****
+
 const ResetPassword = () => {
     const customer = useCustomer()
     const form = useForm()
@@ -29,7 +35,12 @@ const ResetPassword = () => {
 
     const submitForm = async ({email}) => {
         try {
-            await customer.getResetPasswordToken(email)
+            // await customer.getResetPasswordToken(email)
+            // *****  Core: klavio - Start  *****
+            const tokenResult = await GetResetPasswordToken(email)
+            await KlaviyoPasswordResetMetric(email, tokenResult.data.resetToken)
+            // *****  Core: klavio - End  *****
+
             setSubmittedEmail(email)
             setShowSubmittedSuccess(!showSubmittedSuccess)
         } catch (error) {
