@@ -62,7 +62,7 @@ const CheckoutConfirmation = () => {
     // submitting checkout details to GTM start
     useEffect(() => {
         googleTagManager.gtmConfirmPurchase(order)
-    }, [])
+    }, [order.productItems])
     // submitting checkout details to GTM end
     //  *****  Core: google tag manager - end  *****
 

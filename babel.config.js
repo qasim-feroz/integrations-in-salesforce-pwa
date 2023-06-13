@@ -14,7 +14,9 @@ if (config && config.default && config.default.plugins) {
                 root: ['./app'],
                 extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.svg', '.png'],
                 alias: {
-                    App: './app'
+                    App: './app',
+                    Config: './config',
+                    Core: './pwa-custom-core'
                 }
             }])
 }
