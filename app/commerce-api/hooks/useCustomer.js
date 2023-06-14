@@ -9,7 +9,7 @@ import {nanoid} from 'nanoid'
 import {useCommerceAPI, CustomerContext} from '../contexts'
 
 // *****  Core: imports - start  *****
-import useCoreCustomer from 'pwa-custom-core/src/extensions/hooks/coreCustomer'
+import useCoreCustomer from 'Core/src/extensions/hooks/coreCustomer'
 // *****  Core: imports - end  *****
 const AuthTypes = Object.freeze({GUEST: 'guest', REGISTERED: 'registered'})
 

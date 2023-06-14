@@ -81,6 +81,10 @@ import LoadingSpinner from '../../components/loading-spinner'
 import {googleTagManager} from 'pwa-custom-core/src'
 //custom-core-change
 
+// *****  Core: Yotpo - Start  *****
+import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
+// *****  Core: Yotpo - End  *****
+
 // NOTE: You can ignore certain refinements on a template level by updating the below
 // list of ignored refinements.
 const REFINEMENT_DISALLOW_LIST = ['c_isNew']
@@ -273,6 +277,40 @@ const ProductList = (props) => {
         selectedSortingOptionLabel = productSearchResult?.sortingOptions?.[0]
     }
 
+    // *****  Core: Yotpo - Start  *****
+    const productSearchResultIDs = []
+    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
+
+    /**
+
+    Retrieves the Yotpo response by calling the yotpoBottomLineBatchCall function with the provided array of IDs.
+    Updates the yotpoBottomLineState with the obtained response.
+    */
+    const getYotpoResponse = async () => {
+        var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
+        setyotpoBottomLineState(response)
+    }
+
+    useEffect(() => {
+        if (productSearchResultIDs.length > 0) {
+            getYotpoResponse()
+        }
+    }, [isLoading])
+
+    /**
+
+    Maps through the productSearchResult.hits array and retrieves the product IDs.
+    Adds each product ID to the productSearchResultIDs array.
+    @param {Object} productSearchResult - The result of a product search.
+    */
+    if (productSearchResult) {
+        productSearchResult.hits.map((productSearchItem) => {
+            const id = productSearchItem.productId
+            productSearchResultIDs.push(id)
+        })
+    }
+    // *****  Core: Yotpo - End  *****
+
     return (
         <Box
             className="sf-product-list-page"
@@ -413,7 +451,7 @@ const ProductList = (props) => {
                                           .map((value, index) => (
                                               <ProductTileSkeleton key={index} />
                                           ))
-                                    : productSearchResult.hits.map((productSearchItem) => {
+                                    : productSearchResult.hits.map((productSearchItem, index) => {
                                           const productId = productSearchItem.productId
                                           const isInWishlist =
                                               !!wishlist.findItemByProductId(productId)
@@ -425,6 +463,9 @@ const ProductList = (props) => {
                                                   product={productSearchItem}
                                                   enableFavourite={true}
                                                   isFavourite={isInWishlist}
+                                                  // *****  Core: Yotpo - Start  *****
+                                                  starRatingWidget={yotpoBottomLineState[index]}
+                                                  // *****  Core: Yotpo - End  *****
                                                   onClick={() => {
                                                       if (searchQuery) {
                                                           einstein.sendClickSearch(

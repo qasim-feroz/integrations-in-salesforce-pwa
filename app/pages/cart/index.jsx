@@ -41,6 +41,10 @@ import {REMOVE_CART_ITEM_CONFIRMATION_DIALOG_CONFIG} from './partials/cart-secon
 // Utilities
 import debounce from 'lodash/debounce'
 
+// *****  Core: imports - start *****
+import {googleTagManager} from 'pwa-custom-core/src'
+// *****  Core: imports - end  *****
+
 const Cart = () => {
     const basket = useBasket()
     const customer = useCustomer()
@@ -58,6 +62,11 @@ const Cart = () => {
             status: 'error'
         })
     }
+    // *****  Core: google tag manager - start  *****
+    useEffect(() => {
+        googleTagManager.gtmCart(basket)
+    }, [basket])
+    // *****  Core: google tag manager - end  *****
 
     /**************** Wishlist ****************/
     const wishlist = useWishlist()

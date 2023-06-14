@@ -14,7 +14,7 @@ import LoginFields from '../../components/forms/login-fields'
 import {noop} from '../../utils/utils'
 // *****  Core: imports - Start  *****
 import {createCodeVerifier, generateCodeChallenge} from '../../commerce-api/pkce'
-import {LoginWihGoogle} from 'pwa-custom-core/src/Integrations/idps/index'
+import {LoginWihGoogle} from 'Core/src/Integrations/idps/index'
 // *****  Core: imports - End  *****
 const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount = noop, form}) => {
     return (
@@ -70,7 +70,7 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                         <Button
                             type="button"
                             onClick={() =>
-                                LoginWihGoogle({createCodeVerifier, generateCodeChallenge})
+                                LoginWihGoogle()
                             }
                         >
                             Login With Google

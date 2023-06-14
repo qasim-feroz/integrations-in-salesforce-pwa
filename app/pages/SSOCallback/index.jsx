@@ -1,9 +1,9 @@
 //******  Core: Google SSO - Start
 //page for the callback google
-import {googleCallback} from 'pwa-custom-core/src/integrations/idps'
-import useCustomer from '../../commerce-api/hooks/useCustomer'
-import useNavigation from '../../../app/hooks/use-navigation'
-import {createGetTokenBody} from '../../../app/commerce-api/utils'
+import {googleCallback} from 'Core/src/integrations/idps'
+import useCustomer from 'App/commerce-api/hooks/useCustomer'
+import useNavigation from 'App/hooks/use-navigation'
+import {createGetTokenBody} from 'App/commerce-api/utils'
 /**
  * SSO callback component for Google authentication.
  *
