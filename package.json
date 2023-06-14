@@ -64,6 +64,7 @@
         "react-gtm-module": "^2.0.11",
         "react-helmet": "^6.1.0",
         "react-hook-form": "^6.15.8",
+        "react-instantsearch-dom": "^6.40.0",
         "react-intl": "^5.25.1",
         "react-router-dom": "^5.3.4",
         "sass": "^1.57.1",
