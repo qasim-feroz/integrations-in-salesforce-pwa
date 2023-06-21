@@ -334,24 +334,6 @@ Learn more with our localization guide. https://sfdc.co/localization-guide
     // the application.
     const categories = {root: flatten(rootCategory, 'categories').root}
 
-    // *****  Core: ContentStack - Start  *****
-    categories['blog'] = {
-        id: '',
-        name: 'Blogs',
-        parentCategoryId: 'root',
-        c_enableCompare: false,
-        c_showInMenu: true,
-        isBlog: true,
-        parentCategoryTree: [
-            {
-                id: '',
-                name: 'Blogs'
-            }
-        ]
-    }
-    categories['root'].categories.push(categories['blog'])
-    // *****  Core: ContentStack - End  *****
-
     return {
         targetLocale,
         messages,

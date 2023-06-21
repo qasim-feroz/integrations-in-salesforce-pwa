@@ -26,10 +26,7 @@ import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
 
 // *****  Core: ContentStack - Start  *****
-import {
-    ContentStackAPI,
-    defaultcsClient
-} from 'pwa-custom-core/src/integrations/cms/content-stack/helper/content-stack-helper'
+import {ContentStackAPI, defaultcsClient} from 'pwa-custom-core/src'
 // *****  Core: ContentStack - End  *****
 
 // *****  Core: Imports - Start  *****
