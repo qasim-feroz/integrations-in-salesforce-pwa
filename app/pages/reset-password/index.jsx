@@ -20,8 +20,7 @@ import {useLocation} from 'react-router-dom'
 
 // *****  Core: klavio - Start  *****
 // importing methods for klavio reset password
-import KlaviyoPasswordResetMetric from 'Core/src/integrations/marketing/klaviyo/KlaviyoPasswordResetMetric'
-import GetResetPasswordToken from 'Core/src/integrations/marketing/klaviyo/services/scapi-extented-services/getResetPasswordToken'
+import {GetTokenAndSendResetPassword} from 'Core/src/integrations/marketing'
 // *****  Core: klavio - End  *****
 
 const ResetPassword = () => {
@@ -35,10 +34,9 @@ const ResetPassword = () => {
 
     const submitForm = async ({email}) => {
         try {
-            // await customer.getResetPasswordToken(email)
+
             // *****  Core: klavio - Start  *****
-            const tokenResult = await GetResetPasswordToken(email)
-            await KlaviyoPasswordResetMetric(email, tokenResult.data.resetToken)
+            const tokenResult = await GetTokenAndSendResetPassword(email)
             // *****  Core: klavio - End  *****
 
             setSubmittedEmail(email)
