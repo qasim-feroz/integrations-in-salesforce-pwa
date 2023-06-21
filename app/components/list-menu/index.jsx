@@ -34,8 +34,9 @@ import {
     useDisclosure
 } from '@chakra-ui/react'
 import Link from '../link'
-// Others
-import {categoryUrlBuilder} from '../../utils/url'
+// *****  Core: ContentStack - Start  *****
+import {categoryUrlBuilder, blogUrlBuilder} from '../../utils/url'
+// *****  Core: ContentStack - End  *****
 import {ChevronDownIcon} from '../icons'
 
 const MAXIMUM_NUMBER_COLUMNS = 5
@@ -61,7 +62,9 @@ const ListMenuTrigger = ({item, name, isOpen, onOpen, onClose, hasItems}) => {
         <Box {...baseStyle.listMenuTriggerContainer}>
             <Link
                 as={RouteLink}
-                to={categoryUrlBuilder(item)}
+                // *****  Core: ContentStack - Start  *****
+                to={item.isBlog ? blogUrlBuilder(item) : categoryUrlBuilder(item)}
+                // *****  Core: ContentStack - End  *****
                 onMouseOver={onOpen}
                 {...baseStyle.listMenuTriggerLink}
                 {...(hasItems ? {name: name + ' __'} : {name: name})}
@@ -119,7 +122,11 @@ const ListMenuContent = ({maxColumns, items, itemsKey, onClose, initialFocusRef}
                             const items = item[itemsKey]
 
                             const heading = {
-                                href: categoryUrlBuilder(item, locale),
+                                // *****  Core: ContentStack - Start  *****
+                                href: item.isBlog
+                                    ? blogUrlBuilder(item, locale)
+                                    : categoryUrlBuilder(item, locale),
+                                // *****  Core: ContentStack - End  *****
                                 text: name,
                                 styles: {
                                     fontSize: 'md',
@@ -131,7 +138,11 @@ const ListMenuContent = ({maxColumns, items, itemsKey, onClose, initialFocusRef}
                                 ? items.map((item) => {
                                       const {name} = item
                                       return {
-                                          href: categoryUrlBuilder(item, locale),
+                                          // *****  Core: ContentStack - Start  *****
+                                          href: item.isBlog
+                                              ? blogUrlBuilder(item, locale)
+                                              : categoryUrlBuilder(item, locale),
+                                          // *****  Core: ContentStack - End  *****
                                           text: name,
                                           styles: {
                                               fontSize: 'md',

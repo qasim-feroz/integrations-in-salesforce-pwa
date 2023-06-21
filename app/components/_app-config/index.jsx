@@ -25,6 +25,13 @@ import {resolveLocaleFromUrl} from '../../utils/utils'
 import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
 
+// *****  Core: ContentStack - Start  *****
+import {
+    ContentStackAPI,
+    defaultcsClient
+} from 'pwa-custom-core/src/integrations/cms/content-stack/helper/content-stack-helper'
+// *****  Core: ContentStack - End  *****
+
 // *****  Core: Imports - Start  *****
 import {coreAppConfig} from 'pwa-custom-core/src'
 import {googleTagManager} from 'pwa-custom-core/src'
@@ -99,6 +106,9 @@ AppConfig.restore = (locals = {}) => {
     locals.buildUrl = createUrlTemplate(appConfig, site.alias || site.id, locale.id)
     locals.site = site
     locals.locale = locale
+    // *****  Core: ContentStack - Start  *****
+    locals.csClient = typeof window === 'undefined' ? new ContentStackAPI() : defaultcsClient
+    // *****  Core: ContentStack - End  *****
 
     //custom-core-change
     locals.config = config
@@ -112,7 +122,10 @@ AppConfig.extraGetPropsArgs = (locals = {}) => {
         api: locals.api,
         buildUrl: locals.buildUrl,
         site: locals.site,
-        locale: locals.locale
+        // *****  Core: ContentStack - Start  *****
+        locale: locals.locale,
+        csClient: locals.csClient
+        // *****  Core: ContentStack - End  *****
     }
 }
 
