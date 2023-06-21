@@ -74,7 +74,7 @@ const CheckoutConfirmation = () => {
             navigate('/')
         }
         //  *****  Core: Klaviyo Order Confirmation - Start  *****
-        {sendOrderPlacedEmail}(order)
+        sendOrderPlacedEmail(order)
         //  *****  Core: Klaviyo Order Confirmation - End  *****
     }, [order])
 
