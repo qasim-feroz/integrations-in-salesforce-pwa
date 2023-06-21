@@ -94,7 +94,9 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'www.googletagmanager.com',
                         'api.cquotient.com',
                         '*.yotpo.com',
-                        'staticw2.yotpo.com'
+                        'staticw2.yotpo.com',
+                        '*.algolia.net',
+                        '*.algolianet.com'
                     ],
                     'default-src': [
                         "'self'",
