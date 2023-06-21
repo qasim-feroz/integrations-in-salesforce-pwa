@@ -5,10 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import React, {useEffect, useState} from 'react'
-
-// *****  Core: imports - Start  *****
 import {FormattedMessage, useIntl} from 'react-intl'
-
 import {Alert, AlertIcon, Box, Button, Container, Grid, GridItem, Stack} from '@chakra-ui/react'
 import useNavigation from '../../hooks/use-navigation'
 import {CheckoutProvider, useCheckout} from './util/checkout-context'
@@ -19,36 +16,26 @@ import useCustomer from '../../commerce-api/hooks/useCustomer'
 import useBasket from '../../commerce-api/hooks/useBasket'
 import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
-
-// *****  Core: imports - Start  *****
-import {useToast} from '../../hooks/use-toast'
-import {ADYEN_PAYMENT_ERROR} from '../../constants'
-// *****  Core: imports - end  *****
-
 import OrderSummary from '../../components/order-summary'
 
-// *****  Core: imports - Start  *****
-import AuthorizePayment from '../../integrations/adyen/components/authorizePayment/authorize'
-import Access from '../../integrations/adyen/components/authorizePayment/token'
-import updateAdyenOrderInfo from '../../integrations/adyen/components/authorizePayment/updateAdyenOrder'
-import {googleTagManager} from 'pwa-custom-core/src'
-// *****  Core: imports - end  *****
+// *****  Core: Adyen - START  *****
+import { useToast } from '../../hooks/use-toast'
+import { isAdyenAuthorized, googleTagManager } from 'Core/src'
+import { updateOrderPaymentTransaction } from 'Core/src/integrations/payments/services/CommercePaymentService'
+// *****  Core: Adyen - End   *****
 
 const Checkout = () => {
     const navigate = useNavigation()
-
-    // *****  Core: Adyen - Start  *****
-    const {globalError, step, placeOrder, adyenData} = useCheckout()
-    // *****  Core: Adyen - end  *****
-
-    const [isLoading, setIsLoading] = useState(false)
-
-    // *****  Core: Adyen - Start  *****
+    // *****  Core: Adyen - START  *****
     const customer = useCustomer()
     const basket = useBasket()
     const showToast = useToast()
-    const {formatMessage} = useIntl()
-    // *****  Core: Adyen - end  *****
+    const { formatMessage } = useIntl();
+
+    const {globalError, step, placeOrder, adyenData} = useCheckout()
+    // *****  Core: Adyen - End   *****
+
+    const [isLoading, setIsLoading] = useState(false)
 
     // Scroll to the top when we get a global error
     useEffect(() => {
@@ -72,49 +59,26 @@ const Checkout = () => {
 
     const submitOrder = async () => {
         setIsLoading(true)
-        try {
-            // *****  Core: Adyen - start  *****
-            let orderResult, paymentResult, token
-            if (
-                basket &&
-                basket.paymentInstruments &&
-                basket.paymentInstruments[0].paymentMethodId === 'AdyenComponent'
-            ) {
-                await AuthorizePayment(basket, customer, adyenData.paymentMethod).then(function (
-                    result
-                ) {
-                    paymentResult = result
-                })
-            }
-            if (
-                paymentResult.paymentResult.resultCode &&
-                paymentResult.paymentResult.resultCode === 'Authorised'
-            ) {
-                orderResult = await placeOrder()
-
-                navigate('/checkout/confirmation')
-            } else {
-                showToast({
-                    title: formatMessage(ADYEN_PAYMENT_ERROR),
-                    status: 'error'
-                })
+            try {
+                // *****  Core: Adyen - START  *****
+                const authoriseResponse =  await isAdyenAuthorized(basket, customer, adyenData)
+                if (authoriseResponse.isAuhtorized) {
+                    const orderResult = await placeOrder()
+                    await updateOrderPaymentTransaction(orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, authoriseResponse.detail.resultCode)
+                // *****  Core: Adyen - End   *****
+                    navigate('/checkout/confirmation')
+                // *****  Core: Adyen - START  *****
+                } else {
+                    showToast({
+                        title: formatMessage(authoriseResponse.detail),
+                        status: 'error'
+                    })
+                    setIsLoading(false)
+                }
+                // *****  Core: Adyen - End   *****
+            } catch (error) {
                 setIsLoading(false)
             }
-            if (token && orderResult.orderNo && paymentResult) {
-                const tokenResult = await Access()
-                token = await tokenResult.json()
-                await updateAdyenOrderInfo(
-                    token.access_token,
-                    orderResult.orderNo,
-                    orderResult.paymentInstruments[0].paymentInstrumentId,
-                    paymentResult.paymentResult.resultCode
-                )
-            }
-
-            // *****  Core: Adyen - end  *****
-        } catch (error) {
-            setIsLoading(false)
-        }
     }
 
     return (
