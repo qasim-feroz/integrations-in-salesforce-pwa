@@ -48,7 +48,7 @@ const TrackOrderDetails = loadable(() =>
 // *****  Core: imports - end  *****
 
 // *****  Core: Reset Password - Start  *****
-const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password/pages/set-new-password'), {fallback})
+const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
 // *****  Core: Reset Password - End  *****
 const PageNotFound = loadable(() => import('./pages/page-not-found'))
 const routes = [
