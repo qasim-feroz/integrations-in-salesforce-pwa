@@ -46,6 +46,10 @@ const TrackOrderDetails = loadable(() =>
     import('pwa-custom-core/src/integrations/track-order/pages/order-details/TrackOrderDetails')
 )
 // *****  Core: imports - end  *****
+
+// *****  Core: Reset Password - Start  *****
+const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
+// *****  Core: Reset Password - End  *****
 const PageNotFound = loadable(() => import('./pages/page-not-found'))
 const routes = [
     {
@@ -125,6 +129,12 @@ const routes = [
         exact: true
     },
     //  *****  Core: page designer - end  *****
+    // *****  Core: Reset Password - Start  *****
+    {
+        path: '/reset-password/emailId/:email/resetToken/:reset',
+        component: SetNewPassword
+    },
+    // *****  Core: Reset Password - End  *****
     {
         path: '*',
         component: PageNotFound
