@@ -20,7 +20,7 @@ import {useLocation} from 'react-router-dom'
 
 // *****  Core: klavio - Start  *****
 // importing methods for klavio reset password
-import {GetTokenAndSendResetPassword} from 'Core/src/integrations/marketing'
+import {GetResetTokenAndSend} from 'Core/src/integrations/marketing'
 // *****  Core: klavio - End  *****
 
 const ResetPassword = () => {
@@ -36,7 +36,7 @@ const ResetPassword = () => {
         try {
 
             // *****  Core: klavio - Start  *****
-            const tokenResult = await GetTokenAndSendResetPassword(email)
+            const tokenResult = await GetResetTokenAndSend(email)
             // *****  Core: klavio - End  *****
 
             setSubmittedEmail(email)

@@ -31,7 +31,7 @@ import useNavigation from './use-navigation'
 
 // *****  Core: klavio - Start  *****
 // importing methods for klavio reset password
-import {GetTokenAndSendResetPassword} from 'Core/src/integrations/marketing'
+import {GetResetTokenAndSend} from 'Core/src/integrations/marketing'
 // *****  Core: klavio - End  *****
 
 const LOGIN_VIEW = 'login'
@@ -90,7 +90,7 @@ export const AuthModal = ({
     const handleResetPassword = async ({email}) => {
         try {
             // *****  Core: klavio - Start  *****
-            const tokenResult = await GetTokenAndSendResetPassword(email)
+            const tokenResult = await GetResetTokenAndSend(email)
             // *****  Core: klavio - End  *****
 
             // Execute action to be perfromed on successful passoword reset
