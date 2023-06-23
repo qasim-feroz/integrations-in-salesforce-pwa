@@ -25,7 +25,7 @@ const fallback = <Skeleton height="75vh" width="100%" />
 // Pages
 
 //******  Core: Google SSO - Start
-const SSOCallback = loadable(() => import('./pages/SSOCallback'), {fallback})
+const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {fallback})
 //******  Core: Google SSO - End
 
 const Home = loadable(() => import('./pages/home'), {fallback})

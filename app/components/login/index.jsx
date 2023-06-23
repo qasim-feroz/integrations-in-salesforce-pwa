@@ -13,8 +13,7 @@ import {AlertIcon, BrandLogo} from '../icons'
 import LoginFields from '../../components/forms/login-fields'
 import {noop} from '../../utils/utils'
 // *****  Core: imports - Start  *****
-import {createCodeVerifier, generateCodeChallenge} from '../../commerce-api/pkce'
-import {LoginWihGoogle} from 'Core/src/Integrations/idps/index'
+import {SSOButtons} from 'Core/src/integrations/idps'
 // *****  Core: imports - End  *****
 const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount = noop, form}) => {
     return (
@@ -67,14 +66,7 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                         </Button>
 
                         {/* *****  Core: Google SSO - Start  */}
-                        <Button
-                            type="button"
-                            onClick={() =>
-                                LoginWihGoogle()
-                            }
-                        >
-                            Login With Google
-                        </Button>
+                        <SSOButtons/>
                         {/* *****  Core: Google SSO - End  */}
 
                         <Stack direction="row" spacing={1} justify="center">
