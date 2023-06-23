@@ -23,6 +23,11 @@ import {configureRoutes} from './utils/routes-utils'
 const fallback = <Skeleton height="75vh" width="100%" />
 
 // Pages
+
+//******  Core: Google SSO - Start
+const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {fallback})
+//******  Core: Google SSO - End
+
 const Home = loadable(() => import('./pages/home'), {fallback})
 const Login = loadable(() => import('./pages/login'), {fallback})
 const Registration = loadable(() => import('./pages/registration'), {fallback})
@@ -57,6 +62,12 @@ const routes = [
         component: Home,
         exact: true
     },
+//******  Core: Google SSO - Start
+    {
+        path: '/google-callback',
+        component: SSOCallback
+    },
+//******  Core: Google SSO - End
     {
         path: '/login',
         component: Login,

@@ -12,7 +12,9 @@ import {Alert, Box, Button, Stack, Text} from '@chakra-ui/react'
 import {AlertIcon, BrandLogo} from '../icons'
 import LoginFields from '../../components/forms/login-fields'
 import {noop} from '../../utils/utils'
-
+// *****  Core: imports - Start  *****
+import {SSOButtons} from 'Core/src/integrations/idps'
+// *****  Core: imports - End  *****
 const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount = noop, form}) => {
     return (
         <Fragment>
@@ -62,6 +64,10 @@ const LoginForm = ({submitForm, clickForgotPassword = noop, clickCreateAccount =
                                 id="login_form.button.sign_in"
                             />
                         </Button>
+
+                        {/* *****  Core: Google SSO - Start  */}
+                        <SSOButtons/>
+                        {/* *****  Core: Google SSO - End  */}
 
                         <Stack direction="row" spacing={1} justify="center">
                             <Text fontSize="sm">
