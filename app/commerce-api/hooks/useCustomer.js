@@ -24,7 +24,7 @@ export default function useCustomer() {
     const {customer, setCustomer} = useContext(CustomerContext)
 
     // *****  Core: Extending Customer Basket - Start  *****
-    const coreCustomer = useCoreCustomer({api, customer, setCustomer})
+    const coreCustomer = useCoreCustomer()
     // *****  Core: Extending Customer Basket - End  *****
 
     const self = useMemo(() => {
