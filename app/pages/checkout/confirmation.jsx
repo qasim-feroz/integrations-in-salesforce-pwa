@@ -73,10 +73,13 @@ const CheckoutConfirmation = () => {
         if (!order || order._type !== 'order') {
             navigate('/')
         }
-        //  *****  Core: Klaviyo Order Confirmation - Start  *****
-        sendOrderPlacedEmail(order)
-        //  *****  Core: Klaviyo Order Confirmation - End  *****
     }, [order])
+
+    //  *****  Core: Klaviyo Order Confirmation - Start  *****
+    useEffect(() => {
+        sendOrderPlacedEmail(order)
+    }, [order.billingAddress])
+    //  *****  Core: Klaviyo Order Confirmation - End  *****
 
     if (!order || !order.orderNo) {
         return null
