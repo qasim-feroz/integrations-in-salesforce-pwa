@@ -23,6 +23,11 @@ import {configureRoutes} from './utils/routes-utils'
 const fallback = <Skeleton height="75vh" width="100%" />
 
 // Pages
+
+//******  Core: Google SSO - Start
+const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {fallback})
+//******  Core: Google SSO - End
+
 const Home = loadable(() => import('./pages/home'), {fallback})
 const Login = loadable(() => import('./pages/login'), {fallback})
 const Registration = loadable(() => import('./pages/registration'), {fallback})
@@ -57,12 +62,22 @@ const ContentStackProductDetail = loadable(
     {fallback}
 )
 // *****  Core: ContentStack - End  *****
+// *****  Core: Reset Password - Start  *****
+const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
+// *****  Core: Reset Password - End  *****
+
 const routes = [
     {
         path: '/',
         component: Home,
         exact: true
     },
+//******  Core: Google SSO - Start
+    {
+        path: '/google-callback',
+        component: SSOCallback
+    },
+//******  Core: Google SSO - End
     {
         path: '/login',
         component: Login,
@@ -149,6 +164,12 @@ const routes = [
         exact: true
     },
     //  *****  Core: page designer - end  *****
+    // *****  Core: Reset Password - Start  *****
+    {
+        path: '/reset-password/emailId/:email/resetToken/:reset',
+        component: SetNewPassword
+    },
+    // *****  Core: Reset Password - End  *****
     {
         path: '*',
         component: PageNotFound
