@@ -82,11 +82,9 @@ const Home = ({productSearchResult, isLoading}) => {
     }, [])
 
     // *****  Core: Rating & Reviews - Start  *****
-    ;(async () => {
-        productSearchResult
-            ? setBatchBottomLineData(await GetBatchBottomLineWidgets(productSearchResult))
-            : ''
-    })()
+    useEffect(async () => {
+        setBatchBottomLineData(await GetBatchBottomLineWidgets(productSearchResult))
+    }, [productSearchResult])
     // *****  Core: Rating & Reviews - End  *****
 
     return (
