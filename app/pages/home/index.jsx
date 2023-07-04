@@ -47,9 +47,9 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
-// *****  Core: Import - Start  *****
+// *****  Core: Imports - Start  *****
 import {googleTagManager, yotpoBottomLineBatchCall} from 'Core/src'
-// *****  Core: Import - End  *****
+// *****  Core: Imports - End  *****
 
 /**
  * This is the home page for Retail React App.
