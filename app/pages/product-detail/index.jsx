@@ -45,9 +45,8 @@ import {googleTagManager} from 'Core/src'
 
 // *****  Core: Yotpo - Start  *****
 import Parser from 'html-react-parser'
-import {yotpoMainWidget} from 'Core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
 import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
-import {useYotpoReviewsRefresh} from 'Core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
+import {yotpoMainWidget, useYotpoReviewsRefresh} from 'Core/src'
 // *****  Core: Yotpo - End   *****
 
 const ProductDetail = ({category, product, isLoading}) => {

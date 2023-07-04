@@ -49,7 +49,7 @@ import {
 
 // *****  Core: Import - Start  *****
 import {googleTagManager} from 'Core/src'
-import {yotpoBottomLineBatchCall} from 'Core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
+import {yotpoBottomLineBatchCall} from 'Core/src'
 // *****  Core: Import - End  *****
 
 /**
