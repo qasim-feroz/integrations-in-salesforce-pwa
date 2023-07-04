@@ -11,7 +11,7 @@ const {getRuntime} = require('pwa-kit-runtime/ssr/server/express')
 const {isRemote} = require('pwa-kit-runtime/utils/ssr-server')
 const {getConfig} = require('pwa-kit-runtime/utils/ssr-config')
 const helmet = require('helmet')
-const apiMiddleware = require('pwa-custom-core/src/base/middleware/ApiMiddleware')
+const apiMiddleware = require('Core/src/base/middleware/ApiMiddleware')
 const express = require('express')
 
 //loads environemnt variables from the file

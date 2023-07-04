@@ -36,7 +36,7 @@ import CartItemVariantAttributes from '../../components/item-variant/item-attrib
 import CartItemVariantPrice from '../../components/item-variant/item-price'
 
 // *****  Core: imports - Start *****
-import {googleTagManager} from 'pwa-custom-core/src'
+import {googleTagManager} from 'Core/src'
 import {sendOrderPlacedEmail} from 'Core/src/integrations/marketing'
 // *****  Core: imports - end  *****
 

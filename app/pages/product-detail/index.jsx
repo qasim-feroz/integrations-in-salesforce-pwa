@@ -40,14 +40,14 @@ import {useHistory} from 'react-router-dom'
 import {useToast} from '../../hooks/use-toast'
 
 // *****  Core: imports - Start  *****
-import {googleTagManager} from 'pwa-custom-core/src'
+import {googleTagManager} from 'Core/src'
 // *****  Core: imports - end  *****
 
 // *****  Core: Yotpo - Start  *****
 import Parser from 'html-react-parser'
-import {yotpoMainWidget} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
+import {yotpoMainWidget} from 'Core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
 import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
-import {useYotpoReviewsRefresh} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
+import {useYotpoReviewsRefresh} from 'Core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
 // *****  Core: Yotpo - End   *****
 
 const ProductDetail = ({category, product, isLoading}) => {

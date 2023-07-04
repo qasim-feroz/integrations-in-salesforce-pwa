@@ -78,11 +78,11 @@ import LoadingSpinner from '../../components/loading-spinner'
 
 //custom-core-change
 // import from core
-import {googleTagManager} from 'pwa-custom-core/src'
+import {googleTagManager} from 'Core/src'
 //custom-core-change
 
 // *****  Core: Yotpo - Start  *****
-import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
+import {yotpoBottomLineBatchCall} from 'Core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
 // *****  Core: Yotpo - End  *****
 
 // NOTE: You can ignore certain refinements on a template level by updating the below

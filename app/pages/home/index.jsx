@@ -47,14 +47,10 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
-//custom-core-change
-// imports from core
-import {googleTagManager} from 'pwa-custom-core/src'
-//custom-core-change
-
-// *****  Core: Yotpo - Start  *****
-import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
-// *****  Core: Yotpo - End  *****
+// *****  Core: Import - Start  *****
+import {googleTagManager} from 'Core/src'
+import {yotpoBottomLineBatchCall} from 'Core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
+// *****  Core: Import - End  *****
 
 /**
  * This is the home page for Retail React App.

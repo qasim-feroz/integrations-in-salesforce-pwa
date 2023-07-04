@@ -29,7 +29,7 @@ import {useToast} from '../../hooks/use-toast'
 import {API_ERROR_MESSAGE} from '../../constants'
 // *****  Core: Yotpo - Start  *****
 import Parser from 'html-react-parser'
-import {yotpoBottomLine} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
+import {yotpoBottomLine} from 'Core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
 // *****  Core: Yotpo - End  *****
 
 const ProductViewHeader = ({name, price, currency, category, productType}) => {

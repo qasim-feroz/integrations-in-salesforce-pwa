@@ -18,10 +18,10 @@ import AddressDisplay from '../../../components/address-display'
 import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
-// *****  Core: Melissa - Start  *****
-import {MelissaSuggestionModal} from 'pwa-custom-core/src/integrations/address-verification/melissa/components/modal'
-import {openMelissaModal} from 'pwa-custom-core/src/integrations/address-verification/melissa/helper/melissaHelper'
-// *****  Core: Melissa - End   *****
+// *****  Core: Imports - Start  *****
+import {MelissaSuggestionModal} from 'Core/src/integrations/address-verification/melissa/components/modal'
+import {openMelissaModal} from 'Core/src/integrations/address-verification/melissa/helper/melissaHelper'
+// *****  Core: Imports - End   *****
 
 const saveButtonMessage = defineMessage({
     defaultMessage: 'Save & Continue to Shipping Method',

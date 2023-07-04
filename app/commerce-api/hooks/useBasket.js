@@ -10,7 +10,7 @@ import {useCommerceAPI, BasketContext} from '../contexts'
 import useCustomer from './useCustomer'
 import {isError} from '../utils'
 // custom-core-change
-import useCoreBasket from 'pwa-custom-core/src/extensions/hooks/coreBasket'
+import useCoreBasket from 'Core/src/extensions/hooks/coreBasket'
 // custom-core-change
 
 export default function useBasket(opts = {}) {
