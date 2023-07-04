@@ -47,13 +47,9 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
-//custom-core-change
-// imports from core
-import {googleTagManager} from 'pwa-custom-core/src'
-// *****  Core: Rating & Reviews - Start  *****
-import {getBatchBottomLineWidgets} from 'Core/src/integrations/reviews-and-ratings'
-// *****  Core: Rating & Reviews - End  *****
-//custom-core-change
+// *****  Core: Imports - Start  *****
+import {getBatchBottomLineWidgets, googleTagManager} from 'Core/src'
+// *****  Core: Imports - End  *****
 
 /**
  * This is the home page for Retail React App.

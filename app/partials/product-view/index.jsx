@@ -28,9 +28,9 @@ import QuantityPicker from '../../components/quantity-picker'
 import {useToast} from '../../hooks/use-toast'
 import {API_ERROR_MESSAGE} from '../../constants'
 
-// *****  Core: Rating & Reviews - Start  *****
-import {ProductDetailBottomLineWidget} from 'Core/src/integrations/reviews-and-ratings'
-// *****  Core: Rating & Reviews - End  *****
+// *****  Core: Import - Start  *****
+import {ProductDetailBottomLineWidget} from 'Core/src'
+// *****  Core: Import - End  *****
 
 const ProductViewHeader = ({name, price, currency, category, productType}) => {
     const intl = useIntl()
