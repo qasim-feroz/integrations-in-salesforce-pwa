@@ -56,7 +56,7 @@ import Seo from '../seo'
 import {resolveSiteFromUrl} from '../../utils/site-utils'
 import useMultiSite from '../../hooks/use-multi-site'
 // *****  Core: Yotpo - Start  *****
-import {yotpoAppKeyCall} from 'Core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
+import {yotpoAppKeyCall} from 'Core/src'
 // *****  Core: Yotpo - End   *****
 
 const App = (props) => {

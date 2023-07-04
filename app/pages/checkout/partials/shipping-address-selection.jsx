@@ -19,8 +19,8 @@ import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
 // *****  Core: Imports - Start  *****
-import {MelissaSuggestionModal} from 'Core/src/integrations/address-verification/melissa/components/modal'
-import {openMelissaModal} from 'Core/src/integrations/address-verification/melissa/helper/melissaHelper'
+import {MelissaSuggestionModal} from 'Core/src'
+import {openMelissaModal} from 'Core/src'
 // *****  Core: Imports - End   *****
 
 const saveButtonMessage = defineMessage({
