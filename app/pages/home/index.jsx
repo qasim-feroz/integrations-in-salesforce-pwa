@@ -48,8 +48,7 @@ import {
 } from '../../constants'
 
 // *****  Core: Import - Start  *****
-import {googleTagManager} from 'Core/src'
-import {yotpoBottomLineBatchCall} from 'Core/src'
+import {googleTagManager, yotpoBottomLineBatchCall} from 'Core/src'
 // *****  Core: Import - End  *****
 
 /**

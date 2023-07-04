@@ -27,10 +27,10 @@ import {HideOnDesktop, HideOnMobile} from '../../components/responsive'
 import QuantityPicker from '../../components/quantity-picker'
 import {useToast} from '../../hooks/use-toast'
 import {API_ERROR_MESSAGE} from '../../constants'
-// *****  Core: Yotpo - Start  *****
+// *****  Core: Imports - Start  *****
 import Parser from 'html-react-parser'
 import {yotpoBottomLine} from 'Core/src'
-// *****  Core: Yotpo - End  *****
+// *****  Core: Imports - End  *****
 
 const ProductViewHeader = ({name, price, currency, category, productType}) => {
     const intl = useIntl()

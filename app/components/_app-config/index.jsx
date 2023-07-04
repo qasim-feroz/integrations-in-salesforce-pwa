@@ -26,9 +26,7 @@ import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
 
 // *****  Core: Imports - Start  *****
-import {coreAppConfig} from 'Core/src'
-import {googleTagManager} from 'Core/src'
-import {CoreContextProvider} from 'Core/src'
+import {coreAppConfig, googleTagManager, CoreContextProvider} from 'Core/src'
 // *****  Core: Imports - end  *****
 
 /**

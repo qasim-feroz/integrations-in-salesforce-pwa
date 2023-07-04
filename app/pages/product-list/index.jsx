@@ -76,14 +76,9 @@ import {
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../../components/loading-spinner'
 
-//custom-core-change
-// import from core
-import {googleTagManager} from 'Core/src'
-//custom-core-change
-
-// *****  Core: Yotpo - Start  *****
-import {yotpoBottomLineBatchCall} from 'Core/src'
-// *****  Core: Yotpo - End  *****
+// *****  Core: imports - Start  *****
+import {googleTagManager, yotpoBottomLineBatchCall} from 'Core/src'
+// *****  Core: imports - End  *****
 
 // NOTE: You can ignore certain refinements on a template level by updating the below
 // list of ignored refinements.

@@ -40,14 +40,10 @@ import {useHistory} from 'react-router-dom'
 import {useToast} from '../../hooks/use-toast'
 
 // *****  Core: imports - Start  *****
-import {googleTagManager} from 'Core/src'
-// *****  Core: imports - end  *****
-
-// *****  Core: Yotpo - Start  *****
 import Parser from 'html-react-parser'
 import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
-import {yotpoMainWidget, useYotpoReviewsRefresh} from 'Core/src'
-// *****  Core: Yotpo - End   *****
+import {yotpoMainWidget, useYotpoReviewsRefresh, googleTagManager} from 'Core/src'
+// *****  Core: imports - End   *****
 
 const ProductDetail = ({category, product, isLoading}) => {
     const {formatMessage} = useIntl()
