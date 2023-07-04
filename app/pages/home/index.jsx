@@ -51,7 +51,7 @@ import {
 // imports from core
 import {googleTagManager} from 'pwa-custom-core/src'
 // *****  Core: Rating & Reviews - Start  *****
-import {GetBatchBottomLineWidgets} from 'Core/src/integrations/reviews-and-ratings'
+import {getBatchBottomLineWidgets} from 'Core/src/integrations/reviews-and-ratings'
 // *****  Core: Rating & Reviews - End  *****
 //custom-core-change
 
@@ -67,7 +67,7 @@ const Home = ({productSearchResult, isLoading}) => {
     const {pathname} = useLocation()
 
     // *****  Core: Rating & Reviews - Start  *****
-    const [BatchBottomLineData, setBatchBottomLineData] = useState([])
+    const [batchBottomLineData, setBatchBottomLineData] = useState([])
     // *****  Core: Rating & Reviews - End  *****
 
     /**************** Einstein ****************/
@@ -83,7 +83,7 @@ const Home = ({productSearchResult, isLoading}) => {
 
     // *****  Core: Rating & Reviews - Start  *****
     useEffect(async () => {
-        setBatchBottomLineData(await GetBatchBottomLineWidgets(productSearchResult))
+        productSearchResult ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult)) : ''
     }, [productSearchResult])
     // *****  Core: Rating & Reviews - End  *****
 
@@ -220,7 +220,7 @@ const Home = ({productSearchResult, isLoading}) => {
                             products={productSearchResult?.hits}
                             isLoading={isLoading}
                             //* *****  Core: Rating & Reviews - Start  *****
-                            BottomLineWidget={BatchBottomLineData}
+                            BottomLineWidget={batchBottomLineData}
                             //* *****  Core: Rating & Reviews - End  *****
                         />
                     </Stack>

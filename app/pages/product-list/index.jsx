@@ -80,7 +80,7 @@ import LoadingSpinner from '../../components/loading-spinner'
 // import from core
 import {googleTagManager} from 'pwa-custom-core/src'
 // *****  Core: Rating & Reviews - Start  *****
-import {GetBatchBottomLineWidgets} from 'Core/src/integrations/reviews-and-ratings'
+import {getBatchBottomLineWidgets} from 'Core/src/integrations/reviews-and-ratings'
 // *****  Core: Rating & Reviews - End  *****
 //custom-core-change
 
@@ -189,7 +189,7 @@ const ProductList = (props) => {
     //custom-core-change
     const {pathname} = useLocation()
     // *****  Core: Rating & Reviews - Start  *****
-    const [BatchBottomLineData, setBatchBottomLineData] = useState([])
+    const [batchBottomLineData, setBatchBottomLineData] = useState([])
     // *****  Core: Rating & Reviews - End  *****
     //custom-core-change
 
@@ -211,7 +211,7 @@ const ProductList = (props) => {
 
     // *****  Core: Rating & Reviews - Start  *****
     useEffect(async () => {
-        setBatchBottomLineData(await GetBatchBottomLineWidgets(productSearchResult))
+        productSearchResult ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult)) : ''
     }, [productSearchResult])
     // *****  Core: Rating & Reviews - End  *****
 
@@ -438,7 +438,7 @@ const ProductList = (props) => {
                                                   enableFavourite={true}
                                                   isFavourite={isInWishlist}
                                                   // *****  Core: Rating & Reviews - Start  *****
-                                                  starRatingWidgetData={BatchBottomLineData[index]}
+                                                  starRatingWidgetData={batchBottomLineData[index]}
                                                   // *****  Core: Rating & Reviews - End  *****
                                                   onClick={() => {
                                                       if (searchQuery) {

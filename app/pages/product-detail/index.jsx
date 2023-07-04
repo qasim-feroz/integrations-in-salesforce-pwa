@@ -40,7 +40,7 @@ import {useHistory} from 'react-router-dom'
 import {useToast} from '../../hooks/use-toast'
 
 // *****  Core: imports - Start  *****
-import {googleTagManager} from 'pwa-custom-core/src'
+import {googleTagManager} from 'Core/src'
 import {ProductDetailReviewWidget} from 'Core/src/integrations/reviews-and-ratings'
 // *****  Core: imports - end  *****
 
