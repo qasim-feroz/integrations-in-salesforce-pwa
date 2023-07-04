@@ -37,7 +37,7 @@ import CartItemVariantPrice from '../../components/item-variant/item-price'
 
 // *****  Core: imports - Start *****
 import {googleTagManager} from 'Core/src'
-import {sendOrderPlacedEmail} from 'Core/src/integrations/marketing'
+import {sendOrderPlacedEmail} from 'Core/src'
 // *****  Core: imports - end  *****
 
 const CheckoutConfirmation = () => {
