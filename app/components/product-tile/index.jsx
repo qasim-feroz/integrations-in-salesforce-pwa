@@ -29,9 +29,9 @@ import {productUrlBuilder} from '../../utils/url'
 import Link from '../link'
 import withRegistration from '../../hoc/with-registration'
 import {useCurrency} from '../../hooks'
-// *****  Core: Yotpo - Start  *****
-import Parser from 'html-react-parser'
-// *****  Core: Yotpo - End  *****
+// *****  Core: Rating & Reviews - Start  *****
+import {StarRatingWidget} from 'Core/src/integrations/reviews-and-ratings'
+// *****  Core: Rating & Reviews - End  *****
 const IconButtonWithRegistration = withRegistration(IconButton)
 
 // Component Skeleton
@@ -65,9 +65,9 @@ const ProductTile = (props) => {
         isFavourite,
         onFavouriteToggle,
         dynamicImageProps,
-        // *****  Core: Yotpo - Start  *****
-        starRatingWidget,
-        // *****  Core: Yotpo - End  *****
+        // *****  Core: Rating & Reviews - Start  *****
+        starRatingWidgetData,
+        // *****  Core: Rating & Reviews - End  *****
         ...rest
     } = props
 
@@ -146,13 +146,10 @@ const ProductTile = (props) => {
                     currency: currency || activeCurrency
                 })}
             </Text>
-            {/* *****  Core: Yotpo - Start  ***** */}
-            <div className="yotpo-main-widget">
-                <div className="yotpo bottomline" data-product-id={product.productId}>
-                    {starRatingWidget !== undefined ? Parser(starRatingWidget.result) : null}
-                </div>
-            </div>
-            {/* *****  Core: Yotpo - End  ***** */}
+
+            {/* *****  Core: Rating & Reviews - Start  ***** */}
+            <StarRatingWidget product={product} starRatingWidgetData={starRatingWidgetData} />
+            {/* *****  Core: Rating & Reviews - End  ***** */}
         </Link>
     )
 }
