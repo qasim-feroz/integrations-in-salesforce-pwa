@@ -76,6 +76,9 @@ const CheckoutConfirmation = () => {
 
     //  *****  Core: Klaviyo Order Confirmation - Start  *****
     useEffect(() => {
+        if (Object.keys(order.billingAddress).length === 0) {
+            return
+        }
         sendOrderPlacedEmail(order)
     }, [order.billingAddress])
     //  *****  Core: Klaviyo Order Confirmation - End  *****
