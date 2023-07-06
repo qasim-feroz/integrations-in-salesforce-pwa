@@ -233,13 +233,13 @@ const ShippingAddressSelection = ({
         <form onSubmit={form.handleSubmit(melissaModal)}>
             {/* Core: Melissa - Start */}
             {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
-            <AddressSuggestionModel
+            {/* <AddressSuggestionModel
                 modalState={isModalOpenState}
                 setModalState={setModalOpenState}
                 melissaAddress={melissaAdrressData}
                 submitForm={submitForm}
                 addressData={addressData}
-            />
+    />*/}
             {/* Core: Melissa - End */}
             <Stack spacing={4}>
                 {hasSavedAddresses && (
