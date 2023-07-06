@@ -69,6 +69,7 @@ const CheckoutConfirmation = () => {
     // If we don't have an order object on first render we need to transition back to a
     // different page. Fow now, we push to the homepage.
     useEffect(() => {
+        console.log(order, 'i am order')
         if (!order || order._type !== 'order') {
             navigate('/')
         }
@@ -76,7 +77,7 @@ const CheckoutConfirmation = () => {
 
     //  *****  Core: Klaviyo Order Confirmation - Start  *****
     useEffect(() => {
-        if (Object.keys(order.billingAddress).length === 0) {
+        if (order && Object.keys(order.billingAddress).length === 0) {
             return
         }
         sendOrderPlacedEmail(order)
