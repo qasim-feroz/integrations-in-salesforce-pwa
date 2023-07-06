@@ -19,7 +19,7 @@ import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
 // *****  Core: Imports - Start  *****
-import {MelissaSuggestionModal, openMelissaModal} from 'Core/src'
+import {AddressSuggestionModel, AddressVerificationModal} from 'Core/src'
 // *****  Core: Imports - End   *****
 
 const saveButtonMessage = defineMessage({
@@ -118,7 +118,7 @@ const ShippingAddressSelection = ({
     const [addressData, setaddressData] = useState([''])
 
     const melissaModal = async (address) => {
-        openMelissaModal(
+        AddressVerificationModal(
             address,
             submitForm,
             setModalOpenState,
@@ -233,7 +233,7 @@ const ShippingAddressSelection = ({
         <form onSubmit={form.handleSubmit(melissaModal)}>
             {/* Core: Melissa - Start */}
             {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
-            <MelissaSuggestionModal
+            <AddressSuggestionModel
                 modalState={isModalOpenState}
                 setModalState={setModalOpenState}
                 melissaAddress={melissaAdrressData}
