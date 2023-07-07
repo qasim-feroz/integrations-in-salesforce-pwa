@@ -55,9 +55,9 @@ import {
 import Seo from '../seo'
 import {resolveSiteFromUrl} from '../../utils/site-utils'
 import useMultiSite from '../../hooks/use-multi-site'
-// *****  Core: Yotpo - Start  *****
-import {yotpoAppKeyCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/helper/yotpoHelper'
-// *****  Core: Yotpo - End   *****
+// *****  Core: Rating & Reviews - Start  *****
+import {HomePageScript} from 'Core/src'
+// *****  Core: Rating & Reviews - End   *****
 
 const App = (props) => {
     const {
@@ -151,9 +151,9 @@ const App = (props) => {
         history.push(path)
     }
 
-    // *****  Core: Yotpo - Start  *****
-    yotpoAppKeyCall(process.env.YOTPO_KEY)
-    // *****  Core: Yotpo - End  *****
+    // *****  Core: Rating & Reviews - Start  *****
+    HomePageScript()
+    // *****  Core: Rating & Reviews - End  *****
 
     return (
         <Box className="sf-app" {...styles.container}>

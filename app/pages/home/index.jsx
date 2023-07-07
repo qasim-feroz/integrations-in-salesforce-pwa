@@ -47,14 +47,9 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
-//custom-core-change
-// imports from core
-import {googleTagManager} from 'pwa-custom-core/src'
-//custom-core-change
-
-// *****  Core: Yotpo - Start  *****
-import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
-// *****  Core: Yotpo - End  *****
+// *****  Core: Imports - Start  *****
+import {getBatchBottomLineWidgets, googleTagManager} from 'Core/src'
+// *****  Core: Imports - End  *****
 
 /**
  * This is the home page for Retail React App.
@@ -67,6 +62,10 @@ const Home = ({productSearchResult, isLoading}) => {
     const einstein = useEinstein()
     const {pathname} = useLocation()
 
+    // *****  Core: Rating & Reviews - Start  *****
+    const [batchBottomLineData, setBatchBottomLineData] = useState([])
+    // *****  Core: Rating & Reviews - End  *****
+
     /**************** Einstein ****************/
     useEffect(() => {
         einstein.sendViewPage(pathname)
@@ -78,39 +77,13 @@ const Home = ({productSearchResult, isLoading}) => {
         //custom-core-change
     }, [])
 
-    // *****  Core: Yotpo - Start  *****
-    const productSearchResultIDs = []
-    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
-
-    /**
-
-    Retrieves the Yotpo response by calling the yotpoBottomLineBatchCall function with the provided productSearchResultIDs.
-    Updates the yotpoBottomLineState with the obtained response.
-    */
-    const getYotpoResponse = async () => {
-        var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
-        setyotpoBottomLineState(response)
-    }
-
-    useEffect(() => {
-        if (productSearchResultIDs.length > 0) {
-            getYotpoResponse()
-        }
-    }, [isLoading])
-
-    /**
-
-    Maps through the productSearchResult.hits array and retrieves the product IDs.
-    Adds each product ID to the productSearchResultIDs array.
-    @param {Object} productSearchResult - The result of a product search.
-    */
-    if (productSearchResult) {
-        productSearchResult.hits.map((productSearchItem) => {
-            const id = productSearchItem.productId
-            productSearchResultIDs.push(id)
-        })
-    }
-    // *****  Core: Yotpo - End   *****
+    // *****  Core: Rating & Reviews - Start  *****
+    useEffect(async () => {
+        productSearchResult
+            ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult))
+            : ''
+    }, [productSearchResult])
+    // *****  Core: Rating & Reviews - End  *****
 
     return (
         <Box data-testid="home-page" layerStyle="page">
@@ -244,7 +217,9 @@ const Home = ({productSearchResult, isLoading}) => {
                         <ProductScroller
                             products={productSearchResult?.hits}
                             isLoading={isLoading}
-                            yotpoBottomLineWidget={yotpoBottomLineState}
+                            //* *****  Core: Rating & Reviews - Start  *****
+                            BottomLineWidget={batchBottomLineData}
+                            //* *****  Core: Rating & Reviews - End  *****
                         />
                     </Stack>
                 </Section>

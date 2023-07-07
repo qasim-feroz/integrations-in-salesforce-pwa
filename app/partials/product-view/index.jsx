@@ -27,10 +27,10 @@ import {HideOnDesktop, HideOnMobile} from '../../components/responsive'
 import QuantityPicker from '../../components/quantity-picker'
 import {useToast} from '../../hooks/use-toast'
 import {API_ERROR_MESSAGE} from '../../constants'
-// *****  Core: Yotpo - Start  *****
-import Parser from 'html-react-parser'
-import {yotpoBottomLine} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
-// *****  Core: Yotpo - End  *****
+
+// *****  Core: Import - Start  *****
+import {ProductDetailBottomLineWidget} from 'Core/src'
+// *****  Core: Import - End  *****
 
 const ProductViewHeader = ({name, price, currency, category, productType}) => {
     const intl = useIntl()
@@ -112,9 +112,6 @@ const ProductView = forwardRef(
         } = useAddToCartModalContext()
         const theme = useTheme()
         const [showOptionsMessage, toggleShowOptionsMessage] = useState(false)
-        // *****  Core: Yotpo - Start  *****
-        const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
-        // *****  Core: Yotpo - End  *****
         const {
             showLoading,
             showInventoryMessage,
@@ -287,24 +284,6 @@ const ProductView = forwardRef(
             }
         }, [variant?.productId, quantity])
 
-        // *****  Core: Yotpo - Start  *****
-        /**
-
-        Retrieves the Yotpo response by calling the yotpoBottomLine function with the provided product ID.
-        Updates the yotpoBottomLineState with the obtained response.
-        */
-        const getYotpoResponse = async () => {
-            if (product) {
-                var response = await yotpoBottomLine(product.id)
-                setyotpoBottomLineState(response[0].result)
-            }
-        }
-
-        useEffect(() => {
-            getYotpoResponse()
-        }, [isProductLoading])
-        // *****  Core: Yotpo - End  *****
-
         return (
             <Flex direction={'column'} data-testid="product-view" ref={ref}>
                 {/* Basic information etc. title, price, breadcrumb*/}
@@ -355,13 +334,12 @@ const ProductView = forwardRef(
                                 currency={product?.currency}
                                 category={category}
                             />
-                            {/* *****  Core: Yotpo - Start  ***** */}
-                            {product && (
-                                <div className="yotpo bottomline" data-product-id={product.id}>
-                                    {Parser(yotpoBottomLineState.toString())}
-                                </div>
-                            )}
-                            {/* *****  Core: Yotpo - End  ***** */}
+                            {/* *****  Core: Rating & Reviews - Start  ***** */}
+                            <ProductDetailBottomLineWidget
+                                product={product}
+                                isProductLoading={isProductLoading}
+                            />
+                            {/* *****  Core: Rating & Reviews - End  ***** */}
                         </Box>
                         <VStack align="stretch" spacing={4}>
                             {/*

@@ -30,9 +30,7 @@ import {ContentStackAPI, defaultcsClient} from 'pwa-custom-core/src'
 // *****  Core: ContentStack - End  *****
 
 // *****  Core: Imports - Start  *****
-import {coreAppConfig} from 'pwa-custom-core/src'
-import {googleTagManager} from 'pwa-custom-core/src'
-import {CoreContextProvider} from 'pwa-custom-core/src'
+import {coreAppConfig, googleTagManager, CoreContextProvider} from 'Core/src'
 // *****  Core: Imports - end  *****
 
 /**

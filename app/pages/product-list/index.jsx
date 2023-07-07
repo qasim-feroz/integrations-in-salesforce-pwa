@@ -76,14 +76,9 @@ import {
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../../components/loading-spinner'
 
-//custom-core-change
-// import from core
-import {googleTagManager} from 'pwa-custom-core/src'
-//custom-core-change
-
-// *****  Core: Yotpo - Start  *****
-import {yotpoBottomLineBatchCall} from 'pwa-custom-core/src/integrations/reviews-and-ratings/yotpo/services/yotpoApiService'
-// *****  Core: Yotpo - End  *****
+// *****  Core: Imports - Start  *****
+import {getBatchBottomLineWidgets, googleTagManager} from 'Core/src'
+// *****  Core: Imports - End  *****
 
 // NOTE: You can ignore certain refinements on a template level by updating the below
 // list of ignored refinements.
@@ -189,6 +184,9 @@ const ProductList = (props) => {
 
     //custom-core-change
     const {pathname} = useLocation()
+    // *****  Core: Rating & Reviews - Start  *****
+    const [batchBottomLineData, setBatchBottomLineData] = useState([])
+    // *****  Core: Rating & Reviews - End  *****
     //custom-core-change
 
     useEffect(() => {
@@ -206,6 +204,14 @@ const ProductList = (props) => {
     }, [])
     //submiting pathname to GTM end
     //custom-core-change
+
+    // *****  Core: Rating & Reviews - Start  *****
+    useEffect(async () => {
+        productSearchResult
+            ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult))
+            : ''
+    }, [productSearchResult])
+    // *****  Core: Rating & Reviews - End  *****
 
     /**************** Filters ****************/
     const [searchParams, {stringify: stringifySearchParams}] = useSearchParams()
@@ -276,40 +282,6 @@ const ProductList = (props) => {
     if (!selectedSortingOptionLabel) {
         selectedSortingOptionLabel = productSearchResult?.sortingOptions?.[0]
     }
-
-    // *****  Core: Yotpo - Start  *****
-    const productSearchResultIDs = []
-    const [yotpoBottomLineState, setyotpoBottomLineState] = useState([])
-
-    /**
-
-    Retrieves the Yotpo response by calling the yotpoBottomLineBatchCall function with the provided array of IDs.
-    Updates the yotpoBottomLineState with the obtained response.
-    */
-    const getYotpoResponse = async () => {
-        var response = await yotpoBottomLineBatchCall(productSearchResultIDs)
-        setyotpoBottomLineState(response)
-    }
-
-    useEffect(() => {
-        if (productSearchResultIDs.length > 0) {
-            getYotpoResponse()
-        }
-    }, [isLoading])
-
-    /**
-
-    Maps through the productSearchResult.hits array and retrieves the product IDs.
-    Adds each product ID to the productSearchResultIDs array.
-    @param {Object} productSearchResult - The result of a product search.
-    */
-    if (productSearchResult) {
-        productSearchResult.hits.map((productSearchItem) => {
-            const id = productSearchItem.productId
-            productSearchResultIDs.push(id)
-        })
-    }
-    // *****  Core: Yotpo - End  *****
 
     return (
         <Box
@@ -463,9 +435,9 @@ const ProductList = (props) => {
                                                   product={productSearchItem}
                                                   enableFavourite={true}
                                                   isFavourite={isInWishlist}
-                                                  // *****  Core: Yotpo - Start  *****
-                                                  starRatingWidget={yotpoBottomLineState[index]}
-                                                  // *****  Core: Yotpo - End  *****
+                                                  // *****  Core: Rating & Reviews - Start  *****
+                                                  starRatingWidgetData={batchBottomLineData[index]}
+                                                  // *****  Core: Rating & Reviews - End  *****
                                                   onClick={() => {
                                                       if (searchQuery) {
                                                           einstein.sendClickSearch(

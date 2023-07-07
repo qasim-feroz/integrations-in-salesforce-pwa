@@ -49,7 +49,7 @@ import {navLinks, messages} from '../../pages/account/constant'
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../loading-spinner'
 // *****  Core: imports - start  *****
-import {AlgoliaSearch} from 'pwa-custom-core/src'
+import {AlgoliaSearch} from 'Core/src'
 // *****  Core: imports - end  *****
 const ENTER_KEY = 'Enter'
 
