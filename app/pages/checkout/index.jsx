@@ -18,22 +18,26 @@ import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
 import OrderSummary from '../../components/order-summary'
 
-// *****  Core: Adyen - START  *****
+//  *****  Core: google tag manager - start  *****
+import { googleTagManager } from 'Core/src'
+//  *****  Core: google tag manager - end  *****
+
+// *****  Core: Payments - START  *****
 import { useToast } from '../../hooks/use-toast'
-import { isAdyenAuthorized, googleTagManager } from 'Core/src'
+import { isPaymentAuthorised } from 'Core/src/integrations/payments'
 import { updateOrderPaymentTransaction } from 'Core/src/integrations/payments/services/CommercePaymentService'
-// *****  Core: Adyen - End   *****
+// *****  Core: Payments - End   *****
 
 const Checkout = () => {
     const navigate = useNavigation()
-    // *****  Core: Adyen - START  *****
+    // *****  Core: Payments - START  *****
     const customer = useCustomer()
     const basket = useBasket()
     const showToast = useToast()
     const { formatMessage } = useIntl();
 
-    const {globalError, step, placeOrder, adyenData} = useCheckout()
-    // *****  Core: Adyen - End   *****
+    const {globalError, step, placeOrder, storedPaymentData} = useCheckout()
+    // *****  Core: Payments - End   *****
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -60,14 +64,14 @@ const Checkout = () => {
     const submitOrder = async () => {
         setIsLoading(true)
             try {
-                // *****  Core: Adyen - START  *****
-                const authoriseResponse =  await isAdyenAuthorized(basket, customer, adyenData)
+                // *****  Core: Payments - START  *****
+                const authoriseResponse =  await isPaymentAuthorised(basket, customer, storedPaymentData)
                 if (authoriseResponse.isAuhtorized) {
                     const orderResult = await placeOrder()
                     await updateOrderPaymentTransaction(orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, authoriseResponse.detail.resultCode)
-                // *****  Core: Adyen - End   *****
+                // *****  Core: Payments - End   *****
                     navigate('/checkout/confirmation')
-                // *****  Core: Adyen - START  *****
+                // *****  Core: Payments - START  *****
                 } else {
                     showToast({
                         title: formatMessage(authoriseResponse.detail),
@@ -75,7 +79,7 @@ const Checkout = () => {
                     })
                     setIsLoading(false)
                 }
-                // *****  Core: Adyen - End   *****
+                // *****  Core: Payments - End   *****
             } catch (error) {
                 setIsLoading(false)
             }
