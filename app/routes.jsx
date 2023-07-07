@@ -37,10 +37,10 @@ const Cart = loadable(() => import('./pages/cart'), {fallback})
 const Checkout = loadable(() => import('./pages/checkout'), {fallback})
 const CheckoutConfirmation = loadable(() => import('./pages/checkout/confirmation'), {fallback})
 const LoginRedirect = loadable(() => import('./pages/login-redirect'), {fallback})
-const ProductDetail = loadable(() => import('./pages/product-detail'), {fallback})
 const ProductList = loadable(() => import('./pages/product-list'), {fallback})
 const Wishlist = loadable(() => import('./pages/account/wishlist'), {fallback})
 const PageViewer = loadable(() => import('./pages/page-viewer'), {fallback})
+const PageNotFound = loadable(() => import('./pages/page-not-found'))
 // *****  Core: imports - Start  *****
 const TrackOrderStatus = loadable(
     () =>
@@ -52,10 +52,20 @@ const TrackOrderDetails = loadable(() =>
 )
 // *****  Core: imports - end  *****
 
+// *****  Core: ContentStack - Start  *****
+const Blog = loadable(
+    () => import('pwa-custom-core/src/integrations/cms/content-stack/pages/blog'),
+    {fallback}
+)
+const ContentStackProductDetail = loadable(
+    () => import('pwa-custom-core/src/integrations/cms/content-stack/pages/product-detail'),
+    {fallback}
+)
+// *****  Core: ContentStack - End  *****
 // *****  Core: Reset Password - Start  *****
 const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
 // *****  Core: Reset Password - End  *****
-const PageNotFound = loadable(() => import('./pages/page-not-found'))
+
 const routes = [
     {
         path: '/',
@@ -109,7 +119,9 @@ const routes = [
     },
     {
         path: '/product/:productId',
-        component: ProductDetail
+        // *****  Core: ContentStack - Start  *****
+        component: ContentStackProductDetail
+        // *****  Core: ContentStack - End  *****
     },
     {
         path: '/search',
@@ -133,6 +145,18 @@ const routes = [
         component: TrackOrderDetails
     },
     //  *****  Core: Track Order - end  *****
+    // *****  Core: ContentStack - Start  *****
+    {
+        path: '/blog/:blogId',
+        component: Blog,
+        exact: true
+    },
+    {
+        path: '/blog',
+        component: Blog,
+        exact: true
+    },
+    // *****  Core: ContentStack - End  *****
     //  *****  Core: page designer - start  *****
     {
         path: '/:pageId',
