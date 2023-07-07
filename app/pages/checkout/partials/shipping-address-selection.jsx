@@ -18,10 +18,9 @@ import AddressDisplay from '../../../components/address-display'
 import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
-// *****  Core: Melissa - Start  *****
-import {MelissaSuggestionModal} from 'pwa-custom-core/src/integrations/address-verification/melissa/components/modal'
-import {openMelissaModal} from 'pwa-custom-core/src/integrations/address-verification/melissa/helper/melissaHelper'
-// *****  Core: Melissa - End   *****
+// *****  Core: Imports - Start  *****
+import {AddressSuggestionModel, AddressVerificationModal} from 'Core/src'
+// *****  Core: Imports - End   *****
 
 const saveButtonMessage = defineMessage({
     defaultMessage: 'Save & Continue to Shipping Method',
@@ -119,7 +118,7 @@ const ShippingAddressSelection = ({
     const [addressData, setaddressData] = useState([''])
 
     const melissaModal = async (address) => {
-        openMelissaModal(
+        AddressVerificationModal(
             address,
             submitForm,
             setModalOpenState,
@@ -234,13 +233,13 @@ const ShippingAddressSelection = ({
         <form onSubmit={form.handleSubmit(melissaModal)}>
             {/* Core: Melissa - Start */}
             {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
-            <MelissaSuggestionModal
+            {/* <AddressSuggestionModel
                 modalState={isModalOpenState}
                 setModalState={setModalOpenState}
                 melissaAddress={melissaAdrressData}
                 submitForm={submitForm}
                 addressData={addressData}
-            />
+    />*/}
             {/* Core: Melissa - End */}
             <Stack spacing={4}>
                 {hasSavedAddresses && (

@@ -56,7 +56,7 @@ import Seo from '../seo'
 import {resolveSiteFromUrl} from '../../utils/site-utils'
 import useMultiSite from '../../hooks/use-multi-site'
 // *****  Core: Rating & Reviews - Start  *****
-import {HomePageScript} from 'Core/src/integrations/reviews-and-ratings'
+import {HomePageScript} from 'Core/src'
 // *****  Core: Rating & Reviews - End   *****
 
 const App = (props) => {

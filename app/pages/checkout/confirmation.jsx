@@ -36,8 +36,7 @@ import CartItemVariantAttributes from '../../components/item-variant/item-attrib
 import CartItemVariantPrice from '../../components/item-variant/item-price'
 
 // *****  Core: imports - Start *****
-import {googleTagManager} from 'pwa-custom-core/src'
-import {sendOrderPlacedEmail} from 'Core/src/integrations/marketing'
+import {googleTagManager, sendOrderPlacedEmail} from 'Core/src'
 // *****  Core: imports - end  *****
 
 const CheckoutConfirmation = () => {
@@ -77,6 +76,9 @@ const CheckoutConfirmation = () => {
 
     //  *****  Core: Klaviyo Order Confirmation - Start  *****
     useEffect(() => {
+        if (order && order.billingAddress && Object.keys(order.billingAddress).length === 0) {
+            return
+        }
         sendOrderPlacedEmail(order)
     }, [order.billingAddress])
     //  *****  Core: Klaviyo Order Confirmation - End  *****

@@ -32,7 +32,7 @@ import LocaleText from '../locale-text'
 import useMultiSite from '../../hooks/use-multi-site'
 
 // *****  Core: imports - start  *****
-import {GoogleRecaptcha} from 'pwa-custom-core/src'
+import {GoogleRecaptcha} from 'Core/src'
 // *****  Core: imports - end  *****
 
 const Footer = ({...otherProps}) => {

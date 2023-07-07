@@ -42,7 +42,7 @@ import {REMOVE_CART_ITEM_CONFIRMATION_DIALOG_CONFIG} from './partials/cart-secon
 import debounce from 'lodash/debounce'
 
 // *****  Core: imports - start *****
-import {googleTagManager} from 'pwa-custom-core/src'
+import {googleTagManager} from 'Core/src'
 // *****  Core: imports - end  *****
 
 const Cart = () => {

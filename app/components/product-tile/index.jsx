@@ -30,7 +30,7 @@ import Link from '../link'
 import withRegistration from '../../hoc/with-registration'
 import {useCurrency} from '../../hooks'
 // *****  Core: Rating & Reviews - Start  *****
-import {StarRatingWidget} from 'Core/src/integrations/reviews-and-ratings'
+import {StarRatingWidget} from 'Core/src'
 // *****  Core: Rating & Reviews - End  *****
 const IconButtonWithRegistration = withRegistration(IconButton)
 

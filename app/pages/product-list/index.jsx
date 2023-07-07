@@ -76,13 +76,9 @@ import {
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../../components/loading-spinner'
 
-//custom-core-change
-// import from core
-import {googleTagManager} from 'pwa-custom-core/src'
-// *****  Core: Rating & Reviews - Start  *****
-import {getBatchBottomLineWidgets} from 'Core/src/integrations/reviews-and-ratings'
-// *****  Core: Rating & Reviews - End  *****
-//custom-core-change
+// *****  Core: Imports - Start  *****
+import {getBatchBottomLineWidgets, googleTagManager} from 'Core/src'
+// *****  Core: Imports - End  *****
 
 // NOTE: You can ignore certain refinements on a template level by updating the below
 // list of ignored refinements.
@@ -211,7 +207,9 @@ const ProductList = (props) => {
 
     // *****  Core: Rating & Reviews - Start  *****
     useEffect(async () => {
-        productSearchResult ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult)) : ''
+        productSearchResult
+            ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult))
+            : ''
     }, [productSearchResult])
     // *****  Core: Rating & Reviews - End  *****
 
