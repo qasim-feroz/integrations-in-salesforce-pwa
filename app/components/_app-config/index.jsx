@@ -25,12 +25,14 @@ import {resolveLocaleFromUrl} from '../../utils/utils'
 import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
 
-// *****  Core: ContentStack - Start  *****
-import {ContentStackAPI, defaultcsClient} from 'pwa-custom-core/src'
-// *****  Core: ContentStack - End  *****
-
 // *****  Core: Imports - Start  *****
-import {coreAppConfig, googleTagManager, CoreContextProvider} from 'Core/src'
+import {
+    coreAppConfig,
+    googleTagManager,
+    CoreContextProvider,
+    ContentStackAPI,
+    defaultcsClient
+} from 'Core/src'
 // *****  Core: Imports - end  *****
 
 /**
