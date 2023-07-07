@@ -26,7 +26,13 @@ import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
 
 // *****  Core: Imports - Start  *****
-import {coreAppConfig, googleTagManager, CoreContextProvider} from 'Core/src'
+import {
+    coreAppConfig,
+    googleTagManager,
+    CoreContextProvider,
+    ContentStackAPI,
+    defaultcsClient
+} from 'Core/src'
 // *****  Core: Imports - end  *****
 
 /**
@@ -97,6 +103,9 @@ AppConfig.restore = (locals = {}) => {
     locals.buildUrl = createUrlTemplate(appConfig, site.alias || site.id, locale.id)
     locals.site = site
     locals.locale = locale
+    // *****  Core: ContentStack - Start  *****
+    locals.csClient = typeof window === 'undefined' ? new ContentStackAPI() : defaultcsClient
+    // *****  Core: ContentStack - End  *****
 
     //custom-core-change
     locals.config = config
@@ -110,7 +119,10 @@ AppConfig.extraGetPropsArgs = (locals = {}) => {
         api: locals.api,
         buildUrl: locals.buildUrl,
         site: locals.site,
-        locale: locals.locale
+        // *****  Core: ContentStack - Start  *****
+        locale: locals.locale,
+        csClient: locals.csClient
+        // *****  Core: ContentStack - End  *****
     }
 }
 

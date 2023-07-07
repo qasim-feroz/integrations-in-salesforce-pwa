@@ -56,7 +56,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'www.google.com',
                         'www.googletagmanager.com',
                         'api.cquotient.com',
-                        '*.yotpo.com'
+                        '*.yotpo.com',
+                        '*.contentstack.io'
                     ],
                     'script-src': [
                         "'self'",
@@ -96,7 +97,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         '*.yotpo.com',
                         'staticw2.yotpo.com',
                         '*.algolia.net',
-                        '*.algolianet.com'
+                        '*.algolianet.com',
+                        'api.contentstack.io'
                     ],
                     'default-src': [
                         "'self'",
@@ -112,8 +114,10 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'www.googletagmanager.com',
                         'api.cquotient.com',
                         '*.yotpo.com',
-                        'staticw2.yotpo.com'
-                    ]
+                        'staticw2.yotpo.com',
+                        'api.contentstack.io'
+                    ],
+                    'frame-ancestors': ["'self'", 'app.contentstack.com']
                 }
             },
             hsts: isRemote()

@@ -99,6 +99,16 @@ export const buildUrlSet = (url = '', key = '', values = [], extraParams = {}) =
  */
 export const categoryUrlBuilder = (category) => encodeURI(`/category/${category.id}`)
 
+// *****  Core: ContentStack - Start  *****
+/**
+ * Given a category and the current locale returns an href to the product list page.
+ *
+ * @param {Object} category
+ * @returns {string}
+ */
+export const blogUrlBuilder = (item) => encodeURI(`/blog/${item.id}`)
+// *****  Core: ContentStack - End  *****
+
 /**
  * Given a product and the current locale returns an href to the product detail page.
  *

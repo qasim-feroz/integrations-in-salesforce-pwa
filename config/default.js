@@ -47,7 +47,17 @@ module.exports = {
             verifySiteUrl: 'https://www.google.com/recaptcha/api/siteverify'
         },
 
-        GoogleTagManagerId: 'GTM-MW4F7V7'
+        GoogleTagManagerId: 'GTM-MW4F7V7',
+        // *****  Core: ContentStack - Start  *****
+        contentStack: {
+            api_host: 'api.contentstack.io',
+            app_host: 'app.contentstack.com',
+            environment: 'development',
+            region: 'us',
+            live_preview: true,
+            edit_tags: false
+        }
+        // *****  Core: ContentStack - End  *****
     },
     // This list contains server-side only libraries that you don't want to be compiled by webpack
     externals: [],
