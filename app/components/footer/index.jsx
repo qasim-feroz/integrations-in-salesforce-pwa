@@ -20,8 +20,7 @@ import {
     InputGroup,
     InputRightElement,
     Button,
-    FormControl,
-    useToast
+    FormControl
 } from '@chakra-ui/react'
 import {useIntl} from 'react-intl'
 
@@ -199,8 +198,8 @@ const Subscribe = ({...otherProps}) => {
     const intl = useIntl()
 
     // *****  Core: GoogleRecaptch- start  *****
-    const toast = useToast()
     const [subscribeField, setSubscribeField] = useState('')
+    const [emailFormatError, setEmailFormatErorr] = useState(false)
     const captchaRef = React.createRef()
     const vaildateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -209,13 +208,11 @@ const Subscribe = ({...otherProps}) => {
     const onSubmit = (event) => {
         event.preventDefault()
         if (!vaildateEmail(subscribeField)) {
-            return toast({
-                title: 'Please enter valid email address',
-                status: 'error',
-                position: 'top'
-            })
+            setEmailFormatErorr(true)
+            return
         }
         captchaRef.current.execute()
+        setEmailFormatErorr(false)
     }
     // *****  Core: GoogleRecaptch - end  *****
 
@@ -240,6 +237,11 @@ const Subscribe = ({...otherProps}) => {
                 {/*** Core: GoogleRecaptch- end ***/}
 
                 <form onSubmit={onSubmit}>
+                    {emailFormatError && (
+                        <Text color={'red'} as={'p'}>
+                            *Please enter valid email address
+                        </Text>
+                    )}
                     <InputGroup>
                         <Input
                             type="email"
