@@ -23,6 +23,7 @@ import {configureRoutes} from './utils/routes-utils'
 const fallback = <Skeleton height="75vh" width="100%" />
 
 // Pages
+const SSOCallback = loadable(() => import('./pages/SSOCallback'), {fallback})
 const Home = loadable(() => import('./pages/home'), {fallback})
 const Login = loadable(() => import('./pages/login'), {fallback})
 const Registration = loadable(() => import('./pages/registration'), {fallback})
@@ -42,6 +43,10 @@ const routes = [
         path: '/',
         component: Home,
         exact: true
+    },
+    {
+        path: '/google-callback',
+        component: SSOCallback
     },
     {
         path: '/login',

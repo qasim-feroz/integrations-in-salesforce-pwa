@@ -9,6 +9,7 @@ import useEinstein from './useEinstein'
 import {useCommerceAPI, BasketContext} from '../contexts'
 import useCustomer from './useCustomer'
 import {isError} from '../utils'
+import useCoreBasket from 'pwa-custom-core/src/extensions/hooks/coreBasket'
 
 export default function useBasket(opts = {}) {
     const {currency} = opts
@@ -22,9 +23,13 @@ export default function useBasket(opts = {}) {
         _setBasket({_productItemsDetail, ...basketData})
     }
 
+    const coreBasket = useCoreBasket({api, basket, setBasket})
+
     const self = useMemo(() => {
         return {
             ...basket,
+
+            ...coreBasket,
 
             // Check if a this represents a valid basket
             get loaded() {
@@ -382,6 +387,7 @@ export default function useBasket(opts = {}) {
                 // it on the confirmation page. The basket is automatically deleted
                 // in SF so we need to make sure a new one is created when leaving the confirmation.
                 setBasket(response)
+                return response
             },
 
             /**
@@ -415,7 +421,7 @@ export default function useBasket(opts = {}) {
                 setBasket(response)
             }
         }
-    }, [customer, basket, setBasket])
+    }, [customer, basket, setBasket, coreBasket])
 
     return self
 }

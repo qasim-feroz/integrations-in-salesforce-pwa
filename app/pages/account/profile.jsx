@@ -273,6 +273,11 @@ const PasswordCard = () => {
 }
 
 const AccountDetail = () => {
+    var showPasswordCard = true
+    if (typeof window !== 'undefined') {
+        showPasswordCard = window.sessionStorage.getItem('IDPName') === 'google' ? false : true
+    }
+
     return (
         <Stack data-testid="account-detail-page" spacing={6}>
             <Heading as="h1" fontSize="24px">
@@ -284,7 +289,7 @@ const AccountDetail = () => {
 
             <Stack spacing={4}>
                 <ProfileCard />
-                <PasswordCard />
+                {showPasswordCard && <PasswordCard />}
             </Stack>
         </Stack>
     )
