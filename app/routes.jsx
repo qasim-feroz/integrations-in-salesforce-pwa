@@ -23,6 +23,11 @@ import {configureRoutes} from './utils/routes-utils'
 const fallback = <Skeleton height="75vh" width="100%" />
 
 // Pages
+
+//******  Core: Google SSO - Start
+const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {fallback})
+//******  Core: Google SSO - End
+
 const Home = loadable(() => import('./pages/home'), {fallback})
 const Login = loadable(() => import('./pages/login'), {fallback})
 const Registration = loadable(() => import('./pages/registration'), {fallback})
@@ -32,10 +37,34 @@ const Cart = loadable(() => import('./pages/cart'), {fallback})
 const Checkout = loadable(() => import('./pages/checkout'), {fallback})
 const CheckoutConfirmation = loadable(() => import('./pages/checkout/confirmation'), {fallback})
 const LoginRedirect = loadable(() => import('./pages/login-redirect'), {fallback})
-const ProductDetail = loadable(() => import('./pages/product-detail'), {fallback})
 const ProductList = loadable(() => import('./pages/product-list'), {fallback})
 const Wishlist = loadable(() => import('./pages/account/wishlist'), {fallback})
+const PageViewer = loadable(() => import('./pages/page-viewer'), {fallback})
 const PageNotFound = loadable(() => import('./pages/page-not-found'))
+// *****  Core: imports - Start  *****
+const TrackOrderStatus = loadable(
+    () =>
+        import('pwa-custom-core/src/integrations/track-order/pages/order-status/TrackOrderStatus'),
+    {fallback}
+)
+const TrackOrderDetails = loadable(() =>
+    import('pwa-custom-core/src/integrations/track-order/pages/order-details/TrackOrderDetails')
+)
+// *****  Core: imports - end  *****
+
+// *****  Core: ContentStack - Start  *****
+const Blog = loadable(
+    () => import('pwa-custom-core/src/integrations/cms/content-stack/pages/blog'),
+    {fallback}
+)
+const ContentStackProductDetail = loadable(
+    () => import('pwa-custom-core/src/integrations/cms/content-stack/pages/product-detail'),
+    {fallback}
+)
+// *****  Core: ContentStack - End  *****
+// *****  Core: Reset Password - Start  *****
+const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
+// *****  Core: Reset Password - End  *****
 
 const routes = [
     {
@@ -43,6 +72,12 @@ const routes = [
         component: Home,
         exact: true
     },
+//******  Core: Google SSO - Start
+    {
+        path: '/google-callback',
+        component: SSOCallback
+    },
+//******  Core: Google SSO - End
     {
         path: '/login',
         component: Login,
@@ -84,7 +119,9 @@ const routes = [
     },
     {
         path: '/product/:productId',
-        component: ProductDetail
+        // *****  Core: ContentStack - Start  *****
+        component: ContentStackProductDetail
+        // *****  Core: ContentStack - End  *****
     },
     {
         path: '/search',
@@ -98,6 +135,41 @@ const routes = [
         path: '/account/wishlist',
         component: Wishlist
     },
+    //  *****  Core: Track Order - Start  *****
+    {
+        path: '/order-status',
+        component: TrackOrderStatus
+    },
+    {
+        path: '/orders/:orderNo',
+        component: TrackOrderDetails
+    },
+    //  *****  Core: Track Order - end  *****
+    // *****  Core: ContentStack - Start  *****
+    {
+        path: '/blog/:blogId',
+        component: Blog,
+        exact: true
+    },
+    {
+        path: '/blog',
+        component: Blog,
+        exact: true
+    },
+    // *****  Core: ContentStack - End  *****
+    //  *****  Core: page designer - start  *****
+    {
+        path: '/:pageId',
+        component: PageViewer,
+        exact: true
+    },
+    //  *****  Core: page designer - end  *****
+    // *****  Core: Reset Password - Start  *****
+    {
+        path: '/reset-password/emailId/:email/resetToken/:reset',
+        component: SetNewPassword
+    },
+    // *****  Core: Reset Password - End  *****
     {
         path: '*',
         component: PageNotFound

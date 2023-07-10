@@ -46,26 +46,24 @@ export const rebuildPathWithParams = (url, extraParams) => {
     const [pathname, search] = url.split('?')
     const params = new URLSearchParams(search)
 
-    // Apply any extra params.
-    Object.keys(extraParams).forEach((key) => {
-        const value = extraParams[key]
-
-        // 0 is a valid value as for a param
-        if (!value && value !== 0) {
-            params.delete(key)
-        } else {
-            params.set(key, value)
-        }
-    })
+    updateSearchParams(params, extraParams)
 
     // Clean up any trailing `=` for params without values.
-    const paramStr = params
-        .toString()
-        .replace(/=&/g, '&')
-        .replace(/=$/, '')
+    const paramStr = params.toString().replace(/=&/g, '&').replace(/=$/, '')
 
     // Generate the newly updated url.
     return `${pathname}${Array.from(paramStr).length > 0 ? `?${paramStr}` : ''}`
+}
+
+export const updateSearchParams = (searchParams, newParams) => {
+    Object.entries(newParams).forEach(([key, value]) => {
+        // 0 is a valid value as for a param
+        if (!value && value !== 0) {
+            searchParams.delete(key)
+        } else {
+            searchParams.set(key, value)
+        }
+    })
 }
 
 /**
@@ -100,6 +98,16 @@ export const buildUrlSet = (url = '', key = '', values = [], extraParams = {}) =
  * @returns {string}
  */
 export const categoryUrlBuilder = (category) => encodeURI(`/category/${category.id}`)
+
+// *****  Core: ContentStack - Start  *****
+/**
+ * Given a category and the current locale returns an href to the product list page.
+ *
+ * @param {Object} category
+ * @returns {string}
+ */
+export const blogUrlBuilder = (item) => encodeURI(`/blog/${item.id}`)
+// *****  Core: ContentStack - End  *****
 
 /**
  * Given a product and the current locale returns an href to the product detail page.
@@ -257,10 +265,33 @@ export const removeQueryParamsFromPath = (path, keys) => {
     })
 
     // Clean up any trailing `=` for params without values.
-    const paramStr = params
-        .toString()
-        .replace(/=&/g, '&')
-        .replace(/=$/, '')
+    const paramStr = params.toString().replace(/=&/g, '&').replace(/=$/, '')
 
     return `${pathname}${paramStr && '?'}${paramStr}`
+}
+
+/*
+ * Remove site alias and locale from a given url, to be used for "navigate" urls
+ *
+ * @param {string} pathName - The part of url to have site alias and locale removed from
+ * @returns {string} - the path after site alias and locale have been removed
+ * @example
+ * import {removeSiteLocaleFromPath} from /path/to/util/url
+ *
+ * removeSiteLocaleFromPath(/RefArch/en-US/account/wishlist)
+ * // returns '/account/wishlist'
+ */
+export const removeSiteLocaleFromPath = (pathName = '') => {
+    let {siteRef, localeRef} = getParamsFromPath(pathName)
+
+    // remove the site alias from the current pathName
+    if (siteRef) {
+        pathName = pathName.replace(new RegExp(`/${siteRef}`, 'g'), '')
+    }
+    // remove the locale from the current pathName
+    if (localeRef) {
+        pathName = pathName.replace(new RegExp(`/${localeRef}`, 'g'), '')
+    }
+
+    return pathName
 }

@@ -22,7 +22,11 @@ import {
 import {useForm, Controller} from 'react-hook-form'
 import {LockIcon, PaypalIcon} from '../../../components/icons'
 import {useCheckout} from '../util/checkout-context'
-import CreditCardFields from '../../../components/forms/credit-card-fields'
+
+// *****  Core: Payments - START  *****
+import { RenderCreditCard } from 'Core/src/integrations/payments'
+// *****  Core: Payments - END  *****
+
 import CCRadioGroup from './cc-radio-group'
 
 const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
@@ -113,8 +117,7 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                     ? formatMessage({
                                                           defaultMessage:
                                                               'Please select a payment method.',
-                                                          id:
-                                                              'payment_selection.message.select_payment_method'
+                                                          id: 'payment_selection.message.select_payment_method'
                                                       })
                                                     : false
                                             }}
@@ -149,9 +152,9 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                         />
                                                     </Heading>
                                                 )}
-
-                                                <CreditCardFields form={form} />
-
+                                                {/*****  Core: Payments - START  *****/}
+                                                <RenderCreditCard form={form} />
+                                                {/*****  Core: Payments - END  *****/}
                                                 {!hideSubmitButton && (
                                                     <Box>
                                                         <Container variant="form">

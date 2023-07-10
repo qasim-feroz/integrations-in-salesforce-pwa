@@ -18,6 +18,9 @@ import AddressDisplay from '../../../components/address-display'
 import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
+// *****  Core: Imports - Start  *****
+import {AddressSuggestionModel, AddressVerificationModal} from 'Core/src'
+// *****  Core: Imports - End   *****
 
 const saveButtonMessage = defineMessage({
     defaultMessage: 'Save & Continue to Shipping Method',
@@ -108,6 +111,22 @@ const ShippingAddressSelection = ({
     const hasSavedAddresses = customer.addresses && customer.addresses.length > 0
     const [isEditingAddress, setIsEditingAddress] = useState(!hasSavedAddresses)
     const [selectedAddressId, setSelectedAddressId] = useState(false)
+
+    // *****  Core: Melissa - End   *****
+    const [isModalOpenState, setModalOpenState] = useState(false)
+    const [melissaAdrressData, setMelissaAdrressData] = useState([''])
+    const [addressData, setaddressData] = useState([''])
+
+    const melissaModal = async (address) => {
+        AddressVerificationModal(
+            address,
+            submitForm,
+            setModalOpenState,
+            setaddressData,
+            setMelissaAdrressData
+        )
+    }
+    // *****  Core: Melissa - End   *****
 
     form =
         form ||
@@ -211,7 +230,17 @@ const ShippingAddressSelection = ({
     }
 
     return (
-        <form onSubmit={form.handleSubmit(submitForm)}>
+        <form onSubmit={form.handleSubmit(melissaModal)}>
+            {/* Core: Melissa - Start */}
+            {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
+            {/* <AddressSuggestionModel
+                modalState={isModalOpenState}
+                setModalState={setModalOpenState}
+                melissaAddress={melissaAdrressData}
+                submitForm={submitForm}
+                addressData={addressData}
+    />*/}
+            {/* Core: Melissa - End */}
             <Stack spacing={4}>
                 {hasSavedAddresses && (
                     <Controller
@@ -262,8 +291,7 @@ const ShippingAddressSelection = ({
                                                     <ShippingAddressEditForm
                                                         title={formatMessage({
                                                             defaultMessage: 'Edit Shipping Address',
-                                                            id:
-                                                                'shipping_address_selection.title.edit_shipping'
+                                                            id: 'shipping_address_selection.title.edit_shipping'
                                                         })}
                                                         hasSavedAddresses={hasSavedAddresses}
                                                         toggleAddressEdit={toggleAddressEdit}

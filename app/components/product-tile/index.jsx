@@ -29,7 +29,9 @@ import {productUrlBuilder} from '../../utils/url'
 import Link from '../link'
 import withRegistration from '../../hoc/with-registration'
 import {useCurrency} from '../../hooks'
-
+// *****  Core: Rating & Reviews - Start  *****
+import {StarRatingWidget} from 'Core/src'
+// *****  Core: Rating & Reviews - End  *****
 const IconButtonWithRegistration = withRegistration(IconButton)
 
 // Component Skeleton
@@ -63,9 +65,14 @@ const ProductTile = (props) => {
         isFavourite,
         onFavouriteToggle,
         dynamicImageProps,
+        // *****  Core: Rating & Reviews - Start  *****
+        starRatingWidgetData,
+        // *****  Core: Rating & Reviews - End  *****
         ...rest
     } = props
-    const {currency, image, price, productId} = product
+
+    const {currency, image, price, productId, hitType} = product
+
     // ProductTile is used by two components, RecommendedProducts and ProductList.
     // RecommendedProducts provides a localized product name as `name` and non-localized product
     // name as `productName`. ProductList provides a localized name as `productName` and does not
@@ -84,16 +91,18 @@ const ProductTile = (props) => {
             {...rest}
         >
             <Box {...styles.imageWrapper}>
-                <AspectRatio {...styles.image}>
-                    <DynamicImage
-                        src={`${image.disBaseLink || image.link}[?sw={width}&q=60]`}
-                        widths={dynamicImageProps?.widths}
-                        imageProps={{
-                            alt: image.alt,
-                            ...dynamicImageProps?.imageProps
-                        }}
-                    />
-                </AspectRatio>
+                {image && (
+                    <AspectRatio {...styles.image}>
+                        <DynamicImage
+                            src={`${image.disBaseLink || image.link}[?sw={width}&q=60]`}
+                            widths={dynamicImageProps?.widths}
+                            imageProps={{
+                                alt: image.alt,
+                                ...dynamicImageProps?.imageProps
+                            }}
+                        />
+                    </AspectRatio>
+                )}
 
                 {enableFavourite && (
                     <Box
@@ -126,12 +135,21 @@ const ProductTile = (props) => {
             <Text {...styles.title}>{localizedProductName}</Text>
 
             {/* Price */}
-            <Text {...styles.price}>
+            <Text {...styles.price} data-testid="product-tile-price">
+                {hitType === 'set' &&
+                    intl.formatMessage({
+                        id: 'product_tile.label.starting_at_price',
+                        defaultMessage: 'Starting at'
+                    })}{' '}
                 {intl.formatNumber(price, {
                     style: 'currency',
                     currency: currency || activeCurrency
                 })}
             </Text>
+
+            {/* *****  Core: Rating & Reviews - Start  ***** */}
+            <StarRatingWidget product={product} starRatingWidgetData={starRatingWidgetData} />
+            {/* *****  Core: Rating & Reviews - End  ***** */}
         </Link>
     )
 }
@@ -163,7 +181,8 @@ ProductTile.propTypes = {
         // See: https://developer.salesforce.com/docs/commerce/einstein-api/references/einstein-api-quick-start-guide?meta=getRecommendations
         // Note: useEinstein() transforms snake_case property names from the API response to camelCase
         productName: PropTypes.string,
-        productId: PropTypes.string
+        productId: PropTypes.string,
+        hitType: PropTypes.string
     }),
     /**
      * Enable adding/removing product as a favourite.

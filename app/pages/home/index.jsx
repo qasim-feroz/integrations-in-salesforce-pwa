@@ -5,7 +5,10 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import React, {useEffect} from 'react'
+//custom-core-change
+import React, {useEffect, useState} from 'react'
+//custom-core-change
+
 import PropTypes from 'prop-types'
 import {useIntl, FormattedMessage} from 'react-intl'
 import {useLocation} from 'react-router-dom'
@@ -44,6 +47,10 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
+// *****  Core: Imports - Start  *****
+import {getBatchBottomLineWidgets, googleTagManager} from 'Core/src'
+// *****  Core: Imports - End  *****
+
 /**
  * This is the home page for Retail React App.
  * The page is created for demonstration purposes.
@@ -55,10 +62,28 @@ const Home = ({productSearchResult, isLoading}) => {
     const einstein = useEinstein()
     const {pathname} = useLocation()
 
+    // *****  Core: Rating & Reviews - Start  *****
+    const [batchBottomLineData, setBatchBottomLineData] = useState([])
+    // *****  Core: Rating & Reviews - End  *****
+
     /**************** Einstein ****************/
     useEffect(() => {
         einstein.sendViewPage(pathname)
+
+        //custom-core-change
+        // submiting page-path to GTM start
+        googleTagManager.gtmPageView(pathname)
+        // submiting page-path to GTM end
+        //custom-core-change
     }, [])
+
+    // *****  Core: Rating & Reviews - Start  *****
+    useEffect(async () => {
+        productSearchResult
+            ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult))
+            : ''
+    }, [productSearchResult])
+    // *****  Core: Rating & Reviews - End  *****
 
     return (
         <Box data-testid="home-page" layerStyle="page">
@@ -192,6 +217,9 @@ const Home = ({productSearchResult, isLoading}) => {
                         <ProductScroller
                             products={productSearchResult?.hits}
                             isLoading={isLoading}
+                            //* *****  Core: Rating & Reviews - Start  *****
+                            BottomLineWidget={batchBottomLineData}
+                            //* *****  Core: Rating & Reviews - End  *****
                         />
                     </Stack>
                 </Section>

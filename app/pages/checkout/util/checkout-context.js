@@ -14,6 +14,10 @@ import {getPaymentInstrumentCardType} from '../../../utils/cc-utils'
 import {isMatchingAddress} from '../../../utils/utils'
 import {useIntl} from 'react-intl'
 
+// *****  Core: Payments - START  *****
+import { getPaymentMethodID } from 'Core/src/integrations/payments'
+// *****  Core: Payments - END  *****
+
 const CheckoutContext = React.createContext()
 
 export const CheckoutProvider = ({children}) => {
@@ -30,7 +34,11 @@ export const CheckoutProvider = ({children}) => {
         shippingMethods: undefined,
         paymentMethods: undefined,
         globalError: undefined,
-        sectionError: undefined
+        sectionError: undefined,
+
+        // *****  Core: Payments - START  *****
+        storedPaymentData: undefined
+        // *****  Core: Payments - END  *****
     })
 
     const CheckoutSteps = {
@@ -184,6 +192,12 @@ export const CheckoutProvider = ({children}) => {
                 mergeState({isGuestCheckout})
             },
 
+            // *****  Core: Payments - START  *****
+            setStoredPaymentData(data) {
+                mergeState({storedPaymentData: data})
+            },
+            // *****  Core: Payments - END  *****
+
             // Async functions
             // Convenience methods for interacting with remote customer and basket data.
             // ----------------
@@ -277,6 +291,13 @@ export const CheckoutProvider = ({children}) => {
                     return
                 }
 
+                // *****  Core: Payments - START  *****
+                if (payment.paymentMethodId === getPaymentMethodID()) {
+                    await basket.setPaymentInstrument(payment)
+                    return
+                }
+                // *****  Core: Payments - END  *****
+
                 // The form gives us the expiration date as `MM/YY` - so we need to split it into
                 // month and year to submit them as individual fields.
                 const [expirationMonth, expirationYear] = expiry.split('/')
@@ -343,7 +364,9 @@ export const CheckoutProvider = ({children}) => {
             async placeOrder() {
                 mergeState({globalError: undefined})
                 try {
-                    await basket.createOrder()
+                    // *****  Core: Payments - START  *****
+                    return await basket.createOrder()
+                    // *****  Core: Payments - END  *****
                 } catch (error) {
                     // Note: It is possible to get localized error messages from OCAPI, but this
                     // is not available for all locales or all error messages. Therefore, we

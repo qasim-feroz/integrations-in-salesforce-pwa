@@ -21,7 +21,11 @@ import {
     Stack,
     Text
 } from '@chakra-ui/react'
+
+//custom-core-change
 import {useHistory} from 'react-router-dom'
+//custom-core-change
+
 import {useForm} from 'react-hook-form'
 import {FormattedMessage, useIntl} from 'react-intl'
 import {useCheckout} from '../util/checkout-context'
@@ -29,11 +33,17 @@ import useLoginFields from '../../../components/forms/useLoginFields'
 import {ToggleCard, ToggleCardEdit, ToggleCardSummary} from '../../../components/toggle-card'
 import Field from '../../../components/field'
 import {AuthModal, useAuthModal} from '../../../hooks/use-auth-modal'
+import useNavigation from '../../../hooks/use-navigation'
 
 const ContactInfo = () => {
     const {formatMessage} = useIntl()
+
+    //custom-core-change
     const history = useHistory()
+    //custom-core-change
+
     const authModal = useAuthModal('password')
+    const navigate = useNavigation()
 
     const {
         customer,
@@ -107,9 +117,7 @@ const ContactInfo = () => {
             editLabel={
                 !isGuestCheckout ? (
                     <FormattedMessage defaultMessage="Sign Out" id="contact_info.action.sign_out" />
-                ) : (
-                    undefined
-                )
+                ) : undefined
             }
         >
             <ToggleCardEdit>
@@ -185,8 +193,7 @@ const ContactInfo = () => {
                     onClose={() => setSignOutConfirmDialogIsOpen(false)}
                     onConfirm={async () => {
                         await customer.logout()
-                        await basket.getOrCreateBasket()
-                        history.replace('/')
+                        navigate('/login')
                         setSignOutConfirmDialogIsOpen(false)
                     }}
                 />

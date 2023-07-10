@@ -35,6 +35,10 @@ import CartItemVariantName from '../../components/item-variant/item-name'
 import CartItemVariantAttributes from '../../components/item-variant/item-attributes'
 import CartItemVariantPrice from '../../components/item-variant/item-price'
 
+// *****  Core: imports - Start *****
+import {googleTagManager, sendOrderPlacedEmail} from 'Core/src'
+// *****  Core: imports - end  *****
+
 const CheckoutConfirmation = () => {
     const navigate = useNavigation()
     const basket = useBasket()
@@ -54,6 +58,14 @@ const CheckoutConfirmation = () => {
         }
     })
 
+    //  *****  Core: google tag manager - start  *****
+    // submitting checkout details to GTM start
+    useEffect(() => {
+        googleTagManager.gtmConfirmPurchase(order)
+    }, [order.productItems])
+    // submitting checkout details to GTM end
+    //  *****  Core: google tag manager - end  *****
+
     // If we don't have an order object on first render we need to transition back to a
     // different page. Fow now, we push to the homepage.
     useEffect(() => {
@@ -61,6 +73,15 @@ const CheckoutConfirmation = () => {
             navigate('/')
         }
     }, [order])
+
+    //  *****  Core: Klaviyo Order Confirmation - Start  *****
+    useEffect(() => {
+        if (order && order.billingAddress && Object.keys(order.billingAddress).length === 0) {
+            return
+        }
+        sendOrderPlacedEmail(order)
+    }, [order.billingAddress])
+    //  *****  Core: Klaviyo Order Confirmation - End  *****
 
     if (!order || !order.orderNo) {
         return null

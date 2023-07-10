@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+            "App/*": ["./app/*"],
+            "Config/*": ["./config/*"],
+            "Core/*": ["./pwa-custom-core/*"]
+        }
+    }
+}

@@ -8,6 +8,10 @@ import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {useCheckout} from '../util/checkout-context'
 
+// *****  Core: Payments - START  *****
+import { getPaymentMethodData } from 'Core/src/integrations/payments'
+// *****  Core: Payments - END  *****
+
 /**
  * A hook for managing and coordinating the billing address and payment method forms.
  * @returns {Object}
@@ -20,7 +24,11 @@ const usePaymentForms = () => {
         setPayment,
         setBillingAddress,
         isBillingSameAsShipping,
-        goToNextStep
+        goToNextStep,
+
+        // *****  Core: Payments - START  *****
+        storedPaymentData
+        // *****  Core: Payments - START  *****
     } = useCheckout()
 
     // This local state value manages the 'checked' state of the billing address form's
@@ -52,6 +60,13 @@ const usePaymentForms = () => {
         // This works because a payment cannot be edited, only removed. In the UI,
         // we ensure that the any applied payment is removed before showing the
         // the payment form.
+
+        // *****  Core: Payments - START  *****
+        if (Object.keys(payment).length === 0 && storedPaymentData) {
+            payment = getPaymentMethodData(storedPaymentData)
+        }
+        // *****  Core: Payments - START  *****
+
         if (!selectedPayment) {
             await setPayment(payment)
         }

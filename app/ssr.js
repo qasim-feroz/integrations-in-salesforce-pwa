@@ -11,6 +11,11 @@ const {getRuntime} = require('pwa-kit-runtime/ssr/server/express')
 const {isRemote} = require('pwa-kit-runtime/utils/ssr-server')
 const {getConfig} = require('pwa-kit-runtime/utils/ssr-config')
 const helmet = require('helmet')
+const apiMiddleware = require('pwa-custom-core/src/base/middleware/ApiMiddleware')
+const express = require('express')
+
+//loads environemnt variables from the file
+require('dotenv').config({path: `.env.${process.env.NODE_INSTANCE}`})
 
 const options = {
     // The build directory (an absolute path)
@@ -39,21 +44,101 @@ const {handler} = runtime.createHandler(options, (app) => {
             contentSecurityPolicy: {
                 useDefaults: true,
                 directives: {
-                    'img-src': ["'self'", '*.commercecloud.salesforce.com', 'data:'],
-                    'script-src': ["'self'", "'unsafe-eval'", 'storage.googleapis.com'],
+                    'img-src': [
+                        "'self'",
+                        '*.commercecloud.salesforce.com',
+                        'data:',
+                        'www.gstatic.com',
+                        'checkoutshopper-test.adyen.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        'www.google.com',
+                        'www.googletagmanager.com',
+                        'api.cquotient.com',
+                        '*.yotpo.com',
+                        '*.contentstack.io'
+                    ],
+                    'script-src': [
+                        "'self'",
+                        "'unsafe-inline'",
+                        "'unsafe-eval'",
+                        'storage.googleapis.com',
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        'www.google.com',
+                        'www.googletagmanager.com',
+                        'api.cquotient.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com'
+                    ],
+                    'style-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'", '*.yotpo.com'],
 
                     // Do not upgrade insecure requests for local development
-                    'upgrade-insecure-requests': isRemote() ? [] : null
+                    'upgrade-insecure-requests': isRemote() ? [] : null,
+                    'connect-src': [
+                        "'self'",
+                        "'unsafe-inline'",
+                        "'unsafe-eval'",
+                        'storage.googleapis.com',
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        'www.google.com',
+                        'www.googletagmanager.com',
+                        'api.cquotient.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com',
+                        '*.algolia.net',
+                        '*.algolianet.com',
+                        'api.contentstack.io'
+                    ],
+                    'default-src': [
+                        "'self'",
+                        "'unsafe-eval'",
+                        'storage.googleapis.com',
+                        'checkoutshopper-test.adyen.com',
+                        'pay.google.com',
+                        'www.gstatic.com',
+                        'checkoutshopper-live.adyen.com',
+                        'checkout-test.adyen.com',
+                        'account.demandware.com',
+                        'www.google.com',
+                        'www.googletagmanager.com',
+                        'api.cquotient.com',
+                        '*.yotpo.com',
+                        'staticw2.yotpo.com',
+                        'api.contentstack.io'
+                    ],
+                    'frame-ancestors': ["'self'", 'app.contentstack.com']
                 }
             },
             hsts: isRemote()
         })
     )
 
+    app.use(express.json())
+
     // Handle the redirect from SLAS as to avoid error
     app.get('/callback?*', (req, res) => {
+        // This endpoint does nothing and is not expected to change
+        // Thus we cache it for a year to maximize performance
+        res.set('Cache-Control', `max-age=31536000`)
         res.send()
     })
+
+    app.post('/api', async (req, res) => {
+        var response = await apiMiddleware(req, res)
+        res.send(response)
+    })
+
     app.get('/robots.txt', runtime.serveStaticFile('static/robots.txt'))
     app.get('/favicon.ico', runtime.serveStaticFile('static/ico/favicon.ico'))
 

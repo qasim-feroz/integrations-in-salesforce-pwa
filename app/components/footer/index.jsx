@@ -31,6 +31,10 @@ import {getPathWithLocale} from '../../utils/url'
 import LocaleText from '../locale-text'
 import useMultiSite from '../../hooks/use-multi-site'
 
+// *****  Core: imports - start  *****
+import {GoogleRecaptcha} from 'Core/src'
+// *****  Core: imports - end  *****
+
 const Footer = ({...otherProps}) => {
     const styles = useMultiStyleConfig('Footer')
     const intl = useIntl()
@@ -76,7 +80,9 @@ const Footer = ({...otherProps}) => {
                                 })}
                                 links={[
                                     {
-                                        href: '/',
+                                        //  *****  Core:  Track Order - Start  *****
+                                        href: '/order-status',
+                                        //  *****  Core:  Track Order - end  *****
                                         text: intl.formatMessage({
                                             id: 'footer.link.order_status',
                                             defaultMessage: 'Order Status'
@@ -191,6 +197,14 @@ const Subscribe = ({...otherProps}) => {
     const styles = useStyles()
     const intl = useIntl()
 
+    // *****  Core: GoogleRecaptch- start  *****
+    const captchaRef = React.createRef()
+    const onSubmit = (event) => {
+        event.preventDefault()
+        captchaRef.current.execute()
+    }
+    // *****  Core: GoogleRecaptch - end  *****
+
     return (
         <Box {...styles.subscribe} {...otherProps}>
             <Heading {...styles.subscribeHeading}>
@@ -207,17 +221,30 @@ const Subscribe = ({...otherProps}) => {
             </Text>
 
             <Box>
-                <InputGroup>
-                    <Input type="email" placeholder="you@email.com" {...styles.subscribeField} />
-                    <InputRightElement {...styles.subscribeButtonContainer}>
-                        <Button variant="footer">
-                            {intl.formatMessage({
-                                id: 'footer.subscribe.button.sign_up',
-                                defaultMessage: 'Sign Up'
-                            })}
-                        </Button>
-                    </InputRightElement>
-                </InputGroup>
+                {/*****  Core: GoogleRecaptch- start  *****/}
+                <GoogleRecaptcha captchaRef={captchaRef} />
+                {/*** Core: GoogleRecaptch- end ***/}
+
+                <form onSubmit={onSubmit}>
+                    <InputGroup>
+                        <Input
+                            type="email"
+                            placeholder="you@email.com"
+                            {...styles.subscribeField}
+                            required
+                        />
+                        <InputRightElement {...styles.subscribeButtonContainer}>
+                            {/*** Core: GoogleRecaptch- start ***/}
+                            <Button type="submit" variant="footer">
+                                {/*** Core: GoogleRecaptch- end ***/}
+                                {intl.formatMessage({
+                                    id: 'footer.subscribe.button.sign_up',
+                                    defaultMessage: 'Sign Up'
+                                })}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+                </form>
             </Box>
 
             <SocialIcons variant="flex-start" pinterestInnerColor="black" {...styles.socialIcons} />

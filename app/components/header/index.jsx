@@ -48,7 +48,9 @@ import {noop} from '../../utils/utils'
 import {navLinks, messages} from '../../pages/account/constant'
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../loading-spinner'
-
+// *****  Core: imports - start  *****
+import {AlgoliaSearch} from 'Core/src'
+// *****  Core: imports - end  *****
 const ENTER_KEY = 'Enter'
 
 const IconButtonWithRegistration = withRegistration(IconButton)
@@ -139,7 +141,8 @@ const Header = ({
                         onClick={onLogoClick}
                     />
                     <Box {...styles.bodyContainer}>{children}</Box>
-                    <Box {...styles.searchContainer}>
+                    {/* *****  uncomment this section if you want to use the default search component***** */}
+                    {/*<Box {...styles.searchContainer}>
                         <Search
                             placeholder={intl.formatMessage({
                                 id: 'header.field.placeholder.search_for_products',
@@ -147,7 +150,13 @@ const Header = ({
                             })}
                             {...styles.search}
                         />
+                    </Box>*/}
+
+                    {/* *****  Core: algolia search - start  ***** */}
+                    <Box {...styles.searchContainer}>
+                        <AlgoliaSearch {...styles.search} />
                     </Box>
+                    {/* *****  Core: algolia search - end  ***** */}
                     <AccountIcon
                         {...styles.accountIcon}
                         tabIndex={0}

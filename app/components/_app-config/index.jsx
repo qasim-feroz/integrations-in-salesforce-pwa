@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {ChakraProvider} from '@chakra-ui/react'
 
@@ -25,6 +25,16 @@ import {resolveLocaleFromUrl} from '../../utils/utils'
 import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
 
+// *****  Core: Imports - Start  *****
+import {
+    coreAppConfig,
+    googleTagManager,
+    CoreContextProvider,
+    ContentStackAPI,
+    defaultcsClient
+} from 'Core/src'
+// *****  Core: Imports - end  *****
+
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
  * methods for all Route Components in the app – typically you'd want to do this
@@ -37,14 +47,30 @@ const AppConfig = ({children, locals = {}}) => {
     const [basket, setBasket] = useState(null)
     const [customer, setCustomer] = useState(null)
 
+    //custom-core-change
+    //coreAppConfig start
+    coreAppConfig.init(locals.config)
+    //coreAppConfig end
+
+    // gtm intilization start
+    useEffect(() => {
+        googleTagManager.gtmInit()
+    }, [])
+    // gtm intilization end
+    //custom-core-change
+
     return (
         <MultiSiteProvider site={locals.site} locale={locals.locale} buildUrl={locals.buildUrl}>
             <CommerceAPIProvider value={locals.api}>
                 <CustomerProvider value={{customer, setCustomer}}>
                     <BasketProvider value={{basket, setBasket}}>
-                        <CustomerProductListsProvider>
-                            <ChakraProvider theme={theme}>{children}</ChakraProvider>
-                        </CustomerProductListsProvider>
+                        {/****** Core: CoreContextProvider - start ******/}
+                        <CoreContextProvider>
+                            <CustomerProductListsProvider>
+                                <ChakraProvider theme={theme}>{children}</ChakraProvider>
+                            </CustomerProductListsProvider>
+                        </CoreContextProvider>
+                        {/****** Core: CoreContextProvider - end ******/}
                     </BasketProvider>
                 </CustomerProvider>
             </CommerceAPIProvider>
@@ -61,7 +87,11 @@ AppConfig.restore = (locals = {}) => {
     const locale = resolveLocaleFromUrl(path)
     const currency = locale.preferredCurrency
 
-    const {app: appConfig} = getConfig()
+    //custom-core-change
+    const config = getConfig()
+    const {app: appConfig} = config
+    //custom-core-change
+
     const apiConfig = {
         ...appConfig.commerceAPI,
         einsteinConfig: appConfig.einsteinAPI
@@ -73,6 +103,13 @@ AppConfig.restore = (locals = {}) => {
     locals.buildUrl = createUrlTemplate(appConfig, site.alias || site.id, locale.id)
     locals.site = site
     locals.locale = locale
+    // *****  Core: ContentStack - Start  *****
+    locals.csClient = typeof window === 'undefined' ? new ContentStackAPI() : defaultcsClient
+    // *****  Core: ContentStack - End  *****
+
+    //custom-core-change
+    locals.config = config
+    //custom-core-change
 }
 
 AppConfig.freeze = () => undefined
@@ -82,7 +119,10 @@ AppConfig.extraGetPropsArgs = (locals = {}) => {
         api: locals.api,
         buildUrl: locals.buildUrl,
         site: locals.site,
-        locale: locals.locale
+        // *****  Core: ContentStack - Start  *****
+        locale: locals.locale,
+        csClient: locals.csClient
+        // *****  Core: ContentStack - End  *****
     }
 }
 
