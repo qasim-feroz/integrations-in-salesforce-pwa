@@ -76,9 +76,9 @@ import {
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../../components/loading-spinner'
 
-// *****  Core: Imports - START  *****
-import { googleTagManager } from 'Core/src'
-// *****  Core: Imports - END  *****
+ // *****  Core: Tag Manager - START  *****
+import { triggerPageViewTag } from 'Core/src/integrations/tag-manager'
+ // *****  Core: Tag Manager - END  *****
 
 // *****  Core: Rating & Reviews - START  *****
 import { getBatchBottomLineWidgets } from 'Core/src/integrations/reviews-and-ratings'
@@ -201,13 +201,11 @@ const ProductList = (props) => {
         }
     }, [productSearchResult])
 
-    //custom-core-change
-    //submiting pathname to GTM start
+     // *****  Core: Tag Manager - START  *****
     useEffect(() => {
-        googleTagManager.gtmPageView(pathname)
+        triggerPageViewTag(pathname)
     }, [])
-    //submiting pathname to GTM end
-    //custom-core-change
+     // *****  Core: Tag Manager - START  *****
 
     // *****  Core: Rating & Reviews - START  *****
     useEffect(async () => {

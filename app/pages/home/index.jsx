@@ -47,9 +47,9 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
-// *****  Core: Imports - START  *****
-import { googleTagManager } from 'Core/src'
-// *****  Core: Imports - END  *****
+// *****  Core: Tag Manager - START  *****
+import {triggerPageViewTag} from 'Core/src/integrations/tag-manager'
+// *****  Core: Tag Manager - END  *****
 
 // *****  Core: Rating & Reviews - START  *****
 import { getBatchBottomLineWidgets } from 'Core/src/integrations/reviews-and-ratings'
@@ -74,11 +74,9 @@ const Home = ({productSearchResult, isLoading}) => {
     useEffect(() => {
         einstein.sendViewPage(pathname)
 
-        //custom-core-change
-        // submiting page-path to GTM start
-        googleTagManager.gtmPageView(pathname)
-        // submiting page-path to GTM end
-        //custom-core-change
+        // *****  Core: Tag Manager - START  *****
+        triggerPageViewTag(pathname)
+        // *****  Core: Tag Manager - END  *****
     }, [])
 
     // *****  Core: Rating & Reviews - START  *****

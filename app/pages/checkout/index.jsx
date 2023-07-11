@@ -18,9 +18,9 @@ import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
 import OrderSummary from '../../components/order-summary'
 
-//  *****  Core: google tag manager - start  *****
-import { googleTagManager } from 'Core/src'
-//  *****  Core: google tag manager - end  *****
+// *****  Core: Tag Manager - START  *****
+import { triggerCheckoutTag } from 'Core/src/integrations/tag-manager'
+// *****  Core: Tag Manager - END  *****
 
 // *****  Core: Payments - START  *****
 import { useToast } from '../../hooks/use-toast'
@@ -48,7 +48,7 @@ const Checkout = () => {
         }
     }, [globalError, step])
 
-    // *****  Core: google tag manager - Start  *****
+    // *****  Core: Tag Manager - START  *****
     useEffect(() => {
         var customerType
         if (customer.authType === 'guest') {
@@ -57,9 +57,9 @@ const Checkout = () => {
             customerType = true
         }
         // submitting customer type and current step to gtm
-        googleTagManager.gtmCheckoutSteps(customerType, step)
+        triggerCheckoutTag(customerType, step)
     }, [customer, step])
-    // *****  Core: google tag manager - end  *****
+    // *****  Core: Tag Manager - START  *****
 
     const submitOrder = async () => {
         setIsLoading(true)
