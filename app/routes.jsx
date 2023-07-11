@@ -24,9 +24,9 @@ const fallback = <Skeleton height="75vh" width="100%" />
 
 // Pages
 
-//******  Core: Google SSO - Start
+//******  Core: Google SSO - START
 const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {fallback})
-//******  Core: Google SSO - End
+//******  Core: Google SSO - END
 
 const Home = loadable(() => import('./pages/home'), {fallback})
 const Login = loadable(() => import('./pages/login'), {fallback})
@@ -52,7 +52,7 @@ const TrackOrderDetails = loadable(() =>
 )
 // *****  Core: Track Order - END  *****
 
-// *****  Core: ContentStack - Start  *****
+// *****  Core: ContentStack - START  *****
 const Blog = loadable(
     () => import('pwa-custom-core/src/integrations/cms/content-stack/pages/blog'),
     {fallback}
@@ -61,10 +61,10 @@ const ContentStackProductDetail = loadable(
     () => import('pwa-custom-core/src/integrations/cms/content-stack/pages/product-detail'),
     {fallback}
 )
-// *****  Core: ContentStack - End  *****
-// *****  Core: Reset Password - Start  *****
+// *****  Core: ContentStack - END  *****
+// *****  Core: Reset Password - START  *****
 const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
-// *****  Core: Reset Password - End  *****
+// *****  Core: Reset Password - END  *****
 
 const routes = [
     {
@@ -72,12 +72,12 @@ const routes = [
         component: Home,
         exact: true
     },
-//******  Core: Google SSO - Start
+//******  Core: Google SSO - START
     {
         path: '/google-callback',
         component: SSOCallback
     },
-//******  Core: Google SSO - End
+//******  Core: Google SSO - END
     {
         path: '/login',
         component: Login,
@@ -119,9 +119,9 @@ const routes = [
     },
     {
         path: '/product/:productId',
-        // *****  Core: ContentStack - Start  *****
+        // *****  Core: ContentStack - START  *****
         component: ContentStackProductDetail
-        // *****  Core: ContentStack - End  *****
+        // *****  Core: ContentStack - END  *****
     },
     {
         path: '/search',
@@ -145,7 +145,7 @@ const routes = [
         component: TrackOrderDetails
     },
     //  *****  Core: Track Order - END  *****
-    // *****  Core: ContentStack - Start  *****
+    // *****  Core: ContentStack - START  *****
     {
         path: '/blog/:blogId',
         component: Blog,
@@ -156,20 +156,20 @@ const routes = [
         component: Blog,
         exact: true
     },
-    // *****  Core: ContentStack - End  *****
-    //  *****  Core: page designer - start  *****
+    // *****  Core: ContentStack - END  *****
+    //  *****  Core: page designer - START  *****
     {
         path: '/:pageId',
         component: PageViewer,
         exact: true
     },
-    //  *****  Core: page designer - end  *****
-    // *****  Core: Reset Password - Start  *****
+    //  *****  Core: page designer - END  *****
+    // *****  Core: Reset Password - START  *****
     {
         path: '/reset-password/emailId/:email/resetToken/:reset',
         component: SetNewPassword
     },
-    // *****  Core: Reset Password - End  *****
+    // *****  Core: Reset Password - END  *****
     {
         path: '*',
         component: PageNotFound
