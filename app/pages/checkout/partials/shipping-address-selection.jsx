@@ -19,7 +19,7 @@ import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
 // *****  Core: Imports - Start  *****
-import {AddressSuggestionModel, AddressVerificationModal} from 'Core/src'
+import {AddressSuggestionModel, AddressVerificationModal} from 'Core/src/integrations/address-verification'
 // *****  Core: Imports - End   *****
 
 const saveButtonMessage = defineMessage({
