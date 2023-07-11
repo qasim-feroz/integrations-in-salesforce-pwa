@@ -62,9 +62,9 @@ const ContentStackProductDetail = loadable(
     {fallback}
 )
 // *****  Core: ContentStack - END  *****
-// *****  Core: Reset Password - START  *****
+// *****  Core: RESET PASSWORD - START  *****
 const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
-// *****  Core: Reset Password - END  *****
+// *****  Core: RESET PASSWORD - END  *****
 
 const routes = [
     {
@@ -157,19 +157,19 @@ const routes = [
         exact: true
     },
     // *****  Core: ContentStack - END  *****
-    //  *****  Core: page designer - START  *****
+    //  *****  Core: PAGE DESIGNER - START  *****
     {
         path: '/:pageId',
         component: PageViewer,
         exact: true
     },
-    //  *****  Core: page designer - END  *****
-    // *****  Core: Reset Password - START  *****
+    //  *****  Core: PAGE DESIGNER - END  *****
+    // *****  Core: RESET PASSWORD - START  *****
     {
         path: '/reset-password/emailId/:email/resetToken/:reset',
         component: SetNewPassword
     },
-    // *****  Core: Reset Password - END  *****
+    // *****  Core: RESET PASSWORD - END  *****
     {
         path: '*',
         component: PageNotFound
