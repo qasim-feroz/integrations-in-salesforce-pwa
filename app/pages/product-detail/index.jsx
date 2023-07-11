@@ -40,8 +40,12 @@ import {useHistory} from 'react-router-dom'
 import {useToast} from '../../hooks/use-toast'
 
 // *****  Core: imports - Start  *****
-import {googleTagManager, ProductDetailReviewWidget} from 'Core/src'
+import {googleTagManager } from 'Core/src'
 // *****  Core: imports - end  *****
+
+// *****  Core: Rating & Reviews - START  *****
+import { ProductDetailReviewWidget } from 'Core/src/integrations/reviews-and-ratings'
+// *****  Core: Rating & Reviews - END  *****
 
 const ProductDetail = ({category, product, isLoading}) => {
     const {formatMessage} = useIntl()
@@ -302,9 +306,9 @@ const ProductDetail = ({category, product, isLoading}) => {
                     </Fragment>
                 )}
 
-                {/* *****  Core: Rating & Reviews - Start  ***** */}
+                {/* *****  Core: Rating & Reviews - START  ***** */}
                 <ProductDetailReviewWidget product={product} />
-                {/* *****  Core: Rating & Reviews - End   ***** */}
+                {/* *****  Core: Rating & Reviews - END   ***** */}
 
                 {/* Product Recommendations */}
                 <Stack spacing={16}>
