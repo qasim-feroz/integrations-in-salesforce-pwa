@@ -70,9 +70,9 @@ const Checkout = () => {
                 if (authoriseResponse.isAuhtorized) {
                     const orderResult = await placeOrder()
                     await updateOrderPaymentTransaction(orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, authoriseResponse.detail.resultCode)
-                // *****  Core: Payments - END   *****
-                    navigate('/checkout/confirmation')
-                // *****  Core: Payments - START  *****
+                    if (orderResult) {
+                        navigate('/checkout/confirmation')
+                    }
                 } else {
                     showToast({
                         title: formatMessage(authoriseResponse.detail),
