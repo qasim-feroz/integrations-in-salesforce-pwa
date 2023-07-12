@@ -36,11 +36,11 @@ import CartItemVariantAttributes from '../../components/item-variant/item-attrib
 import CartItemVariantPrice from '../../components/item-variant/item-price'
 
 // *****  Core: imports - Start *****
-import { sendOrderPlacedEmail } from 'Core/src'
+import {sendOrderPlacedEmail} from 'Core/src/integrations/marketing'
 // *****  Core: imports - end  *****
 
 // *****  Core: Tag Manager - START  *****
-import { triggerConfirmPurchaseTag } from 'Core/src/integrations/tag-manager'
+import {triggerConfirmPurchaseTag} from 'Core/src/integrations/tag-manager'
 // *****  Core: Tag Manager - END  *****
 
 const CheckoutConfirmation = () => {
