@@ -27,7 +27,7 @@ const usePaymentForms = () => {
         goToNextStep,
 
         // *****  Core: Payments - START  *****
-        storedPaymentData
+        // storedPaymentData
         // *****  Core: Payments - END  *****
     } = useCheckout()
 
@@ -62,8 +62,9 @@ const usePaymentForms = () => {
         // the payment form.
 
         // *****  Core: Payments - START  *****
+        const storedPaymentData = localStorage.getItem('storedPaymentData')
         if ((Object.keys(payment).length === 0 || !payment.paymentInstrumentId) && storedPaymentData) {
-            payment = getPaymentMethodData(storedPaymentData)
+            payment = getPaymentMethodData(JSON.parse(storedPaymentData))
         }
         // *****  Core: Payments - END  *****
 
