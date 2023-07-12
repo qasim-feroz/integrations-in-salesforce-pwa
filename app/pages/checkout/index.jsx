@@ -36,7 +36,7 @@ const Checkout = () => {
     const showToast = useToast()
     const { formatMessage } = useIntl();
 
-    const {globalError, step, placeOrder, storedPaymentData} = useCheckout()
+    const {globalError, step, placeOrder} = useCheckout()
     // *****  Core: Payments - END   *****
 
     const [isLoading, setIsLoading] = useState(false)
@@ -65,7 +65,8 @@ const Checkout = () => {
         setIsLoading(true)
             try {
                 // *****  Core: Payments - START  *****
-                const authoriseResponse =  await isPaymentAuthorised(basket, customer, storedPaymentData)
+                const storedPaymentData = localStorage.getItem('storedPaymentData')
+                const authoriseResponse =  await isPaymentAuthorised(basket, customer, JSON.parse(storedPaymentData))
                 if (authoriseResponse.isAuhtorized) {
                     const orderResult = await placeOrder()
                     await updateOrderPaymentTransaction(orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, authoriseResponse.detail.resultCode)
