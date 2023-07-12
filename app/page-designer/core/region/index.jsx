@@ -22,13 +22,13 @@ export const Region = (props) => {
 
     return (
         <div id={id} className={`region ${className}`} style={{marginBottom: 15}} {...rest}>
-            {/** *****  Core: Page Designer - Start ***** */}
+            {/** *****  Core: PAGE DESIGNER - START ***** */}
             {getRegion(region)}
-            {/** *****  Core: Page Designer - End ***** */}
+            {/** *****  Core: PAGE DESIGNER - END ***** */}
         </div>
     )
 
-    //******  Core: Page Designer - Start *****
+    //******  Core: PAGE DESIGNER - START *****
     function getRegion(region) {
         if (region.id == 'categories') {
             return (
@@ -55,7 +55,7 @@ export const Region = (props) => {
     }
 }
 
-//*****  Core: Page Designer - End  *****/
+//*****  Core: PAGE DESIGNER - END  *****/
 Region.displayName = 'Region'
 
 Region.propTypes = {

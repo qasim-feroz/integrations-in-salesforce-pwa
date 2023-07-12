@@ -47,9 +47,13 @@ import {
     HOME_SHOP_PRODUCTS_LIMIT
 } from '../../constants'
 
-// *****  Core: Imports - Start  *****
-import {getBatchBottomLineWidgets, googleTagManager} from 'Core/src'
-// *****  Core: Imports - End  *****
+// *****  Core: Tag Manager - START  *****
+import {triggerPageViewTag} from 'Core/src/integrations/tag-manager'
+// *****  Core: Tag Manager - END  *****
+
+// *****  Core: Rating & Reviews - START  *****
+import { getBatchBottomLineWidgets } from 'Core/src/integrations/reviews-and-ratings'
+// *****  Core: Rating & Reviews - END  *****
 
 /**
  * This is the home page for Retail React App.
@@ -62,28 +66,26 @@ const Home = ({productSearchResult, isLoading}) => {
     const einstein = useEinstein()
     const {pathname} = useLocation()
 
-    // *****  Core: Rating & Reviews - Start  *****
+    // *****  Core: Rating & Reviews - START  *****
     const [batchBottomLineData, setBatchBottomLineData] = useState([])
-    // *****  Core: Rating & Reviews - End  *****
+    // *****  Core: Rating & Reviews - END  *****
 
     /**************** Einstein ****************/
     useEffect(() => {
         einstein.sendViewPage(pathname)
 
-        //custom-core-change
-        // submiting page-path to GTM start
-        googleTagManager.gtmPageView(pathname)
-        // submiting page-path to GTM end
-        //custom-core-change
+        // *****  Core: Tag Manager - START  *****
+        triggerPageViewTag(pathname)
+        // *****  Core: Tag Manager - END  *****
     }, [])
 
-    // *****  Core: Rating & Reviews - Start  *****
+    // *****  Core: Rating & Reviews - START  *****
     useEffect(async () => {
         productSearchResult
             ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult))
             : ''
     }, [productSearchResult])
-    // *****  Core: Rating & Reviews - End  *****
+    // *****  Core: Rating & Reviews - END  *****
 
     return (
         <Box data-testid="home-page" layerStyle="page">
@@ -217,9 +219,9 @@ const Home = ({productSearchResult, isLoading}) => {
                         <ProductScroller
                             products={productSearchResult?.hits}
                             isLoading={isLoading}
-                            //* *****  Core: Rating & Reviews - Start  *****
+                            //* *****  Core: Rating & Reviews - START  *****
                             BottomLineWidget={batchBottomLineData}
-                            //* *****  Core: Rating & Reviews - End  *****
+                            //* *****  Core: Rating & Reviews - END  *****
                         />
                     </Stack>
                 </Section>

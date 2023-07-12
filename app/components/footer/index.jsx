@@ -198,10 +198,21 @@ const Subscribe = ({...otherProps}) => {
     const intl = useIntl()
 
     // *****  Core: GoogleRecaptch- start  *****
+    const [subscribeField, setSubscribeField] = useState('')
+    const [emailFormatError, setEmailFormatErorr] = useState(false)
     const captchaRef = React.createRef()
+    const vaildateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return emailRegex.test(email)
+    }
     const onSubmit = (event) => {
         event.preventDefault()
+        if (!vaildateEmail(subscribeField)) {
+            setEmailFormatErorr(true)
+            return
+        }
         captchaRef.current.execute()
+        setEmailFormatErorr(false)
     }
     // *****  Core: GoogleRecaptch - end  *****
 
@@ -226,12 +237,19 @@ const Subscribe = ({...otherProps}) => {
                 {/*** Core: GoogleRecaptch- end ***/}
 
                 <form onSubmit={onSubmit}>
+                    {emailFormatError && (
+                        <Text color={'red'} as={'p'}>
+                            *Please enter valid email address
+                        </Text>
+                    )}
                     <InputGroup>
                         <Input
                             type="email"
                             placeholder="you@email.com"
                             {...styles.subscribeField}
-                            required
+                            onChange={(e) => setSubscribeField(e.target.value)}
+                            value={subscribeField}
+                            isRequired
                         />
                         <InputRightElement {...styles.subscribeButtonContainer}>
                             {/*** Core: GoogleRecaptch- start ***/}

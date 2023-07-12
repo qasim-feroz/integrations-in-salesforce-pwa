@@ -36,8 +36,12 @@ import CartItemVariantAttributes from '../../components/item-variant/item-attrib
 import CartItemVariantPrice from '../../components/item-variant/item-price'
 
 // *****  Core: imports - Start *****
-import {googleTagManager, sendOrderPlacedEmail} from 'Core/src'
+import { sendOrderPlacedEmail } from 'Core/src'
 // *****  Core: imports - end  *****
+
+// *****  Core: Tag Manager - START  *****
+import { triggerConfirmPurchaseTag } from 'Core/src/integrations/tag-manager'
+// *****  Core: Tag Manager - END  *****
 
 const CheckoutConfirmation = () => {
     const navigate = useNavigation()
@@ -58,13 +62,11 @@ const CheckoutConfirmation = () => {
         }
     })
 
-    //  *****  Core: google tag manager - start  *****
-    // submitting checkout details to GTM start
+    // *****  Core: Tag Manager - START  *****
     useEffect(() => {
-        googleTagManager.gtmConfirmPurchase(order)
+        triggerConfirmPurchaseTag(order)
     }, [order.productItems])
-    // submitting checkout details to GTM end
-    //  *****  Core: google tag manager - end  *****
+    // *****  Core: Tag Manager - END  *****
 
     // If we don't have an order object on first render we need to transition back to a
     // different page. Fow now, we push to the homepage.

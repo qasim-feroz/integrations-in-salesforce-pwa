@@ -28,12 +28,16 @@ import {createUrlTemplate} from '../../utils/url'
 // *****  Core: Imports - Start  *****
 import {
     coreAppConfig,
-    googleTagManager,
     CoreContextProvider,
     ContentStackAPI,
     defaultcsClient
 } from 'Core/src'
 // *****  Core: Imports - end  *****
+
+// *****  Core: Tag Manager - START  *****
+import { initTagManager } from 'Core/src/integrations/tag-manager'
+// *****  Core: Tag Manager - END  *****
+
 
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
@@ -52,12 +56,11 @@ const AppConfig = ({children, locals = {}}) => {
     coreAppConfig.init(locals.config)
     //coreAppConfig end
 
-    // gtm intilization start
+    // *****  Core: Tag Manager - START  *****
     useEffect(() => {
-        googleTagManager.gtmInit()
+        initTagManager()
     }, [])
-    // gtm intilization end
-    //custom-core-change
+    // *****  Core: Tag Manager - END  *****
 
     return (
         <MultiSiteProvider site={locals.site} locale={locals.locale} buildUrl={locals.buildUrl}>

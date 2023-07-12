@@ -28,9 +28,9 @@ import QuantityPicker from '../../components/quantity-picker'
 import {useToast} from '../../hooks/use-toast'
 import {API_ERROR_MESSAGE} from '../../constants'
 
-// *****  Core: Import - Start  *****
-import {ProductDetailBottomLineWidget} from 'Core/src'
-// *****  Core: Import - End  *****
+// *****  Core: Rating & Reviews - START  *****
+import {ProductDetailBottomLineWidget} from 'Core/src/integrations/reviews-and-ratings'
+// *****  Core: Rating & Reviews - END  *****
 
 const ProductViewHeader = ({name, price, currency, category, productType}) => {
     const intl = useIntl()
@@ -334,12 +334,12 @@ const ProductView = forwardRef(
                                 currency={product?.currency}
                                 category={category}
                             />
-                            {/* *****  Core: Rating & Reviews - Start  ***** */}
+                            {/* *****  Core: Rating & Reviews - START  ***** */}
                             <ProductDetailBottomLineWidget
                                 product={product}
                                 isProductLoading={isProductLoading}
                             />
-                            {/* *****  Core: Rating & Reviews - End  ***** */}
+                            {/* *****  Core: Rating & Reviews - END  ***** */}
                         </Box>
                         <VStack align="stretch" spacing={4}>
                             {/*
