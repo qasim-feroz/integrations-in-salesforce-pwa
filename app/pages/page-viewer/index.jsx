@@ -3,7 +3,7 @@ import {Box} from '@chakra-ui/react'
 import {Page, pageType} from '../../page-designer'
 import {HTTPError, HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
 // *****  Core: import - start  *****
-import {PAGE_DESIGNER_COMPONENT} from 'Core/src'
+import {PAGE_DESIGNER_COMPONENT} from 'Core/src/integrations/page-designer'
 // *****  Core: import - end  *****
 
 /**

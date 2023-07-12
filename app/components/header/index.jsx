@@ -49,7 +49,7 @@ import {navLinks, messages} from '../../pages/account/constant'
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../loading-spinner'
 // *****  Core: imports - start  *****
-import {AlgoliaSearch} from 'Core/src'
+import {CoreSearch} from 'Core/src/integrations/search'
 // *****  Core: imports - end  *****
 const ENTER_KEY = 'Enter'
 
@@ -141,22 +141,9 @@ const Header = ({
                         onClick={onLogoClick}
                     />
                     <Box {...styles.bodyContainer}>{children}</Box>
-                    {/* *****  uncomment this section if you want to use the default search component***** */}
-                    {/*<Box {...styles.searchContainer}>
-                        <Search
-                            placeholder={intl.formatMessage({
-                                id: 'header.field.placeholder.search_for_products',
-                                defaultMessage: 'Search for products...'
-                            })}
-                            {...styles.search}
-                        />
-                    </Box>*/}
-
-                    {/* *****  Core: algolia search - start  ***** */}
-                    <Box {...styles.searchContainer}>
-                        <AlgoliaSearch {...styles.search} />
-                    </Box>
-                    {/* *****  Core: algolia search - end  ***** */}
+                    {/* *****  Core: Algolia Search - START  ***** */}
+                    <Box {...styles.searchContainer}>{<CoreSearch {...styles.search} />}</Box>
+                    {/* *****  Core: Algolia Search - END  ***** */}
                     <AccountIcon
                         {...styles.accountIcon}
                         tabIndex={0}
