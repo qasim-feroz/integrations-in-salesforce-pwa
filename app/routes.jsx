@@ -25,7 +25,9 @@ const fallback = <Skeleton height="75vh" width="100%" />
 // Pages
 
 //******  Core: Google SSO - START
-const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {fallback})
+const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {
+    fallback
+})
 //******  Core: Google SSO - END
 
 const Home = loadable(() => import('./pages/home'), {fallback})
@@ -44,11 +46,13 @@ const PageNotFound = loadable(() => import('./pages/page-not-found'))
 // *****  Core: Track Order - START  *****
 const TrackOrderStatus = loadable(
     () =>
-        import('pwa-custom-core/src/integrations/track-order'),
-    {fallback}
+        import('pwa-custom-core/src/integrations/track-order/pages/order-status/TrackOrderStatus'),
+    {
+        fallback
+    }
 )
 const TrackOrderDetails = loadable(() =>
-    import('pwa-custom-core/src/integrations/track-order')
+    import('pwa-custom-core/src/integrations/track-order/pages/order-details/TrackOrderDetails')
 )
 // *****  Core: Track Order - END  *****
 
@@ -63,7 +67,9 @@ const ContentStackProductDetail = loadable(
 )
 // *****  Core: ContentStack - END  *****
 // *****  Core: RESET PASSWORD - START  *****
-const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
+const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {
+    fallback
+})
 // *****  Core: RESET PASSWORD - END  *****
 
 const routes = [
@@ -72,12 +78,12 @@ const routes = [
         component: Home,
         exact: true
     },
-//******  Core: Google SSO - START
+    //******  Core: Google SSO - START
     {
         path: '/google-callback',
         component: SSOCallback
     },
-//******  Core: Google SSO - END
+    //******  Core: Google SSO - END
     {
         path: '/login',
         component: Login,

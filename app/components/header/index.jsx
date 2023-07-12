@@ -141,20 +141,9 @@ const Header = ({
                         onClick={onLogoClick}
                     />
                     <Box {...styles.bodyContainer}>{children}</Box>
-                    {/* *****  Core: algolia search - start  ***** */}
-                    <Box {...styles.searchContainer}>
-                        { !process.env.SEARCH_SERVICE && <Search
-                            placeholder={intl.formatMessage({
-                                id: 'header.field.placeholder.search_for_products',
-                                defaultMessage: 'Search for products...'
-                            })}
-                            {...styles.search}
-                        />}
-                        {
-                            <CoreSearch {...styles.search} />
-                        }
-                    </Box>
-                    {/* *****  Core: algolia search - end  ***** */}
+                    {/* *****  Core: Algolia Search - START  ***** */}
+                    <Box {...styles.searchContainer}>{<CoreSearch {...styles.search} />}</Box>
+                    {/* *****  Core: Algolia Search - END  ***** */}
                     <AccountIcon
                         {...styles.accountIcon}
                         tabIndex={0}
