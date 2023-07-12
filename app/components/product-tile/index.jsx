@@ -29,9 +29,9 @@ import {productUrlBuilder} from '../../utils/url'
 import Link from '../link'
 import withRegistration from '../../hoc/with-registration'
 import {useCurrency} from '../../hooks'
-// *****  Core: Rating & Reviews - Start  *****
-import {StarRatingWidget} from 'Core/src'
-// *****  Core: Rating & Reviews - End  *****
+// *****  Core: Rating & Reviews - START  *****
+import {StarRatingWidget} from 'Core/src/integrations/reviews-and-ratings'
+// *****  Core: Rating & Reviews - END  *****
 const IconButtonWithRegistration = withRegistration(IconButton)
 
 // Component Skeleton
@@ -65,9 +65,9 @@ const ProductTile = (props) => {
         isFavourite,
         onFavouriteToggle,
         dynamicImageProps,
-        // *****  Core: Rating & Reviews - Start  *****
+        // *****  Core: Rating & Reviews - START  *****
         starRatingWidgetData,
-        // *****  Core: Rating & Reviews - End  *****
+        // *****  Core: Rating & Reviews - END  *****
         ...rest
     } = props
 
@@ -147,9 +147,9 @@ const ProductTile = (props) => {
                 })}
             </Text>
 
-            {/* *****  Core: Rating & Reviews - Start  ***** */}
+            {/* *****  Core: Rating & Reviews - START  ***** */}
             <StarRatingWidget product={product} starRatingWidgetData={starRatingWidgetData} />
-            {/* *****  Core: Rating & Reviews - End  ***** */}
+            {/* *****  Core: Rating & Reviews - END  ***** */}
         </Link>
     )
 }

@@ -39,9 +39,13 @@ import {rebuildPathWithParams} from '../../utils/url'
 import {useHistory} from 'react-router-dom'
 import {useToast} from '../../hooks/use-toast'
 
-// *****  Core: imports - Start  *****
-import {googleTagManager, ProductDetailReviewWidget} from 'Core/src'
-// *****  Core: imports - end  *****
+// *****  Core: Tag Manager - START  *****
+import { triggerPDPTag, triggerAddToCartTag } from 'Core/src/integrations/tag-manager'
+// *****  Core: Tag Manager - END  *****
+
+// *****  Core: Rating & Reviews - START  *****
+import { ProductDetailReviewWidget } from 'Core/src/integrations/reviews-and-ratings'
+// *****  Core: Rating & Reviews - END  *****
 
 const ProductDetail = ({category, product, isLoading}) => {
     const {formatMessage} = useIntl()
@@ -70,14 +74,11 @@ const ProductDetail = ({category, product, isLoading}) => {
 
     /**************** Product Variant ****************/
 
-    //  *****  Core: google tag manager - start  *****
-    //submitting product details to GTM start
-
+     // *****  Core: Tag Manager - START  *****
     useEffect(() => {
-        googleTagManager.gtmPDP(product)
+        triggerPDPTag(product)
     }, [product])
-
-    //  *****  Core: google tag manager - end  *****
+     // *****  Core: Tag Manager - END  *****
 
     useEffect(() => {
         // update the variation attributes parameter on
@@ -138,10 +139,9 @@ const ProductDetail = ({category, product, isLoading}) => {
 
             await basket.addItemToBasket(productItems)
 
-            //  *****  Core: google tag manager - start  *****
-            // submitting add to cart details to GTM
-            googleTagManager.gtmAddToCart(productItems)
-            //  *****  Core: google tag manager - end  *****
+            // *****  Core: Tag Manager - START  *****
+            triggerAddToCartTag(productItems)
+            // *****  Core: Tag Manager - END  *****
 
             // If the items were sucessfully added, set the return value to be used
 
@@ -302,9 +302,9 @@ const ProductDetail = ({category, product, isLoading}) => {
                     </Fragment>
                 )}
 
-                {/* *****  Core: Rating & Reviews - Start  ***** */}
+                {/* *****  Core: Rating & Reviews - START  ***** */}
                 <ProductDetailReviewWidget product={product} />
-                {/* *****  Core: Rating & Reviews - End   ***** */}
+                {/* *****  Core: Rating & Reviews - END   ***** */}
 
                 {/* Product Recommendations */}
                 <Stack spacing={16}>

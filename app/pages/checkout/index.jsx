@@ -18,15 +18,15 @@ import Payment from './partials/payment'
 import CheckoutSkeleton from './partials/checkout-skeleton'
 import OrderSummary from '../../components/order-summary'
 
-//  *****  Core: google tag manager - start  *****
-import { googleTagManager } from 'Core/src'
-//  *****  Core: google tag manager - end  *****
+// *****  Core: Tag Manager - START  *****
+import { triggerCheckoutTag } from 'Core/src/integrations/tag-manager'
+// *****  Core: Tag Manager - END  *****
 
 // *****  Core: Payments - START  *****
 import { useToast } from '../../hooks/use-toast'
 import { isPaymentAuthorised } from 'Core/src/integrations/payments'
 import { updateOrderPaymentTransaction } from 'Core/src/integrations/payments/services/CommercePaymentService'
-// *****  Core: Payments - End   *****
+// *****  Core: Payments - END   *****
 
 const Checkout = () => {
     const navigate = useNavigation()
@@ -37,7 +37,7 @@ const Checkout = () => {
     const { formatMessage } = useIntl();
 
     const {globalError, step, placeOrder, storedPaymentData} = useCheckout()
-    // *****  Core: Payments - End   *****
+    // *****  Core: Payments - END   *****
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -48,7 +48,7 @@ const Checkout = () => {
         }
     }, [globalError, step])
 
-    // *****  Core: google tag manager - Start  *****
+    // *****  Core: Tag Manager - START  *****
     useEffect(() => {
         var customerType
         if (customer.authType === 'guest') {
@@ -57,9 +57,9 @@ const Checkout = () => {
             customerType = true
         }
         // submitting customer type and current step to gtm
-        googleTagManager.gtmCheckoutSteps(customerType, step)
+        triggerCheckoutTag(customerType, step)
     }, [customer, step])
-    // *****  Core: google tag manager - end  *****
+    // *****  Core: Tag Manager - START  *****
 
     const submitOrder = async () => {
         setIsLoading(true)
@@ -69,7 +69,7 @@ const Checkout = () => {
                 if (authoriseResponse.isAuhtorized) {
                     const orderResult = await placeOrder()
                     await updateOrderPaymentTransaction(orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, authoriseResponse.detail.resultCode)
-                // *****  Core: Payments - End   *****
+                // *****  Core: Payments - END   *****
                     navigate('/checkout/confirmation')
                 // *****  Core: Payments - START  *****
                 } else {
@@ -79,7 +79,7 @@ const Checkout = () => {
                     })
                     setIsLoading(false)
                 }
-                // *****  Core: Payments - End   *****
+                // *****  Core: Payments - END   *****
             } catch (error) {
                 setIsLoading(false)
             }

@@ -55,9 +55,9 @@ import {
 import Seo from '../seo'
 import {resolveSiteFromUrl} from '../../utils/site-utils'
 import useMultiSite from '../../hooks/use-multi-site'
-// *****  Core: Rating & Reviews - Start  *****
-import {HomePageScript} from 'Core/src'
-// *****  Core: Rating & Reviews - End   *****
+// *****  Core: Rating & Reviews - START  *****
+import {HomePageScript} from 'Core/src/integrations/reviews-and-ratings'
+// *****  Core: Rating & Reviews - END   *****
 
 const App = (props) => {
     const {
@@ -151,9 +151,9 @@ const App = (props) => {
         history.push(path)
     }
 
-    // *****  Core: Rating & Reviews - Start  *****
+    // *****  Core: Rating & Reviews - START  *****
     HomePageScript()
-    // *****  Core: Rating & Reviews - End  *****
+    // *****  Core: Rating & Reviews - END  *****
 
     return (
         <Box className="sf-app" {...styles.container}>

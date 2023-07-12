@@ -76,9 +76,13 @@ import {
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../../components/loading-spinner'
 
-// *****  Core: Imports - Start  *****
-import {getBatchBottomLineWidgets, googleTagManager} from 'Core/src'
-// *****  Core: Imports - End  *****
+ // *****  Core: Tag Manager - START  *****
+import { triggerPageViewTag } from 'Core/src/integrations/tag-manager'
+ // *****  Core: Tag Manager - END  *****
+
+// *****  Core: Rating & Reviews - START  *****
+import { getBatchBottomLineWidgets } from 'Core/src/integrations/reviews-and-ratings'
+// *****  Core: Rating & Reviews - END  *****
 
 // NOTE: You can ignore certain refinements on a template level by updating the below
 // list of ignored refinements.
@@ -184,9 +188,9 @@ const ProductList = (props) => {
 
     //custom-core-change
     const {pathname} = useLocation()
-    // *****  Core: Rating & Reviews - Start  *****
+    // *****  Core: Rating & Reviews - START  *****
     const [batchBottomLineData, setBatchBottomLineData] = useState([])
-    // *****  Core: Rating & Reviews - End  *****
+    // *****  Core: Rating & Reviews - END  *****
     //custom-core-change
 
     useEffect(() => {
@@ -197,21 +201,19 @@ const ProductList = (props) => {
         }
     }, [productSearchResult])
 
-    //custom-core-change
-    //submiting pathname to GTM start
+     // *****  Core: Tag Manager - START  *****
     useEffect(() => {
-        googleTagManager.gtmPageView(pathname)
+        triggerPageViewTag(pathname)
     }, [])
-    //submiting pathname to GTM end
-    //custom-core-change
+     // *****  Core: Tag Manager - START  *****
 
-    // *****  Core: Rating & Reviews - Start  *****
+    // *****  Core: Rating & Reviews - START  *****
     useEffect(async () => {
         productSearchResult
             ? setBatchBottomLineData(await getBatchBottomLineWidgets(productSearchResult))
             : ''
     }, [productSearchResult])
-    // *****  Core: Rating & Reviews - End  *****
+    // *****  Core: Rating & Reviews - END  *****
 
     /**************** Filters ****************/
     const [searchParams, {stringify: stringifySearchParams}] = useSearchParams()
@@ -435,9 +437,9 @@ const ProductList = (props) => {
                                                   product={productSearchItem}
                                                   enableFavourite={true}
                                                   isFavourite={isInWishlist}
-                                                  // *****  Core: Rating & Reviews - Start  *****
+                                                  // *****  Core: Rating & Reviews - START  *****
                                                   starRatingWidgetData={batchBottomLineData[index]}
-                                                  // *****  Core: Rating & Reviews - End  *****
+                                                  // *****  Core: Rating & Reviews - END  *****
                                                   onClick={() => {
                                                       if (searchQuery) {
                                                           einstein.sendClickSearch(
