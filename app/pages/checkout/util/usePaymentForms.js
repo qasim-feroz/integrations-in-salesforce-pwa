@@ -62,7 +62,7 @@ const usePaymentForms = () => {
         // the payment form.
 
         // *****  Core: Payments - START  *****
-        if (Object.keys(payment).length === 0 && storedPaymentData) {
+        if ((Object.keys(payment).length === 0 || !payment.paymentInstrumentId) && storedPaymentData) {
             payment = getPaymentMethodData(storedPaymentData)
         }
         // *****  Core: Payments - START  *****
