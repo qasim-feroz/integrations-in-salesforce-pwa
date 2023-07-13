@@ -37,7 +37,7 @@ import CartItemVariantPrice from '../../components/item-variant/item-price'
 
 // *****  Core: imports - Start *****
 import { sendOrderPlacedEmail } from 'Core/src/integrations/marketing'
-import { updateOrderPaymentTransaction } from 'Core/src/integrations/payments/services/CommercePaymentService'
+import { updatePaymentTransaction } from 'Core/src/integrations/payments'
 // *****  Core: imports - end  *****
 
 // *****  Core: Tag Manager - START  *****
@@ -91,16 +91,10 @@ const CheckoutConfirmation = () => {
 
     const CardIcon = getCreditCardIcon(order.paymentInstruments[0].paymentCard?.cardType)
 
-    const updatePaymentTransaction = async () => {
-        const authoriseResponse = localStorage.getItem('authoriseResponse')
-        localStorage.removeItem('authoriseResponse')
-        if (authoriseResponse) {
-            const authoriseResponseObj = JSON.parse(authoriseResponse)
-            await updateOrderPaymentTransaction(order.orderNo, order.paymentInstruments[0].paymentInstrumentId, authoriseResponseObj.detail.resultCode)
-        }
+    // *****  Core: Payments - START  *****
+    updatePaymentTransaction(order)
+    // *****  Core: Payments - END  *****
 
-    }
-    updatePaymentTransaction()
     const submitForm = async (data) => {
         try {
             await customer.registerCustomer(data)
