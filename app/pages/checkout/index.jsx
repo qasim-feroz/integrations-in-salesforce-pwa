@@ -25,7 +25,6 @@ import { triggerCheckoutTag } from 'Core/src/integrations/tag-manager'
 // *****  Core: Payments - START  *****
 import { useToast } from '../../hooks/use-toast'
 import { isPaymentAuthorised } from 'Core/src/integrations/payments'
-import { updateOrderPaymentTransaction } from 'Core/src/integrations/payments/services/CommercePaymentService'
 // *****  Core: Payments - END   *****
 
 const Checkout = () => {
@@ -66,13 +65,12 @@ const Checkout = () => {
             try {
                 // *****  Core: Payments - START  *****
                 const storedPaymentData = localStorage.getItem('storedPaymentData')
-                const authoriseResponse =  await isPaymentAuthorised(basket, customer, JSON.parse(storedPaymentData))
+                localStorage.removeItem('storedPaymentData')
+                const authoriseResponse = await isPaymentAuthorised(basket, customer, JSON.parse(storedPaymentData))
+                localStorage.setItem('authoriseResponse', JSON.stringify(authoriseResponse))
                 if (authoriseResponse.isAuhtorized) {
-                    const orderResult = await placeOrder()
-                    await updateOrderPaymentTransaction(orderResult.orderNo, orderResult.paymentInstruments[0].paymentInstrumentId, authoriseResponse.detail.resultCode)
-                    if (orderResult) {
-                        navigate('/checkout/confirmation')
-                    }
+                    await placeOrder()
+                    navigate('/checkout/confirmation')
                 } else {
                     showToast({
                         title: formatMessage(authoriseResponse.detail),

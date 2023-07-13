@@ -365,7 +365,7 @@ export const CheckoutProvider = ({children}) => {
                 mergeState({globalError: undefined})
                 try {
                     // *****  Core: Payments - START  *****
-                    return await basket.createOrder()
+                    await basket.createOrder()
                     // *****  Core: Payments - END  *****
                 } catch (error) {
                     // Note: It is possible to get localized error messages from OCAPI, but this
