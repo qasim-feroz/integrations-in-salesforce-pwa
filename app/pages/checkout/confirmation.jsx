@@ -521,17 +521,14 @@ const CheckoutConfirmation = () => {
                                                                 ?.numberLastDigits
                                                         }
                                                     </Text>
-                                                    <Text>
-                                                        {
-                                                            order.paymentInstruments[0].paymentCard
-                                                                ?.expirationMonth
-                                                        }
-                                                        /
-                                                        {
-                                                            order.paymentInstruments[0].paymentCard
-                                                                ?.expirationYear
-                                                        }
-                                                    </Text>
+                                                    {order.paymentInstruments[0].paymentCard
+                                                        ?.expirationMonth && (
+                                                            <Text>
+                                                                {order.paymentInstruments[0].paymentCard
+                                                                    ?.expirationMonth}/{order.paymentInstruments[0].paymentCard
+                                                                        ?.expirationYear}
+                                                            </Text>
+                                                        )}
                                                 </Stack>
                                             </Box>
                                         </Stack>
