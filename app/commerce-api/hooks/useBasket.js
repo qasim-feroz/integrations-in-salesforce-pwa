@@ -393,9 +393,6 @@ export default function useBasket(opts = {}) {
                 // in SF so we need to make sure a new one is created when leaving the confirmation.
                 setBasket(response)
 
-                // custom-core-change
-                return response
-                // custom-core-change
             },
 
             /**

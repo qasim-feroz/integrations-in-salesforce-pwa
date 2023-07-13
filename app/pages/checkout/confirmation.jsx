@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import React, {useEffect, useState, Fragment} from 'react'
-import {FormattedMessage, FormattedNumber} from 'react-intl'
+import React, { useEffect, useState, Fragment } from 'react'
+import { FormattedMessage, FormattedNumber } from 'react-intl'
 import {
     Box,
     Button,
@@ -20,8 +20,8 @@ import {
     AlertIcon,
     Divider
 } from '@chakra-ui/react'
-import {useForm} from 'react-hook-form'
-import {getCreditCardIcon} from '../../utils/cc-utils'
+import { useForm } from 'react-hook-form'
+import { getCreditCardIcon } from '../../utils/cc-utils'
 import useBasket from '../../commerce-api/hooks/useBasket'
 import useCustomer from '../../commerce-api/hooks/useCustomer'
 import useNavigation from '../../hooks/use-navigation'
@@ -36,11 +36,12 @@ import CartItemVariantAttributes from '../../components/item-variant/item-attrib
 import CartItemVariantPrice from '../../components/item-variant/item-price'
 
 // *****  Core: imports - Start *****
-import {sendOrderPlacedEmail} from 'Core/src/integrations/marketing'
+import { sendOrderPlacedEmail } from 'Core/src/integrations/marketing'
+import { updateOrderPaymentTransaction } from 'Core/src/integrations/payments/services/CommercePaymentService'
 // *****  Core: imports - end  *****
 
 // *****  Core: Tag Manager - START  *****
-import {triggerConfirmPurchaseTag} from 'Core/src/integrations/tag-manager'
+import { triggerConfirmPurchaseTag } from 'Core/src/integrations/tag-manager'
 // *****  Core: Tag Manager - END  *****
 
 const CheckoutConfirmation = () => {
@@ -90,6 +91,16 @@ const CheckoutConfirmation = () => {
 
     const CardIcon = getCreditCardIcon(order.paymentInstruments[0].paymentCard?.cardType)
 
+    const updatePaymentTransaction = async () => {
+        const authoriseResponse = localStorage.getItem('authoriseResponse')
+        localStorage.removeItem('authoriseResponse')
+        if (authoriseResponse) {
+            const authoriseResponseObj = JSON.parse(authoriseResponse)
+            await updateOrderPaymentTransaction(order.orderNo, order.paymentInstruments[0].paymentInstrumentId, authoriseResponseObj.detail.resultCode)
+        }
+
+    }
+    updatePaymentTransaction()
     const submitForm = async (data) => {
         try {
             await customer.registerCustomer(data)
@@ -114,7 +125,7 @@ const CheckoutConfirmation = () => {
                 ? existingAccountMessage
                 : error.message
 
-            form.setError('global', {type: 'manual', message})
+            form.setError('global', { type: 'manual', message })
             return
         }
 
@@ -128,8 +139,8 @@ const CheckoutConfirmation = () => {
         <Box background="gray.50">
             <Container
                 maxWidth="container.md"
-                py={{base: 7, md: 16}}
-                px={{base: 0, md: 4}}
+                py={{ base: 7, md: 16 }}
+                px={{ base: 0, md: 4 }}
                 data-testid="sf-checkout-confirmation-container"
             >
                 <Stack spacing={4}>
@@ -303,7 +314,7 @@ const CheckoutConfirmation = () => {
                                                     ...product,
                                                     ...(order._productItemsDetail &&
                                                         order._productItemsDetail[
-                                                            product.productId
+                                                        product.productId
                                                         ]),
                                                     price: product.price
                                                 }
@@ -381,39 +392,39 @@ const CheckoutConfirmation = () => {
                                                         />
                                                         {order.shippingItems[0].priceAdjustments
                                                             ?.length > 0 && (
-                                                            <Text as="span" ml={1}>
-                                                                (
-                                                                <FormattedMessage
-                                                                    defaultMessage="Promotion applied"
-                                                                    id="checkout_confirmation.label.promo_applied"
-                                                                />
-                                                                )
-                                                            </Text>
-                                                        )}
+                                                                <Text as="span" ml={1}>
+                                                                    (
+                                                                    <FormattedMessage
+                                                                        defaultMessage="Promotion applied"
+                                                                        id="checkout_confirmation.label.promo_applied"
+                                                                    />
+                                                                    )
+                                                                </Text>
+                                                            )}
                                                     </Text>
                                                     {order.shippingItems?.[0]?.priceAdjustments
                                                         ?.length > 0 && (
-                                                        <PromoPopover ml={2}>
-                                                            <Stack>
-                                                                {order.shippingItems[0].priceAdjustments?.map(
-                                                                    (adjustment) => (
-                                                                        <Text
-                                                                            key={
-                                                                                adjustment.priceAdjustmentId
-                                                                            }
-                                                                            fontSize="sm"
-                                                                        >
-                                                                            {adjustment.itemText}
-                                                                        </Text>
-                                                                    )
-                                                                )}
-                                                            </Stack>
-                                                        </PromoPopover>
-                                                    )}
+                                                            <PromoPopover ml={2}>
+                                                                <Stack>
+                                                                    {order.shippingItems[0].priceAdjustments?.map(
+                                                                        (adjustment) => (
+                                                                            <Text
+                                                                                key={
+                                                                                    adjustment.priceAdjustmentId
+                                                                                }
+                                                                                fontSize="sm"
+                                                                            >
+                                                                                {adjustment.itemText}
+                                                                            </Text>
+                                                                        )
+                                                                    )}
+                                                                </Stack>
+                                                            </PromoPopover>
+                                                        )}
                                                 </Flex>
 
                                                 {order.shippingItems[0].priceAdjustments?.some(
-                                                    ({appliedDiscount}) =>
+                                                    ({ appliedDiscount }) =>
                                                         appliedDiscount?.type === 'free'
                                                 ) ? (
                                                     <Text
