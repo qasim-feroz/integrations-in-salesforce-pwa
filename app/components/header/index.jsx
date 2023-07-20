@@ -25,7 +25,8 @@ import {
     Text,
     Divider,
     useDisclosure,
-    useMediaQuery
+    useMediaQuery,
+    Image
 } from '@chakra-ui/react'
 
 import useBasket from '../../commerce-api/hooks/useBasket'
@@ -50,6 +51,7 @@ import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../loading-spinner'
 // *****  Core: imports - start  *****
 import {CoreSearch} from 'Core/src/integrations/search'
+import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
 // *****  Core: imports - end  *****
 const ENTER_KEY = 'Enter'
 
@@ -130,16 +132,25 @@ const Header = ({
                         {...styles.icons}
                         onClick={onMenuClick}
                     />
-                    <IconButton
-                        aria-label={intl.formatMessage({
-                            id: 'header.button.assistive_msg.logo',
-                            defaultMessage: 'Logo'
-                        })}
-                        icon={<BrandLogo {...styles.logo} />}
-                        {...styles.icons}
-                        variant="unstyled"
-                        onClick={onLogoClick}
-                    />
+                    {/*<IconButton
+                    //     aria-label={intl.formatMessage({
+                    //         id: 'header.button.assistive_msg.logo',
+                    //         defaultMessage: 'Logo'
+                    //     })}
+                    //     icon={<BrandLogo {...styles.logo} />}
+                    //     {...styles.icons}
+                    //     variant="unstyled"
+                    //     onClick={onLogoClick}
+                    // />*/}
+                    <Box>
+                        <Image
+                            src={getAssetUrl('static/img/nestosh-logo.png')}
+                            alt="brand-logo"
+                            width={'150px'}
+                            onClick={onLogoClick}
+                            cursor={'pointer'}
+                        />
+                    </Box>
                     <Box {...styles.bodyContainer}>{children}</Box>
                     {/* *****  Core: Algolia Search - START  ***** */}
                     <Box {...styles.searchContainer}>{<CoreSearch {...styles.search} />}</Box>

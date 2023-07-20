@@ -57,7 +57,8 @@ const {handler} = runtime.createHandler(options, (app) => {
                         'www.googletagmanager.com',
                         'api.cquotient.com',
                         '*.yotpo.com',
-                        '*.contentstack.io'
+                        '*.contentstack.io',
+                        'res.cloudinary.com'
                     ],
                     'script-src': [
                         "'self'",
