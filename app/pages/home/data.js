@@ -31,6 +31,7 @@ export const heroFeatures = [
             title: {defaultMessage: 'Download on Github', id: 'home.hero_features.link.on_github'}
         }),
         icon: <GithubLogo width={12} height={12} />,
+
         href: 'https://github.com/SalesforceCommerceCloud/pwa-kit'
     },
     {
@@ -55,6 +56,32 @@ export const heroFeatures = [
     }
 ]
 
+export const brandImages = [
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857953/Nestosh/Brands/d4oogeytkaws0orfjw4q.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/aus2f2sdmhhzrcvdei6d.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/sbw3kwcy3gfszd3frn5v.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/ff66eyjruhdt6icdudkb.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/rgu4cavsf4gaczpcqkxb.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/v6701j1asgfszrenhzy2.png'
+    }
+]
 export const features = [
     {
         message: defineMessages({

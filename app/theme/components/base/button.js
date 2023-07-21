@@ -12,17 +12,21 @@ export default {
         solid: (props) =>
             props.colorScheme === 'blue'
                 ? {
-                      backgroundColor: 'blue.600',
+                      backgroundColor: 'pinkTant.900',
                       color: 'white',
-                      _hover: {bg: 'blue.700', _disabled: {bg: 'blue.300'}},
-                      _active: {bg: 'blue.800'},
-                      _disabled: {bg: 'blue.300'}
+                      _hover: {
+                          bg: 'pinkTant.600',
+                          textDecoration: 'none',
+                          _disabled: {bg: 'pinkTant.300'}
+                      },
+                      _active: {bg: 'pinkTant.800'},
+                      _disabled: {bg: 'pinkTant.300'}
                   }
                 : {},
         outline: (props) =>
             props.colorScheme === 'black'
-                ? {color: 'gray.900', _hover: {bg: 'gray.50'}, borderColor: 'gray.200'}
-                : {color: 'blue.600', _hover: {bg: 'gray.50'}},
+                ? {color: 'pinkTant.900', _hover: {bg: 'pinkTant.50'}, borderColor: 'pinkTant.200'}
+                : {color: 'pinkTant.600', _hover: {bg: 'pinkTant.50'}},
         footer: {
             fontSize: 'sm',
             backgroundColor: 'gray.100',
@@ -33,7 +37,7 @@ export default {
             paddingRight: 3
         },
         link: (props) => ({
-            color: props.colorScheme === 'red' ? 'red.500' : 'blue.600',
+            color: props.colorScheme === 'red' ? 'red.500' : 'pinkTant.500',
             fontWeight: 'normal',
             minWidth: '1em',
             lineHeight: 4
@@ -42,9 +46,9 @@ export default {
             color: 'black',
             justifyContent: 'flex-start',
             fontSize: 'sm',
-            _hover: {bg: 'gray.50', textDecoration: 'none'},
+            _hover: {bg: 'pinkTant.50', textDecoration: 'none'},
             _activeLink: {
-                bg: 'gray.50',
+                bg: 'pinkTant.50',
                 textDecoration: 'none'
             }
         },
@@ -52,9 +56,9 @@ export default {
             color: 'black',
             justifyContent: 'flex-start',
             fontSize: 'sm',
-            _hover: {bg: 'gray.50', textDecoration: 'none'},
+            _hover: {bg: 'pinkTant.50', textDecoration: 'none'},
             _activeLink: {
-                bg: 'gray.100',
+                bg: 'pinkTant.100',
                 textDecoration: 'none'
             }
         },
