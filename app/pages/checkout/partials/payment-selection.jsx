@@ -33,7 +33,9 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
     const {formatMessage} = useIntl()
     const {customer, basket} = useCheckout()
 
-    const hasSavedCards = customer?.paymentInstruments?.length > 0
+    // *****  Core: Payments - START  *****
+    const hasSavedCards = ''
+    // *****  Core: Payments - START  *****
 
     const [isEditingPayment, setIsEditingPayment] = useState(!hasSavedCards)
 
@@ -153,7 +155,7 @@ const PaymentSelection = ({form, hideSubmitButton, onSubmit = () => null}) => {
                                                     </Heading>
                                                 )}
                                                 {/*****  Core: Payments - START  *****/}
-                                                <RenderCreditCard form={form} />
+                                                <RenderCreditCard />
                                                 {/*****  Core: Payments - END  *****/}
                                                 {!hideSubmitButton && (
                                                     <Box>
