@@ -116,9 +116,9 @@ const ShippingAddressSelection = ({
     const [isEditingAddress, setIsEditingAddress] = useState(!hasSavedAddresses)
     const [selectedAddressId, setSelectedAddressId] = useState(false)
 
-    // *****  Core: Melissa - End   *****
+    // *****  Core: Address Suggestion - End   *****
     const [isModalOpenState, setModalOpenState] = useState(false)
-    const [melissaAdrressData, setMelissaAdrressData] = useState([''])
+    const [AddressVerificationData, setAddressVerificationData] = useState([''])
     const [addressData, setaddressData] = useState([''])
 
     const HandleFormSubmission = async (address) => {
@@ -127,10 +127,10 @@ const ShippingAddressSelection = ({
             submitForm,
             setModalOpenState,
             setaddressData,
-            setMelissaAdrressData
+            setAddressVerificationData
         )
     }
-    // *****  Core: Melissa - End   *****
+    // *****  Core: Address Suggestion - End   *****
 
     form =
         form ||
@@ -235,16 +235,16 @@ const ShippingAddressSelection = ({
 
     return (
         <form onSubmit={form.handleSubmit(HandleFormSubmission)}>
-            {/* Core: Melissa - Start */}
-            {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
-            {(isModalOpenState && addressData.address1  && melissaAdrressData.Address) && <AddressSuggestionModel
+            {/* Core: Address Suggestion - Start */}
+            {/* TODO: Create this AddressSuggestionModal a reusable dialog using react and typescript. */}
+            {(isModalOpenState && addressData.address1  && AddressVerificationData.Address) && <AddressSuggestionModel
                 modalState={isModalOpenState}
                 setModalState={setModalOpenState}
-                melissaAddress={melissaAdrressData}
+                AddressVerificationData={AddressVerificationData}
                 submitForm={submitForm}
                 addressData={addressData}
     />}
-            {/* Core: Melissa - End */}
+            {/* Core: Address Suggestion - End */}
             <Stack spacing={4}>
                 {hasSavedAddresses && (
                     <Controller
