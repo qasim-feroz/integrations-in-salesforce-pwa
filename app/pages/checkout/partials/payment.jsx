@@ -174,7 +174,9 @@ const Payment = () => {
     )
 }
 
-const PaymentCardSummary = ({payment}) => {
+// *****  Core: Payments - START  *****
+export const PaymentCardSummary = ({payment}) => {
+// *****  Core: Payments - END  *****
     const CardIcon = getCreditCardIcon(payment?.paymentCard?.cardType)
     return (
         <Stack direction="row" alignItems="center" spacing={3}>
