@@ -121,7 +121,7 @@ const ShippingAddressSelection = ({
     const [melissaAdrressData, setMelissaAdrressData] = useState([''])
     const [addressData, setaddressData] = useState([''])
 
-    const melissaModal = async (address) => {
+    const HandleFormSubmission = async (address) => {
         AddressVerificationModal(
             address,
             submitForm,
@@ -234,7 +234,7 @@ const ShippingAddressSelection = ({
     }
 
     return (
-        <form onSubmit={form.handleSubmit(melissaModal)}>
+        <form onSubmit={form.handleSubmit(HandleFormSubmission)}>
             {/* Core: Melissa - Start */}
             {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
             {(isModalOpenState && addressData.address1  && melissaAdrressData.Address) && <AddressSuggestionModel
