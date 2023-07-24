@@ -203,7 +203,7 @@ const Header = ({
                             >
                                 <PopoverArrow />
                                 <PopoverHeader>
-                                    <Text>
+                                    <Text color={'black'}>
                                         {intl.formatMessage({
                                             defaultMessage: 'My Account',
                                             id: 'header.popover.title.my_account'

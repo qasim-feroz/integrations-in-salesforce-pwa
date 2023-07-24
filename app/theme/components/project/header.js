@@ -71,8 +71,9 @@ export default {
             padding: 4,
             py: 3,
             marginTop: 1,
+            color: 'black',
             _hover: {
-                background: 'gray.50'
+                background: 'pinkTant.50'
             }
         },
         signoutText: {
