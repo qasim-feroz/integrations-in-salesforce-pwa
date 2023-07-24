@@ -45,6 +45,17 @@ When you clone a repository that contains submodules, you need to use the --recu
 git clone --recursive <URL of your repository>
 ```
 
+We will be using the 2nd method, because we have already added submodule in the repository.
+
+<b>For Example:</b>
+
+```
+git clone --recursive https://<Your_UserName>@bitbucket.org/nestosh/pwa.git
+
+```
+
+This will clone the code from from the submodule repository.
+
 ## Get Started
 
 To start your web server for local development, run the following command in your project directory:
