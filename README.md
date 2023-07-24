@@ -1,9 +1,8 @@
 # Completed Setup
+
 [Confluence page for the complete initial setup of this repo](https://nestosh.atlassian.net/wiki/spaces/HC/pages/1763868687/PWA+Kit+Initial+Setup)
 
-The Storefront demo has been build successfully. Deployed on [Managed Runtime](https://temp-pwa-development.mobify-storefront.com/) 
-
-
+The Storefront demo has been build successfully. Deployed on [Managed Runtime](https://temp-pwa-development.mobify-storefront.com/)
 
 # The Retail React App
 
@@ -15,6 +14,36 @@ Developers don’t have to worry about the underlying infrastructure, whether th
 
 -   Node 14.17.0 or later
 -   npm 6.14.4 or later
+
+## How to use the pwa-custom-core submodule with pwa?
+
+There are basically two ways to add a submodule in the repository.
+
+-   Adding the submodule into the repository.
+
+-   Cloning from a repository that contains the submodule.
+
+### Adding a Submodule:
+
+To add a submodule to your repository, you use the git submodule add command, providing the URL of the repository you want to include and the path where the submodule should be placed in your project.
+
+```
+git submodule add <URL of submodule repository> <path to submodule directory>
+```
+
+After adding the submodule, you need to initialize it. This step is essential as it tells Git to fetch the contents of the submodule repository and checkout the specific commit that the parent repository references.
+
+```
+git submodule init
+```
+
+### Cloning from a repository that contains the submodule hash:
+
+When you clone a repository that contains submodules, you need to use the --recursive flag to ensure the submodules are also cloned and checked out.
+
+```
+git clone --recursive <URL of your repository>
+```
 
 ## Get Started
 
