@@ -25,7 +25,7 @@ There are basically two ways to add a submodule in the repository.
 
 ### Adding a Submodule:
 
-To add a submodule to your repository, you use the git submodule add command, providing the URL of the repository you want to include and the path where the submodule should be placed in your project.
+To add a submodule to your repository, you use the git submodule add command, providing the repository URL you want to include and the path where the submodule should be placed in your project.
 
 ```
 git submodule add <URL of submodule repository> <path to submodule directory>
@@ -45,16 +45,15 @@ When you clone a repository that contains submodules, you need to use the --recu
 git clone --recursive <URL of your repository>
 ```
 
-We will be using the 2nd method, because we have already added submodule in the repository.
+We will use the 2nd method because we have already added the submodule in the repository.
 
 <b>For Example:</b>
 
 ```
 git clone --recursive https://<Your_UserName>@bitbucket.org/nestosh/pwa.git
-
 ```
 
-This will clone the code from from the submodule repository.
+This will clone the code from the submodule repository.
 
 ## Get Started
 
