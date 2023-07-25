@@ -40,6 +40,10 @@ import LoadingSpinner from '../../components/loading-spinner'
 import useMultiSite from '../../hooks/use-multi-site'
 import useEinstein from '../../commerce-api/hooks/useEinstein'
 
+// *****  Core: Payments - START  *****
+import PaymentMethodsAccount from 'Core/src/integrations/payments/adyen/components/accountPaymentMethods/PaymentMethodsAccount'
+// *****  Core: Payments - END  *****
+
 const Account = () => {
     const {path} = useRouteMatch()
     const {formatMessage} = useIntl()
@@ -209,7 +213,9 @@ const Account = () => {
                         <AccountOrders />
                     </Route>
                     <Route exact path={`${path}/payments`}>
-                        <AccountPaymentMethods />
+                    {/* *****  Core: Payments - START  ***** */}
+                        <PaymentMethodsAccount />
+                    {/* *****  Core: Payments - END  ***** */}
                     </Route>
                 </Switch>
             </Grid>
