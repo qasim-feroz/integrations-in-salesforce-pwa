@@ -11,7 +11,8 @@ export default {
             minWidth: 'xs',
             width: 'full',
             boxShadow: 'base',
-            backgroundColor: 'white'
+            backgroundColor: 'pinkTant.900',
+            color: 'white'
         },
         content: {
             maxWidth: 'container.xxxl',
@@ -32,11 +33,12 @@ export default {
             flex: '1'
         },
         logo: {
-            width: [8, 8, 8, 12],
+            width: [8, 8, 8, 120],
             height: [6, 6, 6, 8]
         },
         icons: {
-            marginBottom: [1, 1, 2, 0]
+            marginBottom: [1, 1, 2, 0],
+            color: 'white'
         },
         accountIcon: {
             height: 11,
@@ -69,8 +71,9 @@ export default {
             padding: 4,
             py: 3,
             marginTop: 1,
+            color: 'black',
             _hover: {
-                background: 'gray.50'
+                background: 'pinkTant.50'
             }
         },
         signoutText: {

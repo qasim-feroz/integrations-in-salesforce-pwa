@@ -24,7 +24,9 @@ import {
     Flex,
     Stack,
     Container,
-    Link
+    Link,
+    Heading,
+    Image
 } from '@chakra-ui/react'
 
 // Project Components
@@ -35,7 +37,7 @@ import ProductScroller from '../../components/product-scroller'
 
 // Others
 import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
-import {heroFeatures, features} from './data'
+import {heroFeatures, features, brandImages} from './data'
 
 //Hooks
 import useEinstein from '../../commerce-api/hooks/useEinstein'
@@ -52,7 +54,7 @@ import {triggerPageViewTag} from 'Core/src/integrations/tag-manager'
 // *****  Core: Tag Manager - END  *****
 
 // *****  Core: Rating & Reviews - START  *****
-import { getBatchBottomLineWidgets } from 'Core/src/integrations/reviews-and-ratings'
+import {getBatchBottomLineWidgets} from 'Core/src/integrations/reviews-and-ratings'
 // *****  Core: Rating & Reviews - END  *****
 
 /**
@@ -97,11 +99,11 @@ const Home = ({productSearchResult, isLoading}) => {
 
             <Hero
                 title={intl.formatMessage({
-                    defaultMessage: 'The React PWA Starter Store for Retail',
+                    defaultMessage: 'Makes Your Brand Shine with Us',
                     id: 'home.title.react_starter_store'
                 })}
                 img={{
-                    src: getAssetUrl('static/img/hero.png'),
+                    src: getAssetUrl('static/img/hero-section.jpg'),
                     alt: 'npx pwa-kit-create-app'
                 }}
                 actions={
@@ -136,12 +138,15 @@ const Home = ({productSearchResult, isLoading}) => {
                 marginLeft={{base: '-50vw', md: 'auto'}}
                 marginRight={{base: '-50vw', md: 'auto'}}
             >
+                <Heading textAlign={'center'} mb={'1'}>
+                    BRANDS FOR WHICH WE WORKED
+                </Heading>
                 <SimpleGrid
                     columns={{base: 1, md: 1, lg: 3}}
                     spacingX={{base: 1, md: 4}}
                     spacingY={{base: 4, md: 14}}
                 >
-                    {heroFeatures.map((feature, index) => {
+                    {/*heroFeatures.map((feature, index) => {
                         const featureMessage = feature.message
                         return (
                             <Box
@@ -160,14 +165,17 @@ const Home = ({productSearchResult, isLoading}) => {
                                         >
                                             {feature.icon}
                                         </Flex>
-                                        <Text fontWeight="700">
+                                        <Text fontWeight="700" bgColor={'red'}>
                                             {intl.formatMessage(featureMessage.title)}
                                         </Text>
                                     </HStack>
                                 </Link>
                             </Box>
                         )
-                    })}
+                    })*/}
+                    {brandImages.map((image, index) => (
+                        <Image key={index} src={image.imageLink} alt="brand images" />
+                    ))}
                 </SimpleGrid>
             </Section>
 
@@ -229,6 +237,7 @@ const Home = ({productSearchResult, isLoading}) => {
 
             <Section
                 padding={4}
+                bgColor="gray.50"
                 paddingTop={32}
                 title={intl.formatMessage({
                     defaultMessage: 'Features',
@@ -254,10 +263,16 @@ const Home = ({productSearchResult, isLoading}) => {
                                             justify={'left'}
                                             color={'gray.900'}
                                             paddingX={2}
+                                            color={'pinkTant.900'}
                                         >
                                             {feature.icon}
                                         </Flex>
-                                        <Text color={'black'} fontWeight={700} fontSize={20}>
+                                        <Text
+                                            color={'black'}
+                                            fontWeight={700}
+                                            fontSize={20}
+                                            color={'pinkTant.900'}
+                                        >
                                             {intl.formatMessage(featureMessage.title)}
                                         </Text>
                                         <Text color={'black'}>
