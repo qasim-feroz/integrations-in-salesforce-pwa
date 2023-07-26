@@ -22,10 +22,7 @@ const ActionCard = ({children, onEdit, onRemove, ...props}) => {
     const handleRemove = async () => {
         setShowLoading(!showLoading)
         try {
-            // *****  Core: Payments - START  *****
-            await Promise.resolve(onRemove())
-            setShowLoading(false)
-            // *****  Core: Payments - START  *****
+            return await Promise.resolve(onRemove())
         } catch (err) {
             setShowLoading(!showLoading)
             throw err
