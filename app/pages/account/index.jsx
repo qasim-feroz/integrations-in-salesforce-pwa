@@ -41,7 +41,7 @@ import useMultiSite from '../../hooks/use-multi-site'
 import useEinstein from '../../commerce-api/hooks/useEinstein'
 
 // *****  Core: Payments - START  *****
-import PaymentMethodsAccount from 'Core/src/integrations/payments/adyen/components/accountPaymentMethods/PaymentMethodsAccount'
+import { PaymentMethodsAccount } from 'Core/src/integrations/payments'
 // *****  Core: Payments - END  *****
 
 const Account = () => {
