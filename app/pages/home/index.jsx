@@ -610,10 +610,7 @@ const Home = ({ productSearchResult, isLoading }) => {
             <Section
                 padding={4}
                 paddingTop={32}
-                title={intl.formatMessage({
-                    defaultMessage: "We're here to help",
-                    id: 'home.heading.here_to_help'
-                })}
+                title='Makes Your Brand Shine'
                 subtitle={
                     <>
                         <>
