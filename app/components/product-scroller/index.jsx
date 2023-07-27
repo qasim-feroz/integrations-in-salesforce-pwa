@@ -66,7 +66,7 @@ const ProductScroller = forwardRef(
                         direction="row"
                         spacing={4}
                         wrap="nowrap"
-                        overflowX="scroll"
+                        overflowX="hidden"
                         px={{base: 4, md: 8, lg: 0}}
                         {...scrollProps}
                         sx={{
