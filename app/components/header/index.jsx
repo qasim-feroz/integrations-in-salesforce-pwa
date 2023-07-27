@@ -265,7 +265,7 @@ const Header = ({
                             <>
                                 <BasketIcon />
                                 {basket?.loaded && (
-                                    <Badge variant="notification">
+                                    <Badge bg={'red'} borderColor={'red'} variant="notification">
                                         {basket.itemAccumulatedCount}
                                     </Badge>
                                 )}
