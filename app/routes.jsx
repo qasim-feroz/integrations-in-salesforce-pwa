@@ -24,9 +24,11 @@ const fallback = <Skeleton height="75vh" width="100%" />
 
 // Pages
 
-//******  Core: Google SSO - Start
-const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {fallback})
-//******  Core: Google SSO - End
+//******  Core: Google SSO - START
+const SSOCallback = loadable(() => import('pwa-custom-core/src/integrations/idps/google'), {
+    fallback
+})
+//******  Core: Google SSO - END
 
 const Home = loadable(() => import('./pages/home'), {fallback})
 const Login = loadable(() => import('./pages/login'), {fallback})
@@ -41,18 +43,20 @@ const ProductList = loadable(() => import('./pages/product-list'), {fallback})
 const Wishlist = loadable(() => import('./pages/account/wishlist'), {fallback})
 const PageViewer = loadable(() => import('./pages/page-viewer'), {fallback})
 const PageNotFound = loadable(() => import('./pages/page-not-found'))
-// *****  Core: imports - Start  *****
+// *****  Core: Track Order - START  *****
 const TrackOrderStatus = loadable(
     () =>
         import('pwa-custom-core/src/integrations/track-order/pages/order-status/TrackOrderStatus'),
-    {fallback}
+    {
+        fallback
+    }
 )
 const TrackOrderDetails = loadable(() =>
     import('pwa-custom-core/src/integrations/track-order/pages/order-details/TrackOrderDetails')
 )
-// *****  Core: imports - end  *****
+// *****  Core: Track Order - END  *****
 
-// *****  Core: ContentStack - Start  *****
+// *****  Core: ContentStack - START  *****
 const Blog = loadable(
     () => import('pwa-custom-core/src/integrations/cms/content-stack/pages/blog'),
     {fallback}
@@ -61,10 +65,12 @@ const ContentStackProductDetail = loadable(
     () => import('pwa-custom-core/src/integrations/cms/content-stack/pages/product-detail'),
     {fallback}
 )
-// *****  Core: ContentStack - End  *****
-// *****  Core: Reset Password - Start  *****
-const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {fallback})
-// *****  Core: Reset Password - End  *****
+// *****  Core: ContentStack - END  *****
+// *****  Core: RESET PASSWORD - START  *****
+const SetNewPassword = loadable(() => import('pwa-custom-core/src/integrations/reset-password'), {
+    fallback
+})
+// *****  Core: RESET PASSWORD - END  *****
 
 const routes = [
     {
@@ -72,12 +78,12 @@ const routes = [
         component: Home,
         exact: true
     },
-//******  Core: Google SSO - Start
+    //******  Core: Google SSO - START
     {
         path: '/google-callback',
         component: SSOCallback
     },
-//******  Core: Google SSO - End
+    //******  Core: Google SSO - END
     {
         path: '/login',
         component: Login,
@@ -119,9 +125,9 @@ const routes = [
     },
     {
         path: '/product/:productId',
-        // *****  Core: ContentStack - Start  *****
+        // *****  Core: ContentStack - START  *****
         component: ContentStackProductDetail
-        // *****  Core: ContentStack - End  *****
+        // *****  Core: ContentStack - END  *****
     },
     {
         path: '/search',
@@ -135,7 +141,7 @@ const routes = [
         path: '/account/wishlist',
         component: Wishlist
     },
-    //  *****  Core: Track Order - Start  *****
+    //  *****  Core: Track Order - START  *****
     {
         path: '/order-status',
         component: TrackOrderStatus
@@ -144,8 +150,8 @@ const routes = [
         path: '/orders/:orderNo',
         component: TrackOrderDetails
     },
-    //  *****  Core: Track Order - end  *****
-    // *****  Core: ContentStack - Start  *****
+    //  *****  Core: Track Order - END  *****
+    // *****  Core: ContentStack - START  *****
     {
         path: '/blog/:blogId',
         component: Blog,
@@ -156,20 +162,20 @@ const routes = [
         component: Blog,
         exact: true
     },
-    // *****  Core: ContentStack - End  *****
-    //  *****  Core: page designer - start  *****
+    // *****  Core: ContentStack - END  *****
+    //  *****  Core: PAGE DESIGNER - START  *****
     {
         path: '/:pageId',
         component: PageViewer,
         exact: true
     },
-    //  *****  Core: page designer - end  *****
-    // *****  Core: Reset Password - Start  *****
+    //  *****  Core: PAGE DESIGNER - END  *****
+    // *****  Core: RESET PASSWORD - START  *****
     {
         path: '/reset-password/emailId/:email/resetToken/:reset',
         component: SetNewPassword
     },
-    // *****  Core: Reset Password - End  *****
+    // *****  Core: RESET PASSWORD - END  *****
     {
         path: '*',
         component: PageNotFound

@@ -19,7 +19,11 @@ import AddressFields from '../../../components/forms/address-fields'
 import FormActionButtons from '../../../components/forms/form-action-buttons'
 import {MESSAGE_PROPTYPE} from '../../../utils/locale'
 // *****  Core: Imports - Start  *****
-import {AddressSuggestionModel, AddressVerificationModal} from 'Core/src'
+import {
+    AddressSuggestionModel,
+    AddressVerificationModal
+} from 'Core/src/integrations/address-verification'
+
 // *****  Core: Imports - End   *****
 
 const saveButtonMessage = defineMessage({
@@ -112,21 +116,21 @@ const ShippingAddressSelection = ({
     const [isEditingAddress, setIsEditingAddress] = useState(!hasSavedAddresses)
     const [selectedAddressId, setSelectedAddressId] = useState(false)
 
-    // *****  Core: Melissa - End   *****
+    // *****  Core: Address Suggestion - End   *****
     const [isModalOpenState, setModalOpenState] = useState(false)
-    const [melissaAdrressData, setMelissaAdrressData] = useState([''])
+    const [AddressVerificationData, setAddressVerificationData] = useState([''])
     const [addressData, setaddressData] = useState([''])
 
-    const melissaModal = async (address) => {
+    const HandleFormSubmission = async (address) => {
         AddressVerificationModal(
             address,
             submitForm,
             setModalOpenState,
             setaddressData,
-            setMelissaAdrressData
+            setAddressVerificationData
         )
     }
-    // *****  Core: Melissa - End   *****
+    // *****  Core: Address Suggestion - End   *****
 
     form =
         form ||
@@ -230,17 +234,17 @@ const ShippingAddressSelection = ({
     }
 
     return (
-        <form onSubmit={form.handleSubmit(melissaModal)}>
-            {/* Core: Melissa - Start */}
-            {/* TODO: Create this MelissaSuggestionModal a reusable dialog using react and typescript. */}
-            {/* <AddressSuggestionModel
+        <form onSubmit={form.handleSubmit(HandleFormSubmission)}>
+            {/* Core: Address Suggestion - Start */}
+            {/* TODO: Create this AddressSuggestionModal a reusable dialog using react and typescript. */}
+            {(isModalOpenState && addressData.address1  && AddressVerificationData.Address) && <AddressSuggestionModel
                 modalState={isModalOpenState}
                 setModalState={setModalOpenState}
-                melissaAddress={melissaAdrressData}
+                AddressVerificationData={AddressVerificationData}
                 submitForm={submitForm}
                 addressData={addressData}
-    />*/}
-            {/* Core: Melissa - End */}
+    />}
+            {/* Core: Address Suggestion - End */}
             <Stack spacing={4}>
                 {hasSavedAddresses && (
                     <Controller

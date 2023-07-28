@@ -27,8 +27,8 @@ const usePaymentForms = () => {
         goToNextStep,
 
         // *****  Core: Payments - START  *****
-        storedPaymentData
-        // *****  Core: Payments - START  *****
+        // storedPaymentData
+        // *****  Core: Payments - END  *****
     } = useCheckout()
 
     // This local state value manages the 'checked' state of the billing address form's
@@ -62,10 +62,11 @@ const usePaymentForms = () => {
         // the payment form.
 
         // *****  Core: Payments - START  *****
-        if (Object.keys(payment).length === 0 && storedPaymentData) {
-            payment = getPaymentMethodData(storedPaymentData)
+        const storedPaymentData = localStorage.getItem('storedPaymentData')
+        if ((Object.keys(payment).length === 0 || !payment.paymentInstrumentId) && storedPaymentData) {
+            payment = getPaymentMethodData(JSON.parse(storedPaymentData))
         }
-        // *****  Core: Payments - START  *****
+        // *****  Core: Payments - END  *****
 
         if (!selectedPayment) {
             await setPayment(payment)

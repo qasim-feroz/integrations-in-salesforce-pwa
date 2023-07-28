@@ -25,7 +25,8 @@ import {
     Text,
     Divider,
     useDisclosure,
-    useMediaQuery
+    useMediaQuery,
+    Image
 } from '@chakra-ui/react'
 
 import useBasket from '../../commerce-api/hooks/useBasket'
@@ -49,7 +50,8 @@ import {navLinks, messages} from '../../pages/account/constant'
 import useNavigation from '../../hooks/use-navigation'
 import LoadingSpinner from '../loading-spinner'
 // *****  Core: imports - start  *****
-import {AlgoliaSearch} from 'Core/src'
+import {CoreSearch} from 'Core/src/integrations/search'
+import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
 // *****  Core: imports - end  *****
 const ENTER_KEY = 'Enter'
 
@@ -130,33 +132,29 @@ const Header = ({
                         {...styles.icons}
                         onClick={onMenuClick}
                     />
-                    <IconButton
-                        aria-label={intl.formatMessage({
-                            id: 'header.button.assistive_msg.logo',
-                            defaultMessage: 'Logo'
-                        })}
-                        icon={<BrandLogo {...styles.logo} />}
-                        {...styles.icons}
-                        variant="unstyled"
-                        onClick={onLogoClick}
-                    />
-                    <Box {...styles.bodyContainer}>{children}</Box>
-                    {/* *****  uncomment this section if you want to use the default search component***** */}
-                    {/*<Box {...styles.searchContainer}>
-                        <Search
-                            placeholder={intl.formatMessage({
-                                id: 'header.field.placeholder.search_for_products',
-                                defaultMessage: 'Search for products...'
-                            })}
-                            {...styles.search}
+                    {/*<IconButton
+                    //     aria-label={intl.formatMessage({
+                    //         id: 'header.button.assistive_msg.logo',
+                    //         defaultMessage: 'Logo'
+                    //     })}
+                    //     icon={<BrandLogo {...styles.logo} />}
+                    //     {...styles.icons}
+                    //     variant="unstyled"
+                    //     onClick={onLogoClick}
+                    // />*/}
+                    <Box>
+                        <Image
+                            src={getAssetUrl('static/img/nestosh-logo.png')}
+                            alt="brand-logo"
+                            width={'150px'}
+                            onClick={onLogoClick}
+                            cursor={'pointer'}
                         />
-                    </Box>*/}
-
-                    {/* *****  Core: algolia search - start  ***** */}
-                    <Box {...styles.searchContainer}>
-                        <AlgoliaSearch {...styles.search} />
                     </Box>
-                    {/* *****  Core: algolia search - end  ***** */}
+                    <Box {...styles.bodyContainer}>{children}</Box>
+                    {/* *****  Core: Algolia Search - START  ***** */}
+                    <Box {...styles.searchContainer}>{<CoreSearch {...styles.search} />}</Box>
+                    {/* *****  Core: Algolia Search - END  ***** */}
                     <AccountIcon
                         {...styles.accountIcon}
                         tabIndex={0}
@@ -205,7 +203,7 @@ const Header = ({
                             >
                                 <PopoverArrow />
                                 <PopoverHeader>
-                                    <Text>
+                                    <Text color={'black'}>
                                         {intl.formatMessage({
                                             defaultMessage: 'My Account',
                                             id: 'header.popover.title.my_account'
@@ -267,7 +265,7 @@ const Header = ({
                             <>
                                 <BasketIcon />
                                 {basket?.loaded && (
-                                    <Badge variant="notification">
+                                    <Badge bg={'red'} borderColor={'red'} variant="notification">
                                         {basket.itemAccumulatedCount}
                                     </Badge>
                                 )}

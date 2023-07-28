@@ -3,7 +3,7 @@ import {Box} from '@chakra-ui/react'
 import {Page, pageType} from '../../page-designer'
 import {HTTPError, HTTPNotFound} from 'pwa-kit-react-sdk/ssr/universal/errors'
 // *****  Core: import - start  *****
-import {PAGE_DESIGNER_COMPONENT} from 'Core/src'
+import {PAGE_DESIGNER_COMPONENT} from 'Core/src/integrations/page-designer'
 // *****  Core: import - end  *****
 
 /**
@@ -15,9 +15,9 @@ This component takes a page object and renders it using the specified components
 
 const PageViewer = ({page}) => (
     <Box layerStyle={'page'}>
-        {/******  Core: page designer - start  *****/}
+        {/******  Core: PAGE DESIGNER - START  *****/}
         <Page page={page} components={PAGE_DESIGNER_COMPONENT} />
-        {/******  Core: page designer - end  *****/}
+        {/******  Core: PAGE DESIGNER - END  *****/}
     </Box>
 )
 

@@ -50,6 +50,9 @@ export const getCreditCardIcon = (type) => {
         // MasterCard
         mastercard: MastercardIcon,
         'master card': MastercardIcon,
+        // *****  Core: Payments - START  *****
+        'mc': MastercardIcon,
+        // *****  Core: Payments - END  *****
 
         // American Express
         'american express': AmexIcon,

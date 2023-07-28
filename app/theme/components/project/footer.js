@@ -22,7 +22,7 @@ export default {
     baseStyle: {
         container: {
             width: 'full',
-            background: 'gray.900'
+            background: '#747682'
         },
         content: {
             maxWidth: 'container.xxl',

@@ -24,9 +24,9 @@ const ProductScroller = forwardRef(
             scrollProps,
             itemWidth = {base: '70%', md: '40%', lg: 'calc(33.33% - 10px)'},
             productTileProps,
-            // *****  Core: Rating & Reviews - Start  *****
+            // *****  Core: Rating & Reviews - START  *****
             BottomLineWidget,
-            // *****  Core: Rating & Reviews - End  *****
+            // *****  Core: Rating & Reviews - END  *****
             ...props
         },
         ref
@@ -66,7 +66,7 @@ const ProductScroller = forwardRef(
                         direction="row"
                         spacing={4}
                         wrap="nowrap"
-                        overflowX="scroll"
+                        overflowX="hidden"
                         px={{base: 4, md: 8, lg: 0}}
                         {...scrollProps}
                         sx={{
@@ -97,11 +97,11 @@ const ProductScroller = forwardRef(
                                     ) : (
                                         <ProductTile
                                             data-testid="product-scroller-item"
-                                            // *****  Core: Rating & Reviews - Start  *****
+                                            // *****  Core: Rating & Reviews - START  *****
                                             starRatingWidgetData={
                                                 BottomLineWidget && BottomLineWidget[idx]
                                             }
-                                            // *****  Core: Rating & Reviews - End  *****
+                                            // *****  Core: Rating & Reviews - END  *****
                                             product={product}
                                             {...(typeof productTileProps === 'function'
                                                 ? {...productTileProps(product)}

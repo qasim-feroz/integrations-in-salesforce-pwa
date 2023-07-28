@@ -52,16 +52,17 @@ export default {
             marginLeft: 3,
             fontSize: 'md',
             fontWeight: 700,
-            color: 'gray.900',
+            color: 'white',
             _hover: {
-                textDecoration: 'none'
+                textDecoration: 'none',
+                color: 'white'
             }
         },
         listMenuTriggerLinkActive: {
             textDecoration: 'none',
             _before: {
                 position: 'absolute',
-                backgroundColor: 'black',
+                backgroundColor: 'white',
                 content: 'attr(name)',
                 height: '2px',
                 color: 'transparent',

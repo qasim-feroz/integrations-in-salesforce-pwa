@@ -13,6 +13,7 @@
  */
 import React from 'react'
 import {defineMessages} from 'react-intl'
+import { getAssetUrl } from 'pwa-kit-react-sdk/ssr/universal/utils'
 import {
     AccountIcon,
     BasketIcon,
@@ -30,7 +31,8 @@ export const heroFeatures = [
         message: defineMessages({
             title: {defaultMessage: 'Download on Github', id: 'home.hero_features.link.on_github'}
         }),
-        icon: <GithubLogo width={12} height={12} />,
+        icon:  getAssetUrl('static/img/HeroSection.jpeg'),
+
         href: 'https://github.com/SalesforceCommerceCloud/pwa-kit'
     },
     {
@@ -40,7 +42,7 @@ export const heroFeatures = [
                 id: 'home.hero_features.link.on_managed_runtime'
             }
         }),
-        icon: <BrandLogo width={12} height={8} />,
+        icon:  getAssetUrl('static/img/HeroSection.jpeg'),
         href: 'https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/pushing-and-deploying-bundles.html'
     },
     {
@@ -50,11 +52,37 @@ export const heroFeatures = [
                 id: 'home.hero_features.link.design_kit'
             }
         }),
-        icon: <FigmaLogo width={12} height={8} />,
+        icon:  getAssetUrl('static/img/HeroSection.jpeg'),
         href: 'https://sfdc.co/figma-pwa-design-kit'
     }
 ]
 
+export const brandImages = [
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857953/Nestosh/Brands/d4oogeytkaws0orfjw4q.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/aus2f2sdmhhzrcvdei6d.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/sbw3kwcy3gfszd3frn5v.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/ff66eyjruhdt6icdudkb.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/rgu4cavsf4gaczpcqkxb.png'
+    },
+    {
+        imageLink:
+            'https://res.cloudinary.com/dhsx0jl5a/image/upload/v1689857952/Nestosh/Brands/v6701j1asgfszrenhzy2.png'
+    }
+]
 export const features = [
     {
         message: defineMessages({
@@ -65,7 +93,7 @@ export const features = [
                 id: 'home.features.description.cart_checkout'
             }
         }),
-        icon: <BasketIcon />
+        icon:  getAssetUrl('static/img/yotpo.jpeg')
     },
     {
         message: defineMessages({
@@ -79,7 +107,7 @@ export const features = [
                 id: 'home.features.description.einstein_recommendations'
             }
         }),
-        icon: <LikeIcon />
+        icon:  getAssetUrl('static/img/google.png')
     },
     {
         message: defineMessages({
@@ -90,7 +118,7 @@ export const features = [
                 id: 'home.features.description.my_account'
             }
         }),
-        icon: <AccountIcon />
+        icon:  getAssetUrl('static/img/ayden.png')
     },
     {
         message: defineMessages({
@@ -104,7 +132,7 @@ export const features = [
                 id: 'home.features.description.shopper_login'
             }
         }),
-        icon: <PlugIcon />
+        icon:  getAssetUrl('static/img/algolia.png')
     },
     {
         message: defineMessages({
@@ -118,7 +146,7 @@ export const features = [
                 id: 'home.features.description.components'
             }
         }),
-        icon: <DashboardIcon />
+        icon:  getAssetUrl('static/img/melissa.png')
     },
     {
         message: defineMessages({
@@ -129,6 +157,6 @@ export const features = [
                 id: 'home.features.description.wishlist'
             }
         }),
-        icon: <HeartIcon />
+        icon:  getAssetUrl('static/img/HeroSection.jpeg')
     }
 ]
